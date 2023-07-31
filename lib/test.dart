@@ -15,7 +15,7 @@ class _TestScreenState extends State<TestScreen> {
       appBar: AppBar(
         title: Text('test'),
       ),
-      drawer: hamburger(),
+      endDrawer: hamburger(),
     );
   }
 }

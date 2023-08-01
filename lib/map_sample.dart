@@ -85,15 +85,7 @@ class MapSampleState extends State<MapSample> {
     return Container(
       child: Column(
         children: <Widget>[
-          button(
-            text: "Show",
-            onPressed: () => _pc.show(),
-          ),
-          button(
-            text: "Hide",
-            onPressed: () => _pc.hide(),
-          ),
-        ],
+        ]
       ),
     );
   }

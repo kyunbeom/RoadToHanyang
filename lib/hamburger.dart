@@ -12,13 +12,13 @@ hamburger() {
           accountName: Text('김윤범'),
           accountEmail: Text('kyb@hanyang.ac.kr'),
           decoration: BoxDecoration(
-            color: Colors.lightGreen,
+            color: Color(0xff0E4A84),
           ),
         ),
         ListTile(
           leading: Icon(Icons.history),
-          iconColor: Colors.lightGreen,
-          focusColor: Colors.lightGreen,
+          iconColor: Color(0xff0E4A84),
+          focusColor: Color(0xff0E4A84),
           title: const Text('나의 기록'),
           onTap: () {
             //Navigator.pop(context);
@@ -26,8 +26,8 @@ hamburger() {
         ),
         ListTile(
           leading: Icon(Icons.mode),
-          iconColor: Colors.lightGreen,
-          focusColor: Colors.lightGreen,
+          iconColor: Color(0xff0E4A84),
+          focusColor: Color(0xff0E4A84),
           title: const Text('나의 제보'),
           onTap: () {
             //Navigator.pop(context);

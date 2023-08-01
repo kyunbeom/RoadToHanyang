@@ -159,7 +159,7 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
         parallaxOffset: .5,
         controller: _pc,
         panel: Center(
-          child: Text("This is the sliding Widget"),
+          child: Container(child: Text("This is the sliding Widget")),
         ),
 
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'hamburger.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -29,6 +30,10 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('test'),
+      ),
+      endDrawer: hamburger(),
       body: Stack(
         children: [
           GoogleMap(

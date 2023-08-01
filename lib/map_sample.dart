@@ -72,6 +72,7 @@ class MapSampleState extends State<MapSample> {
       alignment: Alignment.center,
       child: Container(
         width: 40,
+
         height: 5,
         decoration: BoxDecoration(
           color: Colors.grey[300],

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:road_to_hanyang/info.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'hamburger.dart';
 
@@ -48,7 +49,9 @@ class MapSampleState extends State<MapSample> {
             parallaxOffset: .5,
             controller: _pc,
             panel: Center(
-              child: Text("This is the sliding Widget"),
+              child: Container(
+                child: informations(),
+              ),
             ),
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             header: _buildDragHandle(),
@@ -77,7 +80,6 @@ class MapSampleState extends State<MapSample> {
       alignment: Alignment.center,
       child: Container(
         width: 40,
-
         height: 5,
         decoration: BoxDecoration(
           color: Colors.grey[300],
@@ -88,12 +90,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   Widget _body() {
-
     return Container(
-      child: Column(
-        children: <Widget>[
-        ]
-      ),
+      child: Column(children: <Widget>[]),
     );
   }
 
@@ -161,9 +159,7 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
         panel: Center(
           child: Container(child: Text("This is the sliding Widget")),
         ),
-
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-
         body: _body(),
       ),
     );
@@ -183,25 +179,22 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     );
   }
 
-  Widget _body(){
+  Widget _body() {
     return Container(
       child: Column(
         children: <Widget>[
           button(
-            text:"Show",
+            text: "Show",
             onPressed: () => _pc.show(),
           ),
           button(
-            text:"Hide",
+            text: "Hide",
             onPressed: () => _pc.hide(),
           ),
-
         ],
       ),
     );
   }
-
-
 
   Widget button({required String text, required Function() onPressed}) {
     return ElevatedButton(

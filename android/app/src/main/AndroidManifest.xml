@@ -5,8 +5,8 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <!-- TODO: Add your API key here -->
-       <meta-data android:name="com.example.road_to_hanyang"
-           android:value="AIzaSyDhU2mzWD_e_BX7Zyj0FaQlk9dD1Q93wnA"/> // android API Key
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyDhU2mzWD_e_BX7Zyj0FaQlk9dD1Q93wnA"/>
 
         <activity
             android:name=".MainActivity"

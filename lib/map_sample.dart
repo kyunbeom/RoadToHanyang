@@ -16,7 +16,7 @@ class MapSampleState extends State<MapSample> {
 
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(53.339688, -6.236688),
     zoom: 14.4746,
   );
 
@@ -38,7 +38,7 @@ class MapSampleState extends State<MapSample> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);

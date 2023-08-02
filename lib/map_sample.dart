@@ -18,6 +18,7 @@ class MapSampleState extends State<MapSample> {
   TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
+  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터"];
 
   final Stopwatch _stopwatch = Stopwatch();
   late final Duration _refreshRate;
@@ -74,22 +75,21 @@ class MapSampleState extends State<MapSample> {
     super.dispose();
   }
 
-/*
-  late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
+  // late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
+  //
+  // @override
+  // void dispose() {
+  //   overlayEntry.dispose();
+  //   super.dispose();
+  // }
 
-  @override
-  void dispose() {
-    overlayEntry.dispose();
-    super.dispose();
-  }
+  // void insertOverlay() { // 적절한 타이밍에 호출
+  //   if (!overlayEntry.mounted) {
+  //     OverlayState overlayState = Overlay.of(context)!;
+  //     overlayState.insert(overlayEntry);
+  //   }
+  // }
 
-  void insertOverlay() { // 적절한 타이밍에 호출
-    if (!overlayEntry.mounted) {
-      OverlayState overlayState = Overlay.of(context)!;
-      overlayState.insert(overlayEntry);
-    }
-  }
-  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터"];
 
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -121,109 +121,116 @@ class MapSampleState extends State<MapSample> {
               print("coordintate : $coordinate");
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Wrap(
-              children: <Widget>[
-                Container(
+          Container(
+            height: 200,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 30),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    color: Colors.white,
+                    child: Row(children: [
+                      SizedBox(width: 7),
+                      Expanded(
+                        child: Container(
+                            margin: EdgeInsets.all(3),
+                            width: 200,
+                            child: Container(
+                              child:
+                              TypeAheadField(
+                                animationStart: 0,
+                                animationDuration: Duration.zero,
+                                textFieldConfiguration: TextFieldConfiguration(
+                                    controller: startController,
+                                    autofocus: true,
+                                    style: TextStyle(fontSize: 14),
+                                    decoration: InputDecoration(
+                                        hintText: "출발지를 입력해주세요",
+                                        border: OutlineInputBorder())
+                                ),
+                                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                                    color: Colors.lightBlue[50]),
+                                suggestionsCallback: (pattern) {
+                                  List<String> matches = <String>[];
+                                  matches.addAll(suggestons);
 
-                margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
-                color: Colors.white,
-                child: Row(children: [
-                  SizedBox(width: 7),
-                  Expanded(
-                    child: Container(
-                        margin: EdgeInsets.all(3),
-                        width: 200,
-                        child: TypeAheadField(
-                          animationStart: 0,
-                          animationDuration: Duration.zero,
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: startController,
-                              autofocus: true,
-                              style: TextStyle(fontSize: 14),
-                              decoration: InputDecoration(
-                                  hintText: "출발지를 입력해주세요",
-                                  border: OutlineInputBorder())
-                                 ),
-                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                              color: Colors.lightBlue[50]),
-                          suggestionsCallback: (pattern) {
-                            List<String> matches = <String>[];
-                            matches.addAll(suggestons);
+                                  matches.retainWhere((s) {
+                                    return s
+                                        .toLowerCase()
+                                        .contains(pattern.toLowerCase());
+                                  });
+                                  return matches;
+                                },
+                                itemBuilder: (context, sone) {
+                                  return Card(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(sone.toString()),
+                                      ));
+                                },
+                                onSuggestionSelected: (suggestion) {
+                                  startController.text = suggestion;
+                                },
+                              ),
+                            )),
+                      ),
 
-                            matches.retainWhere((s) {
-                              return s
-                                  .toLowerCase()
-                                  .contains(pattern.toLowerCase());
-                            });
-                            return matches;
-                          },
-                          itemBuilder: (context, sone) {
-                            return Card(
-                                child: Container(
-                              padding: EdgeInsets.all(10),
-                              child: Text(sone.toString()),
-                            ));
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            startController.text = suggestion;
-                          },
-                        )),
+                    ]),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        SizedBox(width: 7),
+                        Expanded(
+                          child: Container(
+                              margin: EdgeInsets.all(3),
+                              width: 200,
+                              child: TypeAheadField(
+                                // controller: destinationController,
+                                animationStart: 0,
+                                animationDuration: Duration.zero,
+                                textFieldConfiguration: TextFieldConfiguration(
+                                    controller: destinationController,
+                                    autofocus: true,
+                                    style: TextStyle(fontSize: 14),
+                                    decoration: InputDecoration(
+                                        hintText: "도착지를 입력해주세요",
+                                        border: OutlineInputBorder())),
+                                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                                    color: Colors.lightBlue[50]),
+                                suggestionsCallback: (pattern) {
+                                  List<String> matches = <String>[];
+                                  matches.addAll(suggestons);
+
+                                  matches.retainWhere((s) {
+                                    return s
+                                        .toLowerCase()
+                                        .contains(pattern.toLowerCase());
+                                  });
+                                  return matches;
+                                },
+                                itemBuilder: (context, sone) {
+                                  return Card(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(sone.toString()),
+                                      ));
+                                },
+                                onSuggestionSelected: (suggestion) {
+                                  destinationController.text = suggestion;
+                                },
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
 
-                ]),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.all(5),
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    SizedBox(width: 7),
-                    Expanded(
-                      child: Container(
-                          margin: EdgeInsets.all(3),
-                          width: 200,
-                          child: TypeAheadField(
-                            // controller: destinationController,
-                            animationStart: 0,
-                            animationDuration: Duration.zero,
-                            textFieldConfiguration: TextFieldConfiguration(
-                                controller: destinationController,
-                                autofocus: true,
-                                style: TextStyle(fontSize: 14),
-                                decoration: InputDecoration(
-                                    hintText: "도착지를 입력해주세요",
-                                    border: OutlineInputBorder())),
-                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                                color: Colors.lightBlue[50]),
-                            suggestionsCallback: (pattern) {
-                              List<String> matches = <String>[];
-                              matches.addAll(suggestons);
-
-                              matches.retainWhere((s) {
-                                return s
-                                    .toLowerCase()
-                                    .contains(pattern.toLowerCase());
-                              });
-                              return matches;
-                            },
-                            itemBuilder: (context, sone) {
-                              return Card(
-                                  child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(sone.toString()),
-                              ));
-                            },
-                            onSuggestionSelected: (suggestion) {
-                              destinationController.text = suggestion;
-                            },
-                          )),
-                    ),
-         
-      
-                  ],
-                ),
+              ),
           ),
           SlidingUpPanel(
             parallaxEnabled: true,

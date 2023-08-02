@@ -15,7 +15,7 @@ class MapSampleState extends State<MapSample> {
 
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(53.339688, -6.236688),
     zoom: 14.4746,
   );
 
@@ -37,7 +37,7 @@ class MapSampleState extends State<MapSample> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -77,7 +77,6 @@ class MapSampleState extends State<MapSample> {
       alignment: Alignment.center,
       child: Container(
         width: 40,
-
         height: 5,
         decoration: BoxDecoration(
           color: Colors.grey[300],
@@ -88,12 +87,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   Widget _body() {
-
     return Container(
-      child: Column(
-        children: <Widget>[
-        ]
-      ),
+      child: Column(children: <Widget>[]),
     );
   }
 
@@ -161,9 +156,7 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
         panel: Center(
           child: Container(child: Text("This is the sliding Widget")),
         ),
-
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-
         body: _body(),
       ),
     );
@@ -183,25 +176,22 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     );
   }
 
-  Widget _body(){
+  Widget _body() {
     return Container(
       child: Column(
         children: <Widget>[
           button(
-            text:"Show",
+            text: "Show",
             onPressed: () => _pc.show(),
           ),
           button(
-            text:"Hide",
+            text: "Hide",
             onPressed: () => _pc.hide(),
           ),
-
         ],
       ),
     );
   }
-
-
 
   Widget button({required String text, required Function() onPressed}) {
     return ElevatedButton(

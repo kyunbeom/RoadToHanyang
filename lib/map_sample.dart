@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/info.dart';
+import 'package:road_to_hanyang/report.dart';
+import 'package:road_to_hanyang/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'hamburger.dart';
@@ -16,6 +18,77 @@ class MapSampleState extends State<MapSample> {
   TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
+
+  final Stopwatch _stopwatch = Stopwatch();
+  late final Duration _refreshRate;
+  late final ValueNotifier<String> _timeDisplay;
+  bool isRun = false;
+  bool isClock = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshRate = Duration(milliseconds: 100); // 업데이트 주기
+    _timeDisplay = ValueNotifier("00:00");
+    _stopStopwatch();
+    isClock = false;
+  }
+
+  void _startStopwatch() {
+    _stopwatch.start();
+    setState(() {
+      isRun = true;
+    });
+    _updateTime();
+  }
+
+  void _updateTime() {
+    if (isRun) {
+      Future.delayed(_refreshRate, _updateTime);
+    }
+    int milliseconds = _stopwatch.elapsedMilliseconds;
+    int seconds = (milliseconds / 1000).floor();
+    int minutes = (seconds / 60).floor();
+    seconds %= 60;
+    minutes %= 60;
+    String formattedTime =
+        "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+    _timeDisplay.value = formattedTime;
+  }
+
+  void _stopStopwatch() {
+    _stopwatch.stop();
+    setState(() {
+      isRun = false;
+    });
+  }
+
+  void _resetStopwatch() {
+    _stopwatch.reset();
+    _timeDisplay.value = "00:00";
+  }
+
+  @override
+  void dispose() {
+    _stopwatch.stop();
+    super.dispose();
+  }
+
+/*
+  late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
+
+  @override
+  void dispose() {
+    overlayEntry.dispose();
+    super.dispose();
+  }
+
+  void insertOverlay() { // 적절한 타이밍에 호출
+    if (!overlayEntry.mounted) {
+      OverlayState overlayState = Overlay.of(context)!;
+      overlayState.insert(overlayEntry);
+    }
+  }
   List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터"];
 
   // 초기 카메라 위치
@@ -44,10 +117,15 @@ class MapSampleState extends State<MapSample> {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
+            onTap: (coordinate) {
+              print("coordintate : $coordinate");
+            },
           ),
-          ListView(
-            children: <Widget>[
-              Container(
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Wrap(
+              children: <Widget>[
+                Container(
 
                 margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
                 color: Colors.white,
@@ -146,8 +224,6 @@ class MapSampleState extends State<MapSample> {
       
                   ],
                 ),
-              ),
-            ],
           ),
           SlidingUpPanel(
             parallaxEnabled: true,
@@ -155,13 +231,211 @@ class MapSampleState extends State<MapSample> {
             controller: _pc,
             panel: Center(
               child: Container(
-                child: informations(context),
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.directions_walk,
+                              color: Colors.black,
+                              size: 18.0,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Text(
+                              '예상 소요 시간: ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.directions_walk,
+                              color: Colors.black,
+                              size: 18.0,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Text(
+                              '평균 소요 시간: ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        PathToggle(
+                          title: '경로 상세',
+                          content: Text(
+                            '상세한 경로들\n경로들\n경로들..',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                          child: Container(
+                              alignment: Alignment.center,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff0E4A84),
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 23.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 30.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0))),
+                                onPressed: () {
+                                  setState(() {
+                                    isClock = true;
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      Icons.timer,
+                                      color: Colors.white,
+                                      size: 23.0,
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text('시간 측정'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                          child: Container(
+                              alignment: Alignment.center,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff0E4A84),
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 23.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 30.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0))),
+                                onPressed: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ReportPage()))
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      Icons.drive_file_rename_outline,
+                                      color: Colors.white,
+                                      size: 23.0,
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text('지름길 제보'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             header: _buildDragHandle(),
             body: _body(),
           ),
+          if (isClock)
+            Container(
+              padding: EdgeInsets.only(top: 80.0, left: 250),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ValueListenableBuilder(
+                    valueListenable: _timeDisplay,
+                    builder: (context, value, child) {
+                      return Text(
+                        value,
+                        style: TextStyle(fontSize: 48),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff0E4A84),
+                            padding: EdgeInsets.all(25.0),
+                            //textStyle: TextStyle(color: Colors.white, fontSize: 23.0),
+                            shape: CircleBorder()),
+                        onPressed: isRun ? _stopStopwatch : _startStopwatch,
+                        child: Text(isRun ? 'Stop' : 'Start'),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff0E4A84),
+                            padding: EdgeInsets.all(25.0),
+                            //textStyle: TextStyle(color: Colors.white, fontSize: 23.0),
+                            shape: CircleBorder()),
+                        onPressed: _resetStopwatch,
+                        child: Text('Reset'),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff0E4A84),
+                            padding: EdgeInsets.all(25.0),
+                            shape: CircleBorder(),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isClock = false;
+                            });
+                          },
+                          child: Text('Record'))
+                    ],
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
       /*

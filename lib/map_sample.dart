@@ -5,15 +5,51 @@ import 'package:road_to_hanyang/info.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'hamburger.dart';
 
+
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
 }
 
+
 class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
+/*
+  late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
 
+  @override
+  void dispose() {
+    overlayEntry.dispose();
+    super.dispose();
+  }
+
+  void insertOverlay() { // 적절한 타이밍에 호출
+    if (!overlayEntry.mounted) {
+      OverlayState overlayState = Overlay.of(context)!;
+      overlayState.insert(overlayEntry);
+    }
+  }
+
+  void removeOverlay() { // 적절한 타이밍에 호출
+    if (overlayEntry.mounted) {
+      overlayEntry.remove();
+    }
+  }
+
+  Widget _overlayEntryBuilder(BuildContext context) {
+    Offset position = _getOverlayEntryPosition();
+    Size size = _getOverlayEntrySize();
+
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      width: Get.size.width - MyConstants.SCREEN_HORIZONTAL_MARGIN.horizontal,
+      child: AutoCompleteKeywordList(),
+    );
+  }
+
+ */
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(53.339688, -6.236688),
@@ -31,9 +67,7 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('test'),
-      ),
+
       endDrawer: hamburger(),
       body: Stack(
         children: [
@@ -44,6 +78,80 @@ class MapSampleState extends State<MapSample> {
               _controller.complete(controller);
             },
           ),
+          ListView(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    SizedBox(width: 7),
+                    Text("출발지"),
+                    SizedBox(width: 3),
+                    Container(
+                        margin: EdgeInsets.all(3),
+                      width:200,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                      maxLength: 30,
+                      decoration: const InputDecoration(
+                          counterText: '',
+                          counterStyle: TextStyle(fontSize: 14),
+                      ),
+                    )
+                    ),
+                    SizedBox(width: 90),
+                    Ink(
+                      decoration: const ShapeDecoration(
+                        shape: CircleBorder(),
+                        color: Colors.blue,
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search,color: Color(0xff0E4A84),
+                      ),
+                    ),
+                    ),
+                    ]
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(5),
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    SizedBox(width: 7),
+                    Text("도착지"),
+                    SizedBox(width: 3),
+                    Container(
+                        margin: EdgeInsets.all(3),
+                        width:200,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          maxLength: 30,
+                          decoration: const InputDecoration(
+                              counterText: '',
+                              counterStyle: TextStyle(fontSize: 14),
+                          ),
+                        )
+                    ),
+                  SizedBox(width: 90),
+    Ink(
+    decoration: const ShapeDecoration(
+    shape: CircleBorder(),
+    color: Colors.blue,
+    ),
+    child: IconButton(
+    onPressed: () {},
+    icon: const Icon(Icons.search, color: Color(0xff0E4A84)),
+    ),
+    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
           SlidingUpPanel(
             parallaxEnabled: true,
             parallaxOffset: .5,
@@ -59,6 +167,7 @@ class MapSampleState extends State<MapSample> {
           ),
         ],
       ),
+      /*
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _goToTheLake();
@@ -66,21 +175,22 @@ class MapSampleState extends State<MapSample> {
         },
         label: Text('To the lake!'),
         icon: Icon(Icons.directions_boat),
-      ),
+      ),*/
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-  }
 
   Widget _buildDragHandle() {
     return Container(
       alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 8),
       child: Container(
-        width: 40,
+        width: 100,
         height: 5,
+        margin: EdgeInsets.only(
+            right: 500,
+            left: 150,
+        ),
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(5),
@@ -128,6 +238,21 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
+  Widget _buildDragHandle() {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 8),
+      child: Container(
+        width: 40,
+        height: 5,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     animationController = BottomSheet.createAnimationController(this);
@@ -160,51 +285,14 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
           child: Container(child: Text("This is the sliding Widget")),
         ),
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-        body: _body(),
+
       ),
     );
   }
 
-  Widget _buildDragHandle() {
-    return Align(
-      alignment: Alignment.center,
-      child: Container(
-        width: 40,
-        height: 5,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-    );
+
   }
 
-  Widget _body() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          button(
-            text: "Show",
-            onPressed: () => _pc.show(),
-          ),
-          button(
-            text: "Hide",
-            onPressed: () => _pc.hide(),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget button({required String text, required Function() onPressed}) {
-    return ElevatedButton(
-      onPressed: () {
-        onPressed();
-      },
-      style: ElevatedButton.styleFrom(
-        fixedSize: const Size(double.infinity, 50),
-      ),
-      child: Text(text),
-    );
-  }
-}
+
+

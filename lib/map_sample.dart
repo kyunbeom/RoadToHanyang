@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:road_to_hanyang/info.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'hamburger.dart';
 
@@ -156,7 +157,9 @@ class MapSampleState extends State<MapSample> {
             parallaxOffset: .5,
             controller: _pc,
             panel: Center(
-              child: Text("This is the sliding Widget"),
+              child: Container(
+                child: informations(),
+              ),
             ),
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             header: _buildDragHandle(),

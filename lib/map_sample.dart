@@ -18,7 +18,7 @@ class MapSampleState extends State<MapSample> {
   TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
-  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터"];
+  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터", "사자가 군것질 할 때", "대운동장","백남음악관", "노천극장" ];
 
   final Stopwatch _stopwatch = Stopwatch();
   late final Duration _refreshRate;
@@ -387,9 +387,13 @@ class MapSampleState extends State<MapSample> {
             header: _buildDragHandle(),
             body: _body(),
           ),
+          // ... Previous code
+
+          // ... Previous code
+
           if (isClock)
             Container(
-              padding: EdgeInsets.only(top: 80.0, left: 250),
+              padding: EdgeInsets.only(top: 190, left: 150), // Adjust the top and left padding values
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -398,51 +402,58 @@ class MapSampleState extends State<MapSample> {
                     builder: (context, value, child) {
                       return Text(
                         value,
-                        style: TextStyle(fontSize: 48),
+                        style: TextStyle(fontSize: 30),
                       );
                     },
                   ),
                   SizedBox(height: 18),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center, // Adjust the alignment
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff0E4A84),
-                            padding: EdgeInsets.all(25.0),
-                            //textStyle: TextStyle(color: Colors.white, fontSize: 23.0),
-                            shape: CircleBorder()),
+                          backgroundColor: Color(0xff0E4A84),
+                          padding: EdgeInsets.all(20.0),
+                          shape: CircleBorder(),
+                        ),
                         onPressed: isRun ? _stopStopwatch : _startStopwatch,
                         child: Text(isRun ? 'Stop' : 'Start'),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff0E4A84),
-                            padding: EdgeInsets.all(25.0),
-                            //textStyle: TextStyle(color: Colors.white, fontSize: 23.0),
-                            shape: CircleBorder()),
+                          backgroundColor: Color(0xff0E4A84),
+                          padding: EdgeInsets.all(20.0),
+                          shape: CircleBorder(),
+                        ),
                         onPressed: _resetStopwatch,
                         child: Text('Reset'),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff0E4A84),
-                            padding: EdgeInsets.all(25.0),
-                            shape: CircleBorder(),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              isClock = false;
-                            });
-                          },
-                          child: Text('Record'))
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0E4A84),
+                          padding: EdgeInsets.all(20.0),
+                          shape: CircleBorder(),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isClock = false;
+                          });
+                        },
+                        child: Text('Record'),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
+
+// ... Rest of the code
+
+
+// ... Rest of the code
+
         ],
       ),
       /*

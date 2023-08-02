@@ -83,12 +83,7 @@ informations(BuildContext context) {
                             vertical: 10.0, horizontal: 30.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.0))),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StopwatchApp()));
-                    },
+                    onPressed: () {},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [

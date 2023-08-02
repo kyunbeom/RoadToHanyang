@@ -43,6 +43,36 @@ class MapSampleState extends State<MapSample> {
               _controller.complete(controller);
             },
           ),
+          ListView(
+
+            children: <Widget>[
+
+              Container(
+                margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                color: Colors.amber[600],
+                child: Row(
+                    children:[
+                      Icon(Icons.search), // Add the icon here
+                      SizedBox(width: 5),
+                      Text('출발지')
+                ],
+              ),
+              ),
+              Container(
+                margin: EdgeInsets.all(5),
+                color: Colors.amber[500],
+                child: Row(
+                  children:[
+                    Icon(Icons.search), // Add the icon here
+                    SizedBox(width: 5),
+                    Text('출발지')
+                  ],
+                ),
+              ),
+
+
+            ],
+          ),
           SlidingUpPanel(
             parallaxEnabled: true,
             parallaxOffset: .5,
@@ -77,7 +107,6 @@ class MapSampleState extends State<MapSample> {
       alignment: Alignment.center,
       child: Container(
         width: 40,
-
         height: 5,
         decoration: BoxDecoration(
           color: Colors.grey[300],
@@ -96,6 +125,8 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
+
+
 
   Widget button({required String text, required Function() onPressed}) {
     return ElevatedButton(

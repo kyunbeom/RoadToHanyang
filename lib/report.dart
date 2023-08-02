@@ -13,6 +13,7 @@ class _ReportPageState extends State<ReportPage> {
 
   toastMessage() {
     Widget toast = Container(
+        margin: EdgeInsets.only(bottom: 520),
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
@@ -23,7 +24,7 @@ class _ReportPageState extends State<ReportPage> {
           style: TextStyle(color: Colors.white),
         ));
 
-    fToast.showToast(child: toast, toastDuration: Duration(seconds: 3));
+    fToast.showToast(child: toast, toastDuration: Duration(seconds: 2));
   }
 
   @override
@@ -40,7 +41,7 @@ class _ReportPageState extends State<ReportPage> {
       child: Column(
         children: [
           SizedBox(
-            height: 20, // 제일 위 공백
+            height: 80, // 제일 위 공백
           ),
           Container(
             child: Text(

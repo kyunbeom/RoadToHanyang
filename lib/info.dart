@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:road_to_hanyang/report.dart';
 import 'package:road_to_hanyang/toggle.dart';
+import 'package:road_to_hanyang/watch.dart';
 
-informations() {
+informations(BuildContext context) {
   return Scaffold(
     body: Center(
       child: Container(
@@ -53,7 +55,7 @@ informations() {
               ],
             ),
             SizedBox(
-              height: 15.0,
+              height: 30.0,
             ),
             PathToggle(
               title: '경로 상세',
@@ -65,66 +67,77 @@ informations() {
                 ),
               ),
             ),
-            Container(
-              color: Colors.blue,
-              child: SizedBox(
-                height: 15.0,
-              ),
+            SizedBox(
+              height: 30.0,
             ),
-            Container(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff0E4A84)),
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                          TextStyle(color: Colors.white, fontSize: 23.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0)))),
-                  child: const Text(
-                    '시간 측정',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 23.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 60.0),
+              child: Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff0E4A84),
+                        textStyle:
+                            TextStyle(color: Colors.white, fontSize: 23.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 30.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0))),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StopwatchApp()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.timer,
+                          color: Colors.white,
+                          size: 23.0,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text('시간 측정'),
+                      ],
                     ),
-                  ),
-                  onPressed: () {},
-                )),
+                  )),
+            ),
             SizedBox(
               height: 10.0,
             ),
-            Container(
-              alignment: Alignment.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 60.0),
               child: Container(
-                  width: 250.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Color(0xff0E4A84)),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.drive_file_rename_outline,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            '지름길 제보',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 23.0),
-                            textAlign: TextAlign.center,
-                            //textAlignVertical: TextAlignVertical.center,
-                          ),
-                        ],
-                      ),
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff0E4A84),
+                        textStyle:
+                            TextStyle(color: Colors.white, fontSize: 23.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 30.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0))),
+                    onPressed: () => {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ReportPage()))
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.drive_file_rename_outline,
+                          color: Colors.white,
+                          size: 23.0,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text('지름길 제보'),
+                      ],
                     ),
                   )),
             ),

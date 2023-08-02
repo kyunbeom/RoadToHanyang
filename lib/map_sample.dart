@@ -5,6 +5,7 @@ import 'package:road_to_hanyang/info.dart';
 import 'package:road_to_hanyang/report.dart';
 import 'package:road_to_hanyang/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'hamburger.dart';
 
 class MapSample extends StatefulWidget {
@@ -13,6 +14,8 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  TextEditingController startController = TextEditingController();
+  TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
 
@@ -86,26 +89,8 @@ class MapSampleState extends State<MapSample> {
       overlayState.insert(overlayEntry);
     }
   }
+  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터"];
 
-  void removeOverlay() { // 적절한 타이밍에 호출
-    if (overlayEntry.mounted) {
-      overlayEntry.remove();
-    }
-  }
-
-  Widget _overlayEntryBuilder(BuildContext context) {
-    Offset position = _getOverlayEntryPosition();
-    Size size = _getOverlayEntrySize();
-
-    return Positioned(
-      left: position.dx,
-      top: position.dy,
-      width: Get.size.width - MyConstants.SCREEN_HORIZONTAL_MARGIN.horizontal,
-      child: AutoCompleteKeywordList(),
-    );
-  }
-
- */
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(53.339688, -6.236688),
@@ -141,100 +126,104 @@ class MapSampleState extends State<MapSample> {
             child: Wrap(
               children: <Widget>[
                 Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
-                        color: Colors.white,
-                        child: Row(children: [
-                          SizedBox(width: 7),
-                          Text("출발지"),
-                          SizedBox(width: 3),
-                          Container(
-                              margin: EdgeInsets.all(3),
-                              width: 200,
-                              child: TextFormField(
-                                autofocus: false,
-                                keyboardType: TextInputType.text,
-                                maxLength: 30,
-                                decoration: const InputDecoration(
-                                  counterText: '',
-                                  counterStyle: TextStyle(fontSize: 14),
-                                ),
-                              )),
-                          SizedBox(width: 90),
-                          Ink(
-                            decoration: const ShapeDecoration(
-                              shape: CircleBorder(),
-                              color: Colors.blue,
-                            ),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.search,
-                                color: Color(0xff0E4A84),
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                      /*Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Builder(builder: (context) {
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white.withOpacity(0.0)),
-                            onPressed: () {
-                              print("눌렸어");
-                              Scaffold.of(context).openDrawer();
-                            },
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                            ),
-                          );
-                        }),
-                      ),*/
-                    ],
+
+                margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                color: Colors.white,
+                child: Row(children: [
+                  SizedBox(width: 7),
+                  Expanded(
+                    child: Container(
+                        margin: EdgeInsets.all(3),
+                        width: 200,
+                        child: TypeAheadField(
+                          animationStart: 0,
+                          animationDuration: Duration.zero,
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: startController,
+                              autofocus: true,
+                              style: TextStyle(fontSize: 14),
+                              decoration: InputDecoration(
+                                  hintText: "출발지를 입력해주세요",
+                                  border: OutlineInputBorder())
+                                 ),
+                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              color: Colors.lightBlue[50]),
+                          suggestionsCallback: (pattern) {
+                            List<String> matches = <String>[];
+                            matches.addAll(suggestons);
+
+                            matches.retainWhere((s) {
+                              return s
+                                  .toLowerCase()
+                                  .contains(pattern.toLowerCase());
+                            });
+                            return matches;
+                          },
+                          itemBuilder: (context, sone) {
+                            return Card(
+                                child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(sone.toString()),
+                            ));
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            startController.text = suggestion;
+                          },
+                        )),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(5),
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 7),
-                      Text("도착지"),
-                      SizedBox(width: 3),
-                      Container(
+
+                ]),
+              ),
+              Container(
+                margin: EdgeInsets.all(5),
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    SizedBox(width: 7),
+                    Expanded(
+                      child: Container(
                           margin: EdgeInsets.all(3),
                           width: 200,
-                          child: TextFormField(
-                            autofocus: false,
-                            keyboardType: TextInputType.text,
-                            maxLength: 30,
-                            decoration: const InputDecoration(
-                              counterText: '',
-                              counterStyle: TextStyle(fontSize: 14),
-                            ),
+                          child: TypeAheadField(
+                            // controller: destinationController,
+                            animationStart: 0,
+                            animationDuration: Duration.zero,
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: destinationController,
+                                autofocus: true,
+                                style: TextStyle(fontSize: 14),
+                                decoration: InputDecoration(
+                                    hintText: "도착지를 입력해주세요",
+                                    border: OutlineInputBorder())),
+                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                                color: Colors.lightBlue[50]),
+                            suggestionsCallback: (pattern) {
+                              List<String> matches = <String>[];
+                              matches.addAll(suggestons);
+
+                              matches.retainWhere((s) {
+                                return s
+                                    .toLowerCase()
+                                    .contains(pattern.toLowerCase());
+                              });
+                              return matches;
+                            },
+                            itemBuilder: (context, sone) {
+                              return Card(
+                                  child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(sone.toString()),
+                              ));
+                            },
+                            onSuggestionSelected: (suggestion) {
+                              destinationController.text = suggestion;
+                            },
                           )),
-                      SizedBox(width: 90),
-                      Ink(
-                        decoration: const ShapeDecoration(
-                          shape: CircleBorder(),
-                          color: Colors.blue,
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.search,
-                              color: Color(0xff0E4A84)),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+         
+      
+                  ],
                 ),
-              ],
-            ),
           ),
           SlidingUpPanel(
             parallaxEnabled: true,

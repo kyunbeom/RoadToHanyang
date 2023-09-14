@@ -17,6 +17,7 @@ class _StopwatchAppState extends State<StopwatchApp> {
     _refreshRate = Duration(milliseconds: 100); // 업데이트 주기
     _timeDisplay = ValueNotifier("00:00");
     _stopStopwatch();
+
   }
 
   void _startStopwatch() {

@@ -7,6 +7,24 @@ import 'package:road_to_hanyang/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'hamburger.dart';
+import 'package:geolocator/geolocator.dart';
+
+var ITBT = LatLng(37.555965, 127.049380);
+var BUB = LatLng(37.556254, 127.048330); // 법학포탈
+var EF = LatLng(37.556599, 127.048039); // 경제금융관
+var HP = LatLng(37.557265, 127.048480); // 행파
+var IG = LatLng(37.556679, 127.045816); // 1공
+var EV = LatLng(37.555838, 127.047244); // 대운동장 엘베
+var DU = LatLng(37.555312, 127.048595); // 대운동장 주차장
+var EVE = LatLng(37.556240, 127.046767); // 엘베 끝
+var P1 = LatLng(37.556450, 127.046675);
+var P2 = LatLng(37.556339, 127.046306);
+var P3 = LatLng(37.556625, 127.046125);
+
+List<LatLng> route1 = [ITBT, BUB, EF, HP];
+List<LatLng> route2 = [ITBT, DU, EV, P1, P2, P3];
+
+Set<Polyline> polylinePoints = {};
 
 class MapSample extends StatefulWidget {
   @override
@@ -14,11 +32,16 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-  TextEditingController startController = TextEditingController();
-  TextEditingController destinationController = TextEditingController();
+  final TextEditingController startController = TextEditingController();
+  final TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   PanelController _pc = new PanelController();
+
   List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터", "사자가 군것질 할 때", "대운동장","백남음악관", "노천극장" ];
+  List<Marker> _markers = [];
+  LatLng? selectedStartLocation;
+  LatLng? selectedDestinationLocation;
+  final Set<Polyline> _polyline = {};
 
   final Stopwatch _stopwatch = Stopwatch();
   late final Duration _refreshRate;
@@ -29,11 +52,25 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    _markers.add(Marker(
+        markerId: MarkerId("0"),
+        draggable: true,
+        onTap: () => print("Marker!"),
+        position: route1[0]));
+    _markers.add(Marker(
+        markerId: MarkerId("1"),
+        draggable: true,
+        onTap: () => print("Marker!"),
+        position: route1[3]));
+    _polyline.add(Polyline(
+        polylineId: PolylineId('1'),
+        points: route1,
+        color: Colors.green));
     _refreshRate = Duration(milliseconds: 100); // 업데이트 주기
     _timeDisplay = ValueNotifier("00:00");
     _stopStopwatch();
     isClock = false;
-  }
+    }
 
   void _startStopwatch() {
     _stopwatch.start();
@@ -89,30 +126,151 @@ class MapSampleState extends State<MapSample> {
   //     overlayState.insert(overlayEntry);
   //   }
   // }
+  Future<Position> getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
+    return position;
+  }
 
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(53.339688, -6.236688),
-    zoom: 14.4746,
+    target: LatLng(37.556022, 127.044741),
+    zoom: 15,
   );
 
-  // 호수 위치
-  static final CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 130,
+        leadingWidth: 80,
+        title: Container(
+                        height: 200,
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.only(top: 30),
+                          child: Column(
+                            children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  color: Colors.white,
+                  child: Row(children: [
+                    SizedBox(width: 7),
+                    Expanded(
+                      child: Container(
+                          margin: EdgeInsets.all(3),
+                          width: 200,
+                          child: Container(
+                            child:
+                            TypeAheadField(
+                              animationStart: 0,
+                              animationDuration: Duration.zero,
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: startController,
+                                  autofocus: false,
+                                  style: TextStyle(fontSize: 14),
+                                  decoration: InputDecoration(
+                                      hintText: "출발지를 입력해주세요",
+                                      border: OutlineInputBorder())
+                              ),
+                              suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                                  color: Colors.lightBlue[50]),
+                              suggestionsCallback: (pattern) async {
+                                List<String> matches = <String>[];
+                                matches.addAll(suggestons);
+
+                                matches.retainWhere((s) {
+                                  return s
+                                      .toLowerCase()
+                                      .contains(pattern.toLowerCase());
+                                });
+
+                                return matches;
+                              },
+
+                              itemBuilder: (context, suggestion) {
+                                return Card(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(suggestion.toString()),
+                                    ));
+                              },
+                              onSuggestionSelected: (suggestion) {
+                                this.startController.text = suggestion;
+                                print('Selected suggestion: $suggestion');
+                              },
+                            ),
+                          )),
+                    ),
+
+                  ]),
+                ),
+                Container(
+                  margin: EdgeInsets.all(3),
+                  color: Colors.white,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 7),
+                      Expanded(
+                        child: Container(
+                            margin: EdgeInsets.all(3),
+                            width: 200,
+                            child: TypeAheadField(
+                              // controller: destinationController,
+                              animationStart: 0,
+                              animationDuration: Duration.zero,
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: destinationController,
+                                  autofocus: true,
+                                  style: TextStyle(fontSize: 14),
+                                  decoration: InputDecoration(
+                                      hintText: "도착지를 입력해주세요",
+                                      border: OutlineInputBorder())),
+                              suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                                  color: Colors.lightBlue[50]),
+                              suggestionsCallback: (pattern) async {
+                                List<String> matches = <String>[];
+                                matches.addAll(suggestons);
+
+                                matches.retainWhere((s) {
+                                  return s
+                                      .toLowerCase()
+                                      .contains(pattern.toLowerCase());
+                                });
+                                print('Suggestions for $pattern: $matches');
+                                return matches;
+                              },
+                              itemBuilder: (context, sone) {
+                                return Card(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(sone.toString()),
+                                    ));
+                              },
+                              onSuggestionSelected: (suggestion) {
+                                this.destinationController.text = suggestion;
+                                print('Selected suggestion: $suggestion');
+                              },
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+
+                            ],
+                          ),
+                        ),
+                ),
+              ),
       endDrawer: hamburger(),
       body: Stack(
         children: [
           GoogleMap(
+            polylines: _polyline,
             mapType: MapType.normal,
+            markers: Set.from(_markers),
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -121,117 +279,7 @@ class MapSampleState extends State<MapSample> {
               print("coordintate : $coordinate");
             },
           ),
-          Container(
-            height: 200,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                    color: Colors.white,
-                    child: Row(children: [
-                      SizedBox(width: 7),
-                      Expanded(
-                        child: Container(
-                            margin: EdgeInsets.all(3),
-                            width: 200,
-                            child: Container(
-                              child:
-                              TypeAheadField(
-                                animationStart: 0,
-                                animationDuration: Duration.zero,
-                                textFieldConfiguration: TextFieldConfiguration(
-                                    controller: startController,
-                                    autofocus: true,
-                                    style: TextStyle(fontSize: 14),
-                                    decoration: InputDecoration(
-                                        hintText: "출발지를 입력해주세요",
-                                        border: OutlineInputBorder())
-                                ),
-                                suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                                    color: Colors.lightBlue[50]),
-                                suggestionsCallback: (pattern) {
-                                  List<String> matches = <String>[];
-                                  matches.addAll(suggestons);
 
-                                  matches.retainWhere((s) {
-                                    return s
-                                        .toLowerCase()
-                                        .contains(pattern.toLowerCase());
-                                  });
-                                  return matches;
-                                },
-                                itemBuilder: (context, sone) {
-                                  return Card(
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(sone.toString()),
-                                      ));
-                                },
-                                onSuggestionSelected: (suggestion) {
-                                  startController.text = suggestion;
-                                },
-                              ),
-                            )),
-                      ),
-
-                    ]),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 7),
-                        Expanded(
-                          child: Container(
-                              margin: EdgeInsets.all(3),
-                              width: 200,
-                              child: TypeAheadField(
-                                // controller: destinationController,
-                                animationStart: 0,
-                                animationDuration: Duration.zero,
-                                textFieldConfiguration: TextFieldConfiguration(
-                                    controller: destinationController,
-                                    autofocus: true,
-                                    style: TextStyle(fontSize: 14),
-                                    decoration: InputDecoration(
-                                        hintText: "도착지를 입력해주세요",
-                                        border: OutlineInputBorder())),
-                                suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                                    color: Colors.lightBlue[50]),
-                                suggestionsCallback: (pattern) {
-                                  List<String> matches = <String>[];
-                                  matches.addAll(suggestons);
-
-                                  matches.retainWhere((s) {
-                                    return s
-                                        .toLowerCase()
-                                        .contains(pattern.toLowerCase());
-                                  });
-                                  return matches;
-                                },
-                                itemBuilder: (context, sone) {
-                                  return Card(
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(sone.toString()),
-                                      ));
-                                },
-                                onSuggestionSelected: (suggestion) {
-                                  destinationController.text = suggestion;
-                                },
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-              ),
-          ),
           SlidingUpPanel(
             parallaxEnabled: true,
             parallaxOffset: .5,
@@ -333,7 +381,7 @@ class MapSampleState extends State<MapSample> {
                                     SizedBox(
                                       width: 10.0,
                                     ),
-                                    Text('시간 측정'),
+                                    Text('시간 측정', style: TextStyle(color: Colors.white)),
                                   ],
                                 ),
                               )),
@@ -372,7 +420,7 @@ class MapSampleState extends State<MapSample> {
                                     SizedBox(
                                       width: 10.0,
                                     ),
-                                    Text('지름길 제보'),
+                                    Text('지름길 제보', style: TextStyle(color: Colors.white)),
                                   ],
                                 ),
                               )),
@@ -417,7 +465,7 @@ class MapSampleState extends State<MapSample> {
                           shape: CircleBorder(),
                         ),
                         onPressed: isRun ? _stopStopwatch : _startStopwatch,
-                        child: Text(isRun ? 'Stop' : 'Start'),
+                        child: Text(isRun ? 'Stop' : 'Start', style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
@@ -427,7 +475,7 @@ class MapSampleState extends State<MapSample> {
                           shape: CircleBorder(),
                         ),
                         onPressed: _resetStopwatch,
-                        child: Text('Reset'),
+                        child: Text('Reset', style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
@@ -456,15 +504,48 @@ class MapSampleState extends State<MapSample> {
 
         ],
       ),
-      /*
+
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _goToTheLake();
-          _showBottomSheetScreen(); // Call the function to show BottomSheetScreen
+        onPressed: () async {
+          // final GoogleMapController _gc = await _controller.future;
+          // LocationPermission permission = await Geolocator.requestPermission();
+          // var gps = await getCurrentLocation();
+          // _gc.animateCamera(
+          //     CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+          setState(() {
+            _markers.removeAt(0);
+            _markers.removeAt(0);
+
+            _markers.add(Marker(
+                markerId: MarkerId("0"),
+                draggable: true,
+                onTap: () => print("Marker!"),
+                position: route2[0]));
+            _markers.add(Marker(
+                markerId: MarkerId("1"),
+                draggable: true,
+                onTap: () => print("Marker!"),
+                position: route2[5]));
+            _polyline.add(Polyline(
+              polylineId: PolylineId('1'),
+              points: route2,
+              color: Colors.green,
+            ));
+
+            //  내 위치 가져오는 코드
+            // _markers.add(Marker(
+            //     markerId: MarkerId("1"),
+            //     draggable: true,
+            //     onTap: () => print("Marker!"),
+            //     position: LatLng(gps.latitude, gps.longitude)));
+          });
+
+          // _goToTheLake();
+          // _showBottomSheetScreen(); // Call the function to show BottomSheetScreen
         },
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
-      ),*/
+        label: Text('내 위치로'),
+        icon: Icon(Icons.location_city),
+      ),
     );
   }
 
@@ -473,7 +554,7 @@ class MapSampleState extends State<MapSample> {
       alignment: Alignment.center,
       padding: EdgeInsets.only(top: 8),
       child: Container(
-        width: 100,
+        width: 40,
         height: 5,
         margin: EdgeInsets.only(
           right: 500,
@@ -533,6 +614,11 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
       child: Container(
         width: 40,
         height: 5,
+        margin: EdgeInsets.only(
+          left: (MediaQuery.of(context).size.width - 40) / 2, // 중앙으로 이동
+          right: (MediaQuery.of(context).size.width - 40) / 2,
+        ),
+
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(5),
@@ -577,3 +663,5 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     );
   }
 }
+
+

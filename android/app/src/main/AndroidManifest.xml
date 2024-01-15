@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.road_to_hanyang">
+    package="com.road_to_hanyang">
+    <!-- 위치정보 액세스 권한 요청 -->
    <application
         android:label="road_to_hanyang"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <!-- TODO: Add your API key here -->
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyBZV1eD9sX-7_5fRD1JuOtBPm0_-_D5YQY"/>
+           android:value="AIzaSyAlLHEPB0k_vAdnX4AWd-Vlflj2-3TTrBc"/>
 
         <activity
             android:name=".MainActivity"

@@ -8,6 +8,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'hamburger.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 
 var ITBT = LatLng(37.555965, 127.049380);
 var BUB = LatLng(37.556254, 127.048330); // 법학포탈
@@ -21,10 +22,39 @@ var P1 = LatLng(37.556450, 127.046675);
 var P2 = LatLng(37.556339, 127.046306);
 var P3 = LatLng(37.556625, 127.046125);
 
-List<LatLng> route1 = [ITBT, BUB, EF, HP];
+List<LatLng> route1 = [ITBT, BUB, EF, HP];  // ITBT to HP
 List<LatLng> route2 = [ITBT, DU, EV, P1, P2, P3];
+List<LatLng> route3 = [ITBT, DU, EV, P1, P2, P3];
+List<LatLng> route4 = [ITBT, DU, EV, P1, P2, P3];
 
-Set<Polyline> polylinePoints = {};
+LatLng getlocation(String text) {
+  switch (text) {
+    case "itbt관":
+      return ITBT;
+    case "제 1공학관":
+      return IG;
+    case "제 2공학관":
+      return EV;
+    case "itbt관":
+      return ITBT;
+    case "행원파크":
+      return HP;
+    case "공업센터":
+      return EF;
+    case "사자가 군것질 할 때":
+      return BUB;
+    case "대운동장":
+      return DU;
+    case "백남음악관":
+      return EVE;
+    case "노천극장":
+      return P1;
+  // 추가적인 임의의 장소에 대한 정보를 추가할 수 있습니다.
+    default:
+    // 디폴트로 ITBT 위치를 반환합니다.
+      return ITBT;
+  }
+}
 
 class MapSample extends StatefulWidget {
   @override
@@ -35,6 +65,7 @@ class MapSampleState extends State<MapSample> {
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
+
   PanelController _pc = new PanelController();
 
   List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터", "사자가 군것질 할 때", "대운동장","백남음악관", "노천극장" ];
@@ -51,25 +82,21 @@ class MapSampleState extends State<MapSample> {
 
   @override
   void initState() {
-    super.initState();
     _markers.add(Marker(
         markerId: MarkerId("0"),
         draggable: true,
-        onTap: () => print("Marker!"),
+        onTap: () => print(_markers.first.position),
         position: route1[0]));
     _markers.add(Marker(
         markerId: MarkerId("1"),
         draggable: true,
+
         onTap: () => print("Marker!"),
         position: route1[3]));
     _polyline.add(Polyline(
         polylineId: PolylineId('1'),
         points: route1,
         color: Colors.green));
-    _refreshRate = Duration(milliseconds: 100); // 업데이트 주기
-    _timeDisplay = ValueNotifier("00:00");
-    _stopStopwatch();
-    isClock = false;
     }
 
   void _startStopwatch() {
@@ -126,6 +153,7 @@ class MapSampleState extends State<MapSample> {
   //     overlayState.insert(overlayEntry);
   //   }
   // }
+
   Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -143,6 +171,7 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: hamburger(),
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: 130,
@@ -179,7 +208,7 @@ class MapSampleState extends State<MapSample> {
                                   color: Colors.lightBlue[50]),
                               suggestionsCallback: (pattern) async {
                                 List<String> matches = <String>[];
-                                matches.addAll(suggestons);
+                    matches.addAll(suggestons);
 
                                 matches.retainWhere((s) {
                                   return s
@@ -198,13 +227,24 @@ class MapSampleState extends State<MapSample> {
                                     ));
                               },
                               onSuggestionSelected: (suggestion) {
-                                this.startController.text = suggestion;
-                                print('Selected suggestion: $suggestion');
+
+                                setState(() {
+                                  this.startController.text = suggestion;
+                                  _markers.removeAt(0);
+                                  _markers.add(Marker(
+                                    markerId: MarkerId("0"),
+                                    draggable: true,
+                                    onTap: () => print("Marker!"),
+                                    position: getlocation(startController.text),
+                                  ));
+                                });
+
                               },
+
+
                             ),
                           )),
                     ),
-
                   ]),
                 ),
                 Container(
@@ -239,8 +279,8 @@ class MapSampleState extends State<MapSample> {
                                       .toLowerCase()
                                       .contains(pattern.toLowerCase());
                                 });
-                                print('Suggestions for $pattern: $matches');
                                 return matches;
+
                               },
                               itemBuilder: (context, sone) {
                                 return Card(
@@ -251,8 +291,14 @@ class MapSampleState extends State<MapSample> {
                               },
                               onSuggestionSelected: (suggestion) {
                                 this.destinationController.text = suggestion;
-                                print('Selected suggestion: $suggestion');
-                              },
+                                _markers.removeAt(1);
+                                _markers.add(Marker(
+                                  markerId: MarkerId("1"),
+                                  draggable: true,
+                                  onTap: () => print("Marker!"),
+                                  position: getlocation(destinationController.text),
+                                ));
+                                },
                             )),
                       ),
                     ],
@@ -263,8 +309,36 @@ class MapSampleState extends State<MapSample> {
                           ),
                         ),
                 ),
+        actions: [
+              GestureDetector(
+                onTap: () async {
+                 GoogleMapController _gc0 = await _controller.future;
+                 await _gc0.animateCamera(
+                   CameraUpdate.newCameraPosition( CameraPosition(
+                     target: LatLng(37.556022, 127.044741),
+                     zoom: 15,
+                   )
+                 ));
+                 setState(() {
+                   _polyline.add(Polyline(
+                   polylineId: PolylineId('1'),
+                   points: route2,
+                   color: Colors.green,
+                   ));
+                 });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  ),
+                ),
               ),
-      endDrawer: hamburger(),
+            ],
+
+      ),
+
       body: Stack(
         children: [
           GoogleMap(
@@ -272,9 +346,14 @@ class MapSampleState extends State<MapSample> {
             mapType: MapType.normal,
             markers: Set.from(_markers),
             initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
+            onMapCreated:(GoogleMapController controller) {
               _controller.complete(controller);
             },
+            zoomGesturesEnabled: true,
+            tiltGesturesEnabled: true,
+            compassEnabled: true,
+            scrollGesturesEnabled: true,
+            myLocationEnabled: true,
             onTap: (coordinate) {
               print("coordintate : $coordinate");
             },
@@ -489,7 +568,7 @@ class MapSampleState extends State<MapSample> {
                             isClock = false;
                           });
                         },
-                        child: Text('Record'),
+                        child: Text('Record', style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
@@ -507,11 +586,12 @@ class MapSampleState extends State<MapSample> {
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // final GoogleMapController _gc = await _controller.future;
-          // LocationPermission permission = await Geolocator.requestPermission();
-          // var gps = await getCurrentLocation();
-          // _gc.animateCamera(
-          //     CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+           GoogleMapController _gc = await _controller.future;
+           LocationPermission permission = await Geolocator.requestPermission();
+           var gps = await getCurrentLocation();
+           _gc.animateCamera(
+               CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+
           setState(() {
             _markers.removeAt(0);
             _markers.removeAt(0);
@@ -526,18 +606,19 @@ class MapSampleState extends State<MapSample> {
                 draggable: true,
                 onTap: () => print("Marker!"),
                 position: route2[5]));
-            _polyline.add(Polyline(
+            /*_polyline.add(Polyline(
               polylineId: PolylineId('1'),
               points: route2,
               color: Colors.green,
-            ));
+            ));*/
+
 
             //  내 위치 가져오는 코드
-            // _markers.add(Marker(
-            //     markerId: MarkerId("1"),
-            //     draggable: true,
-            //     onTap: () => print("Marker!"),
-            //     position: LatLng(gps.latitude, gps.longitude)));
+            _markers.add(Marker(
+                 markerId: MarkerId("2"),
+                 draggable: true,
+                 onTap: () => print("Marker!"),
+                 position: LatLng(gps.latitude, gps.longitude)));
           });
 
           // _goToTheLake();
@@ -549,6 +630,7 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
+}
   Widget _buildDragHandle() {
     return Container(
       alignment: Alignment.center,
@@ -585,7 +667,7 @@ class MapSampleState extends State<MapSample> {
       child: Text(text),
     );
   }
-
+/*
   void _showBottomSheetScreen() {
     // Show the BottomSheetScreen using showModalBottomSheet
     showModalBottomSheet(
@@ -595,6 +677,9 @@ class MapSampleState extends State<MapSample> {
     );
   }
 }
+
+
+*/
 
 class BottomSheetScreen extends StatefulWidget {
   const BottomSheetScreen({Key? key}) : super(key: key);
@@ -615,8 +700,8 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
         width: 40,
         height: 5,
         margin: EdgeInsets.only(
-          left: (MediaQuery.of(context).size.width - 40) / 2, // 중앙으로 이동
-          right: (MediaQuery.of(context).size.width - 40) / 2,
+          left: (MediaQuery.of(context).size.width) / 2, // 중앙으로 이동
+          right: (MediaQuery.of(context).size.width) / 2,
         ),
 
         decoration: BoxDecoration(
@@ -663,5 +748,6 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     );
   }
 }
+
 
 

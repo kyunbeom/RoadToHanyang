@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/info.dart';
+import 'package:road_to_hanyang/widget/panel_widget.dart';
 import 'package:road_to_hanyang/report.dart';
 import 'package:road_to_hanyang/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'hamburger.dart';
+import 'widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 
@@ -65,10 +66,22 @@ class MapSampleState extends State<MapSample> {
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
+  
+  final pannelController = PanelController();
+  bool isPathPage = false;
 
-  PanelController _pc = new PanelController();
-
-  List<String> suggestons = ["제 1공학관", "제 2공학관", "itbt관", "행원파크", "공업센터", "사자가 군것질 할 때", "대운동장","백남음악관", "노천극장" ];
+  List<String> suggestons = [
+    "제 1공학관",
+    "제 2공학관",
+    "itbt관",
+    "행원파크",
+    "공업센터",
+    "사자가 군것질 할 때",
+    "대운동장",
+    "백남음악관",
+    "노천극장"
+  ];
+  
   List<Marker> _markers = [];
   LatLng? selectedStartLocation;
   LatLng? selectedDestinationLocation;
@@ -90,7 +103,6 @@ class MapSampleState extends State<MapSample> {
     _markers.add(Marker(
         markerId: MarkerId("1"),
         draggable: true,
-
         onTap: () => print("Marker!"),
         position: route1[3]));
     _polyline.add(Polyline(
@@ -126,6 +138,12 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       isRun = false;
     });
+    // _polyline.add(Polyline(
+    //     polylineId: PolylineId('1'), points: route1, color: Colors.green));
+    // _refreshRate = Duration(milliseconds: 100); // 업데이트 주기
+    // _timeDisplay = ValueNotifier("00:00");
+    // _stopStopwatch();
+    // isClock = false;
   }
 
   void _resetStopwatch() {
@@ -153,7 +171,6 @@ class MapSampleState extends State<MapSample> {
   //     overlayState.insert(overlayEntry);
   //   }
   // }
-
   Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -171,17 +188,16 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: hamburger(),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        toolbarHeight: 130,
-        leadingWidth: 80,
+        backgroundColor: Color(0xff0E4A84),
+        toolbarHeight: 100,
+        leadingWidth: 50,
         title: Container(
-                        height: 200,
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.only(top: 30),
-                          child: Column(
-                            children: [
+          height: 150,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(top: 30),
+            child: Column(
+              children: [
                 Container(
                   margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
                   color: Colors.white,
@@ -248,39 +264,49 @@ class MapSampleState extends State<MapSample> {
                   ]),
                 ),
                 Container(
-                  margin: EdgeInsets.all(3),
-                  color: Colors.white,
+                  // margin: EdgeInsets.all(3),
+                  // color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width - 30,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(5),
+                          bottomRight: Radius.circular(5))),
                   child: Row(
                     children: [
-                      SizedBox(width: 7),
+                      //SizedBox(width: 7),
                       Expanded(
                         child: Container(
-                            margin: EdgeInsets.all(3),
-                            width: 200,
+                            //margin: EdgeInsets.all(3),
+                            //width: 200,
                             child: TypeAheadField(
-                              // controller: destinationController,
-                              animationStart: 0,
-                              animationDuration: Duration.zero,
-                              textFieldConfiguration: TextFieldConfiguration(
-                                  controller: destinationController,
-                                  autofocus: true,
-                                  style: TextStyle(fontSize: 14),
-                                  decoration: InputDecoration(
-                                      hintText: "도착지를 입력해주세요",
-                                      border: OutlineInputBorder())),
-                              suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                                  color: Colors.lightBlue[50]),
-                              suggestionsCallback: (pattern) async {
-                                List<String> matches = <String>[];
-                                matches.addAll(suggestons);
+                          // controller: destinationController,
+                          animationStart: 0,
+                          animationDuration: Duration.zero,
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: destinationController,
+                              autofocus: true,
+                              style: TextStyle(fontSize: 14),
+                              decoration: InputDecoration(
+                                  hintText: "도착지를 입력해주세요",
+                                  hintStyle: TextStyle(color: Colors.white)
+                                  // border: OutlineInputBorder()
+                                  )),
+                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              color: Colors.lightBlue[50]),
+                          suggestionsCallback: (pattern) async {
+                            List<String> matches = <String>[];
+                            matches.addAll(suggestons);
 
                                 matches.retainWhere((s) {
                                   return s
                                       .toLowerCase()
                                       .contains(pattern.toLowerCase());
                                 });
+                                print('Suggestions for $pattern: $matches');
                                 return matches;
-
                               },
                               itemBuilder: (context, sone) {
                                 return Card(
@@ -291,14 +317,8 @@ class MapSampleState extends State<MapSample> {
                               },
                               onSuggestionSelected: (suggestion) {
                                 this.destinationController.text = suggestion;
-                                _markers.removeAt(1);
-                                _markers.add(Marker(
-                                  markerId: MarkerId("1"),
-                                  draggable: true,
-                                  onTap: () => print("Marker!"),
-                                  position: getlocation(destinationController.text),
-                                ));
-                                },
+                                print('Selected suggestion: $suggestion');
+                              },
                             )),
                       ),
                     ],
@@ -309,36 +329,8 @@ class MapSampleState extends State<MapSample> {
                           ),
                         ),
                 ),
-        actions: [
-              GestureDetector(
-                onTap: () async {
-                 GoogleMapController _gc0 = await _controller.future;
-                 await _gc0.animateCamera(
-                   CameraUpdate.newCameraPosition( CameraPosition(
-                     target: LatLng(37.556022, 127.044741),
-                     zoom: 15,
-                   )
-                 ));
-                 setState(() {
-                   _polyline.add(Polyline(
-                   polylineId: PolylineId('1'),
-                   points: route2,
-                   color: Colors.green,
-                   ));
-                 });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                  ),
-                ),
               ),
-            ],
-
-      ),
-
+      endDrawer: hamburger(),
       body: Stack(
         children: [
           GoogleMap(
@@ -346,235 +338,251 @@ class MapSampleState extends State<MapSample> {
             mapType: MapType.normal,
             markers: Set.from(_markers),
             initialCameraPosition: _kGooglePlex,
-            onMapCreated:(GoogleMapController controller) {
+            onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            zoomGesturesEnabled: true,
-            tiltGesturesEnabled: true,
-            compassEnabled: true,
-            scrollGesturesEnabled: true,
-            myLocationEnabled: true,
             onTap: (coordinate) {
               print("coordintate : $coordinate");
             },
           ),
 
+          // TODO: 이게 맵 위에 있도록 해야함
           SlidingUpPanel(
+            controller: pannelController,
             parallaxEnabled: true,
+            // TODO: 바텀시트 올라갈때 지도도 같이?
             parallaxOffset: .5,
-            controller: _pc,
-            panel: Center(
-              child: Container(
-                child: Center(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.directions_walk,
-                              color: Colors.black,
-                              size: 18.0,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              '예상 소요 시간: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.directions_walk,
-                              color: Colors.black,
-                              size: 18.0,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              '평균 소요 시간: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        PathToggle(
-                          title: '경로 상세',
-                          content: Text(
-                            '상세한 경로들\n경로들\n경로들..',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                          child: Container(
-                              alignment: Alignment.center,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff0E4A84),
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 23.0),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 30.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0))),
-                                onPressed: () {
-                                  setState(() {
-                                    isClock = true;
-                                  });
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(
-                                      Icons.timer,
-                                      color: Colors.white,
-                                      size: 23.0,
-                                    ),
-                                    SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    Text('시간 측정', style: TextStyle(color: Colors.white)),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                          child: Container(
-                              alignment: Alignment.center,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff0E4A84),
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 23.0),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 30.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0))),
-                                onPressed: () => {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ReportPage()))
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(
-                                      Icons.drive_file_rename_outline,
-                                      color: Colors.white,
-                                      size: 23.0,
-                                    ),
-                                    SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    Text('지름길 제보', style: TextStyle(color: Colors.white)),
-                                  ],
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            // controller: controller,
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+            // TODO: 어디까지 보이게 ㅔ할건지
+            minHeight: MediaQuery.of(context).size.height * 0.1,
+            //TODO: 적당한 사이즈로 맞추기
+            panelBuilder: (controller) => PanelWidget(
+              minute: 10,
+              controller: controller,
+              panelController: pannelController,
+              isPathPage: false, // TODO: 경로페이지인지 홈인지 결정어디선가 바꿔줘야함
             ),
             borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-            header: _buildDragHandle(),
-            body: _body(),
+            // panel: Center(
+            //   child: Container(
+            //     child: Center(
+            //       child: Container(
+            //         padding: EdgeInsets.symmetric(horizontal: 20.0),
+            //         child: Column(
+            //           children: [
+            //             SizedBox(
+            //               height: 30,
+            //             ),
+            //             Row(
+            //               children: [
+            //                 Icon(
+            //                   Icons.directions_walk,
+            //                   color: Colors.black,
+            //                   size: 18.0,
+            //                 ),
+            //                 SizedBox(
+            //                   width: 10.0,
+            //                 ),
+            //                 Text(
+            //                   '예상 소요 시간: ',
+            //                   style: TextStyle(
+            //                     color: Colors.black,
+            //                     fontSize: 18.0,
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //             SizedBox(
+            //               height: 10,
+            //             ),
+            //             Row(
+            //               children: [
+            //                 Icon(
+            //                   Icons.directions_walk,
+            //                   color: Colors.black,
+            //                   size: 18.0,
+            //                 ),
+            //                 SizedBox(
+            //                   width: 10.0,
+            //                 ),
+            //                 Text(
+            //                   '평균 소요 시간: ',
+            //                   style: TextStyle(
+            //                     color: Colors.black,
+            //                     fontSize: 18.0,
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //             SizedBox(
+            //               height: 30.0,
+            //             ),
+            //             PathToggle(
+            //               title: '경로 상세',
+            //               content: Text(
+            //                 '상세한 경로들\n경로들\n경로들..',
+            //                 style: TextStyle(
+            //                   color: Colors.black,
+            //                   fontSize: 15.0,
+            //                 ),
+            //               ),
+            //             ),
+            //             SizedBox(
+            //               height: 30.0,
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.symmetric(horizontal: 60.0),
+            //               child: Container(
+            //                   alignment: Alignment.center,
+            //                   child: ElevatedButton(
+            //                     style: ElevatedButton.styleFrom(
+            //                         backgroundColor: Color(0xff0E4A84),
+            //                         textStyle: TextStyle(
+            //                             color: Colors.white, fontSize: 23.0),
+            //                         padding: const EdgeInsets.symmetric(
+            //                             vertical: 10.0, horizontal: 30.0),
+            //                         shape: RoundedRectangleBorder(
+            //                             borderRadius:
+            //                                 BorderRadius.circular(50.0))),
+            //                     onPressed: () {
+            //                       setState(() {
+            //                         isClock = true;
+            //                       });
+            //                     },
+            //                     child: Row(
+            //                       mainAxisAlignment: MainAxisAlignment.center,
+            //                       children: const [
+            //                         Icon(
+            //                           Icons.timer,
+            //                           color: Colors.white,
+            //                           size: 23.0,
+            //                         ),
+            //                         SizedBox(
+            //                           width: 10.0,
+            //                         ),
+            //                         Text('시간 측정',
+            //                             style: TextStyle(color: Colors.white)),
+            //                       ],
+            //                     ),
+            //                   )),
+            //             ),
+            //             SizedBox(
+            //               height: 10.0,
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.symmetric(horizontal: 60.0),
+            //               child: Container(
+            //                   alignment: Alignment.center,
+            //                   child: ElevatedButton(
+            //                     style: ElevatedButton.styleFrom(
+            //                         backgroundColor: Color(0xff0E4A84),
+            //                         textStyle: TextStyle(
+            //                             color: Colors.white, fontSize: 23.0),
+            //                         padding: const EdgeInsets.symmetric(
+            //                             vertical: 10.0, horizontal: 30.0),
+            //                         shape: RoundedRectangleBorder(
+            //                             borderRadius:
+            //                                 BorderRadius.circular(50.0))),
+            //                     onPressed: () => {
+            //                       Navigator.push(
+            //                           context,
+            //                           MaterialPageRoute(
+            //                               builder: (context) => ReportPage()))
+            //                     },
+            //                     child: Row(
+            //                       mainAxisAlignment: MainAxisAlignment.center,
+            //                       children: const [
+            //                         Icon(
+            //                           Icons.drive_file_rename_outline,
+            //                           color: Colors.white,
+            //                           size: 23.0,
+            //                         ),
+            //                         SizedBox(
+            //                           width: 10.0,
+            //                         ),
+            //                         Text('지름길 제보',
+            //                             style: TextStyle(color: Colors.white)),
+            //                       ],
+            //                     ),
+            //                   )),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+            // header: _buildDragHandle(),
+            // body: _body(),
           ),
           // ... Previous code
 
           // ... Previous code
 
-          if (isClock)
-            Container(
-              padding: EdgeInsets.only(top: 190, left: 150), // Adjust the top and left padding values
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ValueListenableBuilder(
-                    valueListenable: _timeDisplay,
-                    builder: (context, value, child) {
-                      return Text(
-                        value,
-                        style: TextStyle(fontSize: 30),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 18),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Adjust the alignment
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff0E4A84),
-                          padding: EdgeInsets.all(20.0),
-                          shape: CircleBorder(),
-                        ),
-                        onPressed: isRun ? _stopStopwatch : _startStopwatch,
-                        child: Text(isRun ? 'Stop' : 'Start', style: TextStyle(color: Colors.white)),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff0E4A84),
-                          padding: EdgeInsets.all(20.0),
-                          shape: CircleBorder(),
-                        ),
-                        onPressed: _resetStopwatch,
-                        child: Text('Reset', style: TextStyle(color: Colors.white)),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff0E4A84),
-                          padding: EdgeInsets.all(20.0),
-                          shape: CircleBorder(),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isClock = false;
-                          });
-                        },
-                        child: Text('Record', style: TextStyle(color: Colors.white)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          // if (isClock)
+          //   Container(
+          //     padding: EdgeInsets.only(
+          //         top: 190,
+          //         left: 150), // Adjust the top and left padding values
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       children: [
+          //         ValueListenableBuilder(
+          //           valueListenable: _timeDisplay,
+          //           builder: (context, value, child) {
+          //             return Text(
+          //               value,
+          //               style: TextStyle(fontSize: 30),
+          //             );
+          //           },
+          //         ),
+          //         SizedBox(height: 18),
+          //         Row(
+          //           mainAxisAlignment:
+          //               MainAxisAlignment.center, // Adjust the alignment
+          //           children: [
+          //             ElevatedButton(
+          //               style: ElevatedButton.styleFrom(
+          //                 backgroundColor: Color(0xff0E4A84),
+          //                 padding: EdgeInsets.all(20.0),
+          //                 shape: CircleBorder(),
+          //               ),
+          //               onPressed: isRun ? _stopStopwatch : _startStopwatch,
+          //               child: Text(isRun ? 'Stop' : 'Start',
+          //                   style: TextStyle(color: Colors.white)),
+          //             ),
+          //             SizedBox(width: 10),
+          //             ElevatedButton(
+          //               style: ElevatedButton.styleFrom(
+          //                 backgroundColor: Color(0xff0E4A84),
+          //                 padding: EdgeInsets.all(20.0),
+          //                 shape: CircleBorder(),
+          //               ),
+          //               onPressed: _resetStopwatch,
+          //               child: Text('Reset',
+          //                   style: TextStyle(color: Colors.white)),
+          //             ),
+          //             SizedBox(width: 10),
+          //             ElevatedButton(
+          //               style: ElevatedButton.styleFrom(
+          //                 backgroundColor: Color(0xff0E4A84),
+          //                 padding: EdgeInsets.all(20.0),
+          //                 shape: CircleBorder(),
+          //               ),
+          //               onPressed: () {
+          //                 setState(() {
+          //                   isClock = false;
+          //                 });
+          //               },
+          //               child: Text('Record'),
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
 
 // ... Rest of the code
 
@@ -630,25 +638,24 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-}
-  Widget _buildDragHandle() {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 8),
-      child: Container(
-        width: 40,
-        height: 5,
-        margin: EdgeInsets.only(
-          right: 500,
-          left: 150,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-    );
-  }
+  // Widget _buildDragHandle() {
+  //   return Container(
+  //     alignment: Alignment.center,
+  //     padding: EdgeInsets.only(top: 8),
+  //     child: Container(
+  //       width: 40,
+  //       height: 5,
+  //       margin: EdgeInsets.only(
+  //         right: 500,
+  //         left: 150,
+  //       ),
+  //       decoration: BoxDecoration(
+  //         color: Colors.grey[300],
+  //         borderRadius: BorderRadius.circular(5),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _body() {
     return Container(
@@ -667,7 +674,7 @@ class MapSampleState extends State<MapSample> {
       child: Text(text),
     );
   }
-/*
+
   void _showBottomSheetScreen() {
     // Show the BottomSheetScreen using showModalBottomSheet
     showModalBottomSheet(
@@ -677,9 +684,6 @@ class MapSampleState extends State<MapSample> {
     );
   }
 }
-
-
-*/
 
 class BottomSheetScreen extends StatefulWidget {
   const BottomSheetScreen({Key? key}) : super(key: key);
@@ -748,6 +752,5 @@ class _BottomSheetScreenState extends State<BottomSheetScreen>
     );
   }
 }
-
 
 

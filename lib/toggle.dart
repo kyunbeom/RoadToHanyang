@@ -15,35 +15,34 @@ class _PathToggleState extends State<PathToggle> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        InkWell(
-          onTap: () {
-            setState(() {
-              _isExpanded = !_isExpanded;
-            });
-          },
-          child: Row(
-            children: [
-              Icon(
-                _isExpanded ? Icons.arrow_drop_down : Icons.arrow_right,
-                color: Colors.black,
-                size: 25.0,
-              ),
-              Text(
-                widget.title,
-                style: TextStyle(color: Colors.black, fontSize: 20.0),
-              ),
-            ],
-          ),
-        ),
-        if (_isExpanded)
-          Container(
-            padding: EdgeInsets.only(left: 25.0, top: 5.0),
-            child: widget.content,
-          ),
-      ],
-    );
+    return Container(
+        padding: EdgeInsets.only(left: 37),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          InkWell(
+              onTap: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              child: Row(children: [
+                //TODO: 화살표 방향
+                _isExpanded
+                    ? Transform.rotate(
+                        angle: 90 * 3.14159265 / 180, // 90도를 라디안으로 변환
+                        child: Icon(Icons.play_arrow,
+                            color: Colors.black, size: 17))
+                    : Icon(Icons.play_arrow, color: Colors.black, size: 17),
+                SizedBox(width: 5),
+                Text(
+                  widget.title,
+                  style: TextStyle(color: Colors.black, fontSize: 15.0),
+                )
+              ])),
+          if (_isExpanded)
+            Container(
+              padding: EdgeInsets.only(left: 23.0),
+              child: widget.content,
+            )
+        ]));
   }
 }

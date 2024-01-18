@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_hanyang/hamburger.dart';
+import 'package:road_to_hanyang/widget/hamburger.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TestScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _TestScreenState extends State<TestScreen> {
       appBar: AppBar(
         title: Text('test'),
       ),
-      endDrawer: hamburger(),
+      endDrawer: Hamburger(),
     );
   }
 }

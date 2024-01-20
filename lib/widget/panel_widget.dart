@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:road_to_hanyang/page/report_page.dart';
+import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../page/how_to_page.dart';
@@ -28,17 +28,36 @@ class PanelWidget extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 12),
             buildDragHandle(),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             buildAboutText(context),
-            SizedBox(
-              height: 24,
-            )
+            SizedBox(height: 46),
+            Center(
+                child: GestureDetector(
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 12),
+                        width: MediaQuery.of(context).size.width - 24,
+                        height: 43,
+                        decoration: BoxDecoration(
+                            color: Color(0xff0E4A84),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                            child: Text(
+                          '문의',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600),
+                        ))),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InquiryBoard()));
+                    }))
           ]);
 
   Widget buildAboutText(BuildContext context) => isPathPage
-      ? RouteDetails(
-          minute: minute,
-        )
+      ? RouteDetails()
       : Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -81,14 +100,14 @@ class PanelWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ReportPage()));
+                          builder: (context) => const InquiryBoard()));
                 }),
           ]));
 
   Widget buildDragHandle() => GestureDetector(
       child: Center(
           child: Container(
-              width: 30,
+              width: 40,
               height: 5,
               decoration: BoxDecoration(
                   color: Colors.grey[300],

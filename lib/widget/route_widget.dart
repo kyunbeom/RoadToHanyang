@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:road_to_hanyang/toggle.dart';
 
-class RouteDetails extends StatelessWidget {
-  final int minute;
+import '../informations/locations.dart';
 
+class RouteDetails extends StatefulWidget {
   const RouteDetails({
     Key? key,
-    required this.minute,
   }) : super(key: key);
 
+  @override
+  State<RouteDetails> createState() => _RouteDetailsState();
+}
+
+class _RouteDetailsState extends State<RouteDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,17 +28,12 @@ class RouteDetails extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Text(
-              '예상 소요시간 : $minute분',
+              '예상 소요시간 : ${routes[1].time}분',
               style: TextStyle(color: Colors.black, fontSize: 24),
             )
           ]),
-          SizedBox(height: 20),
-          PathToggle(
-              title: '경로 상세',
-              content: Text(
-                'IT/BT관 출발\n대운동장 엘베\n지하주차장\n올라가랇ㅁ\n도차꾸\ny\nu\ni\no\nnp\na\ns\nd\nf\ng\nh\nj\nk\nl\nz\nx\nc\nc\nv\nb\nn\nm',
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ))
+          SizedBox(height: 8),
+          PathToggle(title: '경로 상세', content: routes[1].routeInforms)
         ],
       ),
     );

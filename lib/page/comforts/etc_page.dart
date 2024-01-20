@@ -10,7 +10,10 @@ class Others extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0E4A84),
-            title: Center(child: Text('기타 복지편의시설')),
+            iconTheme: IconThemeData(color: Colors.white),
+            title: Center(
+                child:
+                    Text('기타 복지편의시설', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
               IconButton(

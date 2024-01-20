@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PathToggle extends StatefulWidget {
   final String title;
   final Widget content;
 
-  PathToggle({required this.title, required this.content});
+  PathToggle({
+    required this.title,
+    required this.content,
+  });
 
   @override
   State<PathToggle> createState() => _PathToggleState();
@@ -42,7 +46,7 @@ class _PathToggleState extends State<PathToggle> {
             Container(
               padding: EdgeInsets.only(left: 23.0),
               child: widget.content,
-            )
+            ),
         ]));
   }
 }

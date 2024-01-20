@@ -3,8 +3,9 @@ import 'package:road_to_hanyang/page/comforts/convenience_page.dart';
 import 'package:road_to_hanyang/page/comforts/etc_page.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
 import 'package:road_to_hanyang/page/comforts/restaurant_page.dart';
-import 'package:road_to_hanyang/page/report_page.dart';
+import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
+import 'package:road_to_hanyang/page/weak_page.dart';
 
 class Hamburger extends StatelessWidget {
   const Hamburger({Key? key}) : super(key: key);
@@ -106,6 +107,16 @@ class Hamburger extends StatelessWidget {
                         }))
               ]),
           ListTile(
+              leading: Icon(Icons.accessible_forward),
+              iconColor: Colors.white,
+              focusColor: Colors.white,
+              title: const Text('교통약자지도'),
+              textColor: Colors.white,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TransWeak()));
+              }),
+          ListTile(
               leading: Icon(Icons.mail),
               iconColor: Colors.white,
               focusColor: Colors.white,
@@ -113,7 +124,7 @@ class Hamburger extends StatelessWidget {
               textColor: Colors.white,
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ReportPage()));
+                    MaterialPageRoute(builder: (context) => InquiryBoard()));
               }),
           ListTile(
               leading: Icon(Icons.settings),

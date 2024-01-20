@@ -10,7 +10,9 @@ class Print extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0E4A84),
-            title: Center(child: Text('복사실')),
+            iconTheme: IconThemeData(color: Colors.white),
+            title: Center(
+                child: Text('복사실', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
               IconButton(

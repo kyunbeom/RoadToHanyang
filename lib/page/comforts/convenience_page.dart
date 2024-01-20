@@ -10,7 +10,9 @@ class ConvStore extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0E4A84),
-            title: Center(child: Text('편의점')),
+            iconTheme: IconThemeData(color: Colors.white),
+            title: Center(
+                child: Text('편의점', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
               IconButton(

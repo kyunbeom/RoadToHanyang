@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:road_to_hanyang/page/comforts/convenience_page.dart';
 import 'package:road_to_hanyang/page/comforts/etc_page.dart';
+import 'package:road_to_hanyang/page/comforts/print_location_page.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
 import 'package:road_to_hanyang/page/comforts/restaurant_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/page/weak_page.dart';
+
 
 class Hamburger extends StatelessWidget {
   const Hamburger({Key? key}) : super(key: key);
@@ -51,7 +53,7 @@ class Hamburger extends StatelessWidget {
                         textColor: Colors.white,
                         onTap: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Print()));
+                              MaterialPageRoute(builder: (context) => Print2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),

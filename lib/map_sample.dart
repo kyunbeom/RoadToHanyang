@@ -11,6 +11,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'informations/locations.dart';
 import 'widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:road_to_hanyang/map_result.dart';
 //import 'package:location/location.dart' hide LocationAccuracy;
 
 // var ITBT = LatLng(37.555965, 127.049380);
@@ -69,6 +70,8 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
+  late String startText;
+  late String destText;
   Completer<GoogleMapController> _controller = Completer();
 
   final panelController = PanelController();
@@ -83,7 +86,11 @@ class MapSampleState extends State<MapSample> {
     "사자가 군것질 할 때",
     "대운동장",
     "백남음악관",
-    "노천극장"
+    "노천극장",
+    "애지문",
+    "사회과학대학",
+    "인문대학",
+    "에러발생"
   ];
 
   List<Marker> _markers = [];
@@ -94,7 +101,7 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
-    _markers.add(Marker(
+    /*_markers.add(Marker(
         markerId: MarkerId("0"),
         draggable: true,
         onTap: () => print(_markers.first.position),
@@ -105,7 +112,7 @@ class MapSampleState extends State<MapSample> {
         onTap: () => print("Marker!"),
         position: route1[3]));
     _polyline.add(Polyline(
-        polylineId: PolylineId('1'), points: route1, color: Colors.green));
+        polylineId: PolylineId('1'), points: route1, color: Colors.green));*/
   }
 
   // late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
@@ -205,6 +212,7 @@ class MapSampleState extends State<MapSample> {
                                             setState(() {
                                               this.startController.text =
                                                   suggestion;
+                                              startText = suggestion;
                                               _markers.removeAt(0);
                                               _markers.add(Marker(
                                                 markerId: MarkerId("0"),
@@ -270,6 +278,7 @@ class MapSampleState extends State<MapSample> {
                                           onSuggestionSelected: (suggestion) {
                                             this.destinationController.text =
                                                 suggestion;
+                                            destText = suggestion;
                                           })))
                             ]))
                       ]))),
@@ -286,7 +295,7 @@ class MapSampleState extends State<MapSample> {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Setting()));
+                        MaterialPageRoute(builder: (context) => MapResult(startText: startText != null ? startText : '출발지를 다시 입력해주세요', destText : destText != null ? destText : '도착지를 다시 입력해주세요')));
                   })
             ])
           ]),
@@ -297,6 +306,7 @@ class MapSampleState extends State<MapSample> {
             polylines: _polyline,
             mapType: MapType.normal,
             markers: Set.from(_markers),
+            zoomGesturesEnabled: true,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);

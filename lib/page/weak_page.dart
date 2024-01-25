@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../map_sample.dart';
 
 class TransWeak extends StatelessWidget {
@@ -25,7 +24,15 @@ class TransWeak extends StatelessWidget {
                   );
                 })
           ]),
-      body: Center(),
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: Image(
+              image: AssetImage('assets/교통약자지도.png'),
+            )
+          )
+      ]
+      )
     );
   }
 }

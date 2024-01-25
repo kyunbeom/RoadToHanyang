@@ -21,6 +21,7 @@ void initState() {
 
 @override
 Widget build(BuildContext context) {
+
   return Scaffold(
     backgroundColor: Color(0xffffffff),  // 배경색 설정
     body: Container(
@@ -29,13 +30,21 @@ Widget build(BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-            child: Image.asset('assets/splash.png'),
-          ),
-          Text(
-            '길냥이',
-            style: TextStyle(fontFamily: 'newFont', fontSize: 24, color: Colors.blueAccent, fontWeight: FontWeight.bold),
-          ),
+          SizedBox(height: 75),
+          Image.asset('assets/splash.png'),
+      const Text.rich(
+        TextSpan(
+          children: <TextSpan>[
+            TextSpan(text: ' 길 ', style: TextStyle(fontFamily: 'newFont1'/*,fontStyle: FontStyle.italic */,fontSize: 30, color: Colors.blueAccent)),
+            TextSpan(text: '냥 이 ', style: TextStyle(fontFamily: 'newFont', fontWeight: FontWeight.bold, fontSize: 30, color: Colors.blueAccent)),
+          ],
+        ),
+      )
+
+             /* Text(
+            '길 냥 이',
+            style: TextStyle(fontFamily: 'newFont1', fontSize: 30, color: Colors.blueAccent, fontWeight: FontWeight.bold, ),
+          ),*/
         ],
       ),
       // 스플래시 화면 이미지 설정

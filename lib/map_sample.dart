@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/how_to_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
@@ -68,11 +69,20 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  bool isSuggestionVisible = false; // 추가된 부분
+
+  void updateSuggestionVisibility() {
+    isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
+  }
+
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   late String startText;
   late String destText;
   Completer<GoogleMapController> _controller = Completer();
+  FocusNode _focusNode = FocusNode();
+  late FocusNode startFocusNode;
+  late FocusNode destFocusNode;
 
   final panelController = PanelController();
   bool isPathPage = false;
@@ -101,6 +111,32 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    startFocusNode = FocusNode();
+    destFocusNode = FocusNode();
+
+    // Add listener to focus nodes
+    startFocusNode.addListener(() {
+      updateSuggestionVisibility();
+    });
+
+    destFocusNode.addListener(() {
+      updateSuggestionVisibility();
+    });
+
+   /* void updateSuggestionVisibility() {
+      setState(() {
+        isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
+      });
+    }*/
+    
+    @override
+    void dispose() {
+      startFocusNode.dispose();
+      destFocusNode.dispose();
+      super.dispose();
+    }
+
+
     /*_markers.add(Marker(
         markerId: MarkerId("0"),
         draggable: true,
@@ -168,16 +204,20 @@ class MapSampleState extends State<MapSample> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(5),
                                     topRight: Radius.circular(5))),
-                            child: Row(children: [
+
+                            child: Row(
+                                children: [
                               Expanded(
                                   child: Container(
                                       child: TypeAheadField(
+                                          hideSuggestionsOnKeyboardHide: true,
                                           animationStart: 0,
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
                                               TextFieldConfiguration(
+                                                  focusNode: startFocusNode, // _focusNode 추가
                                                   controller: startController,
-                                                  autofocus: false,
+                                                  autofocus: true,
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white),
@@ -188,7 +228,8 @@ class MapSampleState extends State<MapSample> {
                                                   )),
                                           suggestionsBoxDecoration:
                                               SuggestionsBoxDecoration(
-                                                  color: Colors.lightBlue[50]),
+                                                  color: Colors.lightBlue[50],
+                                              ),
                                           suggestionsCallback: (pattern) async {
                                             List<String> matches = <String>[];
                                             matches.addAll(suggestons);
@@ -238,10 +279,12 @@ class MapSampleState extends State<MapSample> {
                               Expanded(
                                   child: Container(
                                       child: TypeAheadField(
+                                          hideSuggestionsOnKeyboardHide: true,
                                           animationStart: 0,
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
                                               TextFieldConfiguration(
+                                                  focusNode: destFocusNode, // _focusNode 추가
                                                   controller:
                                                       destinationController,
                                                   autofocus: true,
@@ -455,4 +498,5 @@ class MapSampleState extends State<MapSample> {
       child: Text(text),
     );
   }
+
 }

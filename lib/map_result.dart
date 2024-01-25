@@ -100,7 +100,7 @@ class _MapResultState extends State<MapResult> {
           title: Container(
               //height: 150,
               child: SingleChildScrollView(
-                  padding: EdgeInsets.only(top: 30),
+                  // padding: EdgeInsets.only(top: 30),
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +109,7 @@ class _MapResultState extends State<MapResult> {
                             //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             height: 40,
                             // width: MediaQuery.of(context).size.width - 30,
-                            width: 100,
+                            width: MediaQuery.of(context).size.width * 0.5 - 85,
                             decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(5)),
@@ -129,9 +129,9 @@ class _MapResultState extends State<MapResult> {
                           ),
                         ),
                         Container(
-                            //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             height: 40,
-                            width: 100,
+                            width: MediaQuery.of(context).size.width * 0.5 - 85,
                             //width: MediaQuery.of(context).size.width - 30,
                             decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.5),

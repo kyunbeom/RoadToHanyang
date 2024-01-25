@@ -294,8 +294,14 @@ class MapSampleState extends State<MapSample> {
               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MapResult(startText: startText != null ? startText : '출발지를 다시 입력해주세요', destText : destText != null ? destText : '도착지를 다시 입력해주세요')));
+                    if(startText == null)
+                      this.startController.text = "출발지를 다시 입력해주세요";
+                    if(destText == null)
+                      this.destinationController.text = "도착지를 다시 입력해주세요";
+                    if(startText != null && destText != null)
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MapResult(startText: startText , destText : destText)));
+
                   })
             ])
           ]),

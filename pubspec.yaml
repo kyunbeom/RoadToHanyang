@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   http: ^1.2.0
   google_maps_flutter: ^2.0.1
   geolocator: ^10.1.0
@@ -44,7 +45,13 @@ dependencies:
   settings_ui: ^2.0.2
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
+  flutter_native_splash: ^2.3.9
 
+flutter_native_splash:
+  color: "#42a5f5"  # 스플래시 화면 배경색 설정
+  image: assets/splash.png  # 스플래시 화면 이미지 설정
+  fill: true
+  fit: BoxFit.cover
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +69,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/splash.png
+  fonts:
+    - family: newFont
+      fonts:
+        - asset: assets/fonts/AppleSDGothicNeoEB_.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -17,11 +17,11 @@ class MapResult extends StatefulWidget {
   final String startText;
   final String destText;
 
-  const MapResult({Key? key, required this.startText, required this.destText}) : super(key: key);
+  const MapResult({Key? key, required this.startText, required this.destText})
+      : super(key: key);
 
   @override
   State<MapResult> createState() => _MapResultState();
-
 }
 
 class _MapResultState extends State<MapResult> {
@@ -57,7 +57,7 @@ class _MapResultState extends State<MapResult> {
   String get destText => widget.destText;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _markers.add(Marker(
         markerId: MarkerId("0"),
@@ -70,7 +70,9 @@ class _MapResultState extends State<MapResult> {
         onTap: () => print("Marker!"),
         position: getlocation(this.destText)));
     _polyline.add(Polyline(
-        polylineId: PolylineId('1'), points: getroute(this.startText, this.destText), color: Colors.green));
+        polylineId: PolylineId('1'),
+        points: getroute(this.startText, this.destText),
+        color: Colors.green));
   }
 
   Future<Position> getCurrentLocation() async {
@@ -79,7 +81,6 @@ class _MapResultState extends State<MapResult> {
 
     return position;
   }
-
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.556022, 127.044741),
@@ -92,72 +93,72 @@ class _MapResultState extends State<MapResult> {
     String destText = widget.destText;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0E4A84),
-        iconTheme: IconThemeData(color: Colors.white),
-        //toolbarHeight: 100,
-        //leadingWidth: 50,
-        title: Container(
-            height: 150,
-            child: SingleChildScrollView(
-                padding: EdgeInsets.only(top: 30),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          height: 40,
-                          // width: MediaQuery.of(context).size.width - 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.5),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5))),
-                          child: Row(
-                              children: [
+          backgroundColor: Color(0xff0E4A84),
+          iconTheme: IconThemeData(color: Colors.white),
+          //toolbarHeight: 100,
+          //leadingWidth: 50,
+          title: Container(
+              //height: 150,
+              child: SingleChildScrollView(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            height: 40,
+                            // width: MediaQuery.of(context).size.width - 30,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Row(children: [
                               Expanded(
-                                child: Container(
-                                    child: Text(
-                                      '$startText'
-                                    , style: TextStyle(fontSize: 14,
-                              color: Colors.white),)))
-                          ])),
-                      SizedBox(width: 3),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          height: 40,
-                          width: 100,
-                          //width: MediaQuery.of(context).size.width - 30,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.5),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(5))),
-                          child: Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                        child: Text(
+                                  child: Container(
+                                      child: Text(
+                                '$startText',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white),
+                              )))
+                            ])),
+                        Container(
+                          child: Icon(
+                            Icons.arrow_forward,
+                            size: 20,
+                          ),
+                        ),
+                        Container(
+                            //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            height: 40,
+                            width: 100,
+                            //width: MediaQuery.of(context).size.width - 30,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Row(children: [
+                              Expanded(
+                                  child: Container(
+                                      child: Text(
                                           /*controller: destinationController,
                                           initialValue: destText,*/
                                           '$destText',
-                          style: TextStyle(fontSize: 14,
-                              color: Colors.white))))
-                              ]))
-                    ]))),
-        actions: [
-          Column(children: [
-            Builder(builder: (context) {
-              return IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                  });
-            }),
-          ])
-        ]),
-
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white))))
+                            ]))
+                      ]))),
+          actions: [
+            Column(children: [
+              Builder(builder: (context) {
+                return IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                    });
+              }),
+            ])
+          ]),
       endDrawer: Hamburger(),
       body: Stack(
         children: [

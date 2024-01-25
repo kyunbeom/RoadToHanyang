@@ -294,8 +294,16 @@ class MapSampleState extends State<MapSample> {
               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MapResult(startText: startText != null ? startText : '출발지를 다시 입력해주세요', destText : destText != null ? destText : '도착지를 다시 입력해주세요')));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapResult(
+                                startText: startText != null
+                                    ? startText
+                                    : '출발지를 다시 입력해주세요',
+                                destText: destText != null
+                                    ? destText
+                                    : '도착지를 다시 입력해주세요')));
                   })
             ])
           ]),
@@ -317,74 +325,74 @@ class MapSampleState extends State<MapSample> {
           ),
 
           // TODO: 이게 맵 위에 있도록 해야함
-          SlidingUpPanel(
-            controller: panelController,
-            parallaxEnabled: true,
-            // TODO: 바텀시트 올라갈때 지도도 같이?
-            parallaxOffset: .5,
-            maxHeight: MediaQuery.of(context).size.height * 0.6,
-            // TODO: 어디까지 보이게 ㅔ할건지
-            minHeight: 200,
-            //TODO: 적당한 사이즈로 맞추기
-            panelBuilder: (controller) => PanelWidget(
-              minute: 10,
-              controller: controller,
-              panelController: panelController,
-              isPathPage: true, // TODO: 경로페이지인지 홈인지 결정어디선가 바꿔줘야함
-            ),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-          ),
-          // Positioned(
-          //   bottom: 12,
-          //   child: Container(
-          //       padding: EdgeInsets.symmetric(horizontal: 24),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           GestureDetector(
-          //               child: Container(
-          //                   width: MediaQuery.of(context).size.width * 0.5 - 36,
-          //                   height: 43,
-          //                   decoration: BoxDecoration(
-          //                       color: Color(0xff0E4A84),
-          //                       borderRadius: BorderRadius.circular(30)),
-          //                   child: Center(
-          //                       child: Text(
-          //                     '사용 방법',
-          //                     style: TextStyle(
-          //                         color: Colors.white,
-          //                         fontSize: 22,
-          //                         fontWeight: FontWeight.w600),
-          //                   ))),
-          //               onTap: () {
-          //                 Navigator.push(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                         builder: (context) => const HowToPage()));
-          //               }),
-          //           SizedBox(width: 24),
-          //           GestureDetector(
-          //               child: Container(
-          //                   width: MediaQuery.of(context).size.width * 0.5 - 36,
-          //                   height: 43,
-          //                   decoration: BoxDecoration(
-          //                       color: Color(0xff0E4A84),
-          //                       borderRadius: BorderRadius.circular(30)),
-          //                   child: Center(
-          //                       child: Text('문의',
-          //                           style: TextStyle(
-          //                               color: Colors.white,
-          //                               fontSize: 22,
-          //                               fontWeight: FontWeight.w600)))),
-          //               onTap: () {
-          //                 Navigator.push(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                         builder: (context) => const InquiryBoard()));
-          //               }),
-          //         ],
-          //       )),
-          // )
+          // SlidingUpPanel(
+          //   controller: panelController,
+          //   parallaxEnabled: true,
+          //   // TODO: 바텀시트 올라갈때 지도도 같이?
+          //   parallaxOffset: .5,
+          //   maxHeight: MediaQuery.of(context).size.height * 0.6,
+          //   // TODO: 어디까지 보이게 ㅔ할건지
+          //   minHeight: 200,
+          //   //TODO: 적당한 사이즈로 맞추기
+          //   panelBuilder: (controller) => PanelWidget(
+          //     minute: 10,
+          //     controller: controller,
+          //     panelController: panelController,
+          //     isPathPage: false, // TODO: 경로페이지인지 홈인지 결정어디선가 바꿔줘야함
+          //   ),
+          //   borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+          // ),
+          Positioned(
+            bottom: 12,
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.5 - 36,
+                            height: 43,
+                            decoration: BoxDecoration(
+                                color: Color(0xff0E4A84),
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Center(
+                                child: Text(
+                              '사용 방법',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600),
+                            ))),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HowToPage()));
+                        }),
+                    SizedBox(width: 24),
+                    GestureDetector(
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.5 - 36,
+                            height: 43,
+                            decoration: BoxDecoration(
+                                color: Color(0xff0E4A84),
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Center(
+                                child: Text('문의',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600)))),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const InquiryBoard()));
+                        }),
+                  ],
+                )),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

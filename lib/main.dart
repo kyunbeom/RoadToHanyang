@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:road_to_hanyang/splash_screen.dart';
 import 'map_sample.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapSample(),
+      home: SplashScreen(),
     );
   }
 }

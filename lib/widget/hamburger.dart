@@ -8,10 +8,6 @@ import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/page/weak_page.dart';
 
-import '../page/comforts/convenience_location_page.dart';
-import '../page/comforts/etc_location_page.dart';
-
-
 class Hamburger extends StatelessWidget {
   const Hamburger({Key? key}) : super(key: key);
 
@@ -55,8 +51,10 @@ class Hamburger extends StatelessWidget {
                         ]),
                         textColor: Colors.white,
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Print2()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Print2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -81,6 +79,23 @@ class Hamburger extends StatelessWidget {
                         dense: true,
                         contentPadding: EdgeInsets.only(left: 70),
                         title: Row(children: [
+                          Icon(Icons.local_cafe, size: 16, color: Colors.white),
+                          SizedBox(width: 15),
+                          Text('카페')
+                        ]),
+                        textColor: Colors.white,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Restaurant()));
+                        })),
+                Container(
+                    color: Color(0xff0E4A84).withOpacity(0.2),
+                    child: ListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.only(left: 70),
+                        title: Row(children: [
                           Icon(Icons.local_convenience_store,
                               size: 16, color: Colors.white),
                           SizedBox(width: 15),
@@ -91,7 +106,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Convenience2()));
+                                  builder: (context) => ConvStore()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -108,7 +123,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Others2()));
+                                  builder: (context) => Others()));
                         }))
               ]),
           ListTile(

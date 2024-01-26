@@ -3,22 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../informations/locations.dart';
 import '../page/how_to_page.dart';
-import 'route_widget.dart';
+import 'toggle.dart';
 
 class PanelWidget extends StatelessWidget {
   final ScrollController controller;
   final PanelController panelController;
-  final bool isPathPage;
 
-  final int minute;
+  final int RouteNumber;
 
   const PanelWidget({
     Key? key,
     required this.controller,
     required this.panelController,
-    required this.isPathPage,
-    required this.minute,
+    required this.RouteNumber,
   }) : super(key: key);
 
   @override
@@ -56,53 +55,29 @@ class PanelWidget extends StatelessWidget {
                     }))
           ]);
 
-  Widget buildAboutText(BuildContext context) => isPathPage
-      ? RouteDetails()
-      : Container(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            GestureDetector(
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.5 - 36,
-                    height: 43,
-                    decoration: BoxDecoration(
-                        color: Color(0xff0E4A84),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Center(
-                        child: Text(
-                      '사용 방법',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600),
-                    ))),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HowToPage()));
-                }),
-            SizedBox(width: 24),
-            GestureDetector(
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.5 - 36,
-                    height: 43,
-                    decoration: BoxDecoration(
-                        color: Color(0xff0E4A84),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Center(
-                        child: Text('문의',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600)))),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const InquiryBoard()));
-                }),
-          ]));
+  Widget buildAboutText(BuildContext context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(
+                Icons.directions_walk,
+                color: Colors.black,
+                size: 30,
+              ),
+              SizedBox(width: 10),
+              Text(
+                '예상 소요시간 : ${routes[RouteNumber].time}분',
+                style: TextStyle(color: Colors.black, fontSize: 24),
+              )
+            ]),
+            SizedBox(height: 8),
+            PathToggle(
+                title: '경로 상세', content: routes[RouteNumber].routeInforms)
+          ],
+        ),
+      );
 
   Widget buildDragHandle() => GestureDetector(
       child: Center(

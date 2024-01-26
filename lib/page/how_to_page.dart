@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import '../map_sample.dart';
+import '../screen/map_sample.dart';
 
 class HowToPage extends StatelessWidget {
   const HowToPage({Key? key}) : super(key: key);
@@ -10,14 +10,14 @@ class HowToPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0E4A84),
-          iconTheme: IconThemeData(color: Colors.white),
-          title: Center(
+          backgroundColor: const Color(0xff0E4A84),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Center(
               child: Text('사용방법', style: TextStyle(color: Colors.white))),
           centerTitle: true,
           actions: [
             IconButton(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,

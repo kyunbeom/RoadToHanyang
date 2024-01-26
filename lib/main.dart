@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_hanyang/splash_screen.dart';
-import 'map_sample.dart';
+import 'package:road_to_hanyang/screen/splash_screen.dart';
+import 'screen/map_sample.dart';
 
 void main() {
   runApp(const MyApp());

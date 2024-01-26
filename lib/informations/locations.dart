@@ -46,24 +46,25 @@ var FTC = LatLng(37.554655, 127.047289);
 var NF = LatLng(37.558543, 127.046293); // 간호학부 미래교육관
 var NC = LatLng(37.555892, 127.045466); // 노천
 
-
 List<LatLng> route1 = [ITBT, DU, EV, P1, P2, P3, IG]; // ITBT to IG
 List<LatLng> route2 = [ITBT, BUB, B_H1, B_H2, HP]; // ITBT to HP
 List<LatLng> route3 = [AZ, BGD, BGU, SG, IM]; // AZ to IM
 List<LatLng> route0 = [AZ, ERR]; // 에러발생
 
 class Route {
+  final int num;
   final List<LatLng> location;
   final Widget routeInforms; // 경로상세
   final int time; // 예상소요시간
 
-  Route(this.location, this.routeInforms, this.time);
+  Route(this.num, this.location, this.routeInforms, this.time);
 }
 
 List<Route> routes = [
-  Route(route1, RouteInforms(RouteNumber: 1), 10),
-  Route(route2, RouteInforms(RouteNumber: 2), 7),
-  Route(route3, RouteInforms(RouteNumber: 3), 15)
+  Route(0, route0, RouteInforms(RouteNumber: 0), 0),
+  Route(1, route1, RouteInforms(RouteNumber: 1), 10),
+  Route(2, route2, RouteInforms(RouteNumber: 2), 7),
+  Route(3, route3, RouteInforms(RouteNumber: 3), 15)
 ];
 
 LatLng getlocation(String text) {
@@ -88,7 +89,7 @@ LatLng getlocation(String text) {
       return EVE;
     case "노천극장":
       return P1;
-  // 추가적인 임의의 장소에 대한 정보를 추가할 수 있습니다.
+    // 추가적인 임의의 장소에 대한 정보를 추가할 수 있습니다.
     case "애지문":
       return AZ;
     case "인문대학":
@@ -107,21 +108,22 @@ LatLng getlocation(String text) {
       return MES;
     case "신소재공학관":
       return SSJ;
+
     default:
-    // 디폴트로 ITBT 위치를 반환합니다.
+      // 디폴트로 ITBT 위치를 반환합니다.
       return ITBT;
   }
 }
 
-List<LatLng> getroute(String startText, String destText) {
+Route getroute(String startText, String destText) {
   if (startText == "itbt관" && destText == "제 1공학관")
-    return route1;
+    return routes[1];
   else if (startText == "itbt관" && destText == "행원파크")
-    return route2;
+    return routes[2];
   else if (startText == "애지문" && destText == "인문대학")
-    return route3;
+    return routes[3];
   else
-    return route0;
+    return routes[0];
 }
 
 List<String> suggestions = [

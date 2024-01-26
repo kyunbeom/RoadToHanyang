@@ -63,11 +63,13 @@ class _MapResultState extends State<MapResult> {
         markerId: MarkerId("0"),
         draggable: true,
         onTap: () => print(_markers.first.position),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
         position: getlocation(this.startText)));
     _markers.add(Marker(
         markerId: MarkerId("1"),
         draggable: true,
         onTap: () => print("Marker!"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         position: getlocation(this.destText)));
     _polyline.add(Polyline(
         polylineId: PolylineId('1'),

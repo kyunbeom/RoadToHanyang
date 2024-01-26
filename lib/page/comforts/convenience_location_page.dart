@@ -6,8 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../map_result.dart';
-import '../../map_sample.dart';
+import 'package:road_to_hanyang/screen/map_sample.dart';
+import 'package:road_to_hanyang/screen/map_result.dart';
 import 'package:road_to_hanyang/informations/locations.dart';
 import '../../widget/hamburger.dart';
 import '../../widget/panel_widget.dart';
@@ -221,7 +221,7 @@ class _Convenience2State extends State<Convenience2> {
                 Column(children: [
                   Builder(builder: (context) {
                     return IconButton(
-                        icon: Icon(Icons.menu),
+                        icon: Icon(Icons.local_convenience_store),
                         onPressed: () {
                           Scaffold.of(context).openEndDrawer();
                         });
@@ -268,7 +268,7 @@ class _Convenience2State extends State<Convenience2> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => Print()),
+                        MaterialPageRoute(builder: (context) => Convenience2()),
                             (route) => false, // 모든 이전 화면 흔적을 제거
                       );
                     }),

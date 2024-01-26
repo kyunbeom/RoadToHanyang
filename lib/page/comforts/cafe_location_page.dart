@@ -6,18 +6,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../map_result.dart';
-import '../../map_sample.dart';
+import 'package:road_to_hanyang/screen/map_sample.dart';
+import 'package:road_to_hanyang/screen/map_result.dart';
 import 'package:road_to_hanyang/informations/locations.dart';
 import '../../widget/hamburger.dart';
 import '../../widget/panel_widget.dart';
+import 'cafe_page.dart';
 
-class Eat2 extends StatefulWidget {
+class Cafe2 extends StatefulWidget {
   @override
-  State<Eat2> createState() => _Eat2State();
+  State<Cafe2> createState() => _Cafe2State();
 }
 
-class _Eat2State extends State<Eat2> {
+class _Cafe2State extends State<Cafe2> {
  //  const Print2({Key? key}) : super(key: key);
   final TextEditingController startController = TextEditingController();
 
@@ -268,12 +269,11 @@ class _Eat2State extends State<Eat2> {
             child: Column(
               children: [
                 IconButton(
-                    icon: Icon(Icons.print, color: Color(0xff0E4A84)),
+                    icon: Icon(Icons.local_cafe, color: Color(0xff0E4A84)),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => Print()),
-                            (route) => false, // 모든 이전 화면 흔적을 제거
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cafe()),
+                            // 모든 이전 화면 흔적을 제거
                       );
                     }),
                 IconButton(

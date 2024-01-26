@@ -7,8 +7,8 @@ import 'package:road_to_hanyang/page/comforts/print_page.dart';
 import 'package:road_to_hanyang/widget/hamburger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../map_result.dart';
-import '../../map_sample.dart';
+import 'package:road_to_hanyang/screen/map_sample.dart';
+import 'package:road_to_hanyang/screen/map_result.dart';
 import 'package:road_to_hanyang/informations/locations.dart';
 import '../../widget/panel_widget.dart';
 
@@ -273,12 +273,11 @@ class _Others2State extends State<Others2> {
             child: Column(
               children: [
                 IconButton(
-                    icon: Icon(Icons.print, color: Color(0xff0E4A84)),
+                    icon: Icon(Icons.more, color: Color(0xff0E4A84)),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => Print()),
-                            (route) => false, // 모든 이전 화면 흔적을 제거
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>  Others2()),
+                        // 모든 이전 화면 흔적을 제거
                       );
                     }),
                 IconButton(

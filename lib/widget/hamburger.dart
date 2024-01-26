@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:road_to_hanyang/page/comforts/convenience_page.dart';
+import 'package:road_to_hanyang/page/comforts/etc_location_page.dart';
 import 'package:road_to_hanyang/page/comforts/etc_page.dart';
 import 'package:road_to_hanyang/page/comforts/print_location_page.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
@@ -7,6 +8,10 @@ import 'package:road_to_hanyang/page/comforts/restaurant_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/page/weak_page.dart';
+
+import '../page/comforts/cafe_location_page.dart';
+import '../page/comforts/convenience_location_page.dart';
+import '../page/comforts/restaurant_location_page.dart';
 
 class Hamburger extends StatelessWidget {
   const Hamburger({Key? key}) : super(key: key);
@@ -71,7 +76,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Restaurant()));
+                                  builder: (context) => Eat2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -88,7 +93,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Restaurant()));
+                                  builder: (context) => Cafe2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -106,7 +111,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ConvStore()));
+                                  builder: (context) => Convenience2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -123,7 +128,7 @@ class Hamburger extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Others()));
+                                  builder: (context) => Others2()));
                         }))
               ]),
           ListTile(

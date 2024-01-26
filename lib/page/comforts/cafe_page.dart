@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../screen/map_sample.dart';
 
-class ConvStore extends StatelessWidget {
-  const ConvStore({Key? key}) : super(key: key);
+class Cafe extends StatelessWidget {
+  const Cafe({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +12,12 @@ class ConvStore extends StatelessWidget {
             backgroundColor: const Color(0xff0E4A84),
             iconTheme: const IconThemeData(color: Colors.white),
             title: const Center(
-                child: Text('편의점', style: TextStyle(color: Colors.white))),
+                child: Text('카페', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
               IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => MapSample()));
-                    // Navigator.popUntil(context, (route) => route.isFirst);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => MapSample()),
@@ -36,29 +33,34 @@ class ConvStore extends StatelessWidget {
             DataColumn(label: Text('연락처')),
           ], rows: const [
             DataRow(cells: [
-              DataCell(Text('신소재공학관편의점\n(세븐일레븐)')),
-              DataCell(Text('B1F')),
-              DataCell(Text('1577-07111')),
+              DataCell(Text('카페 ING')),
+              DataCell(Text('인문관 B1F')),
+              DataCell(Text('')),
             ]),
             DataRow(cells: [
-              DataCell(Text('사자가군것질할때\n편의점(세븐일레븐)')),
+              DataCell(Text('띠아모카페')),
               DataCell(Text('학술정보관앞')),
-              DataCell(Text('1577-0711')),
+              DataCell(Text('02) 2298-8901')),
             ]),
             DataRow(cells: [
-              DataCell(Text('제1학생생활관\n편의점(CU)')),
-              DataCell(Text('1F')),
-              DataCell(Text('02) 2293-6105')),
+              DataCell(Text('팬도로시 카페')),
+              DataCell(Text('과학기술관 1F')),
+              DataCell(Text('')),
             ]),
             DataRow(cells: [
-              DataCell(Text('인문관 편의점\n(이마트24)')),
-              DataCell(Text('B1F')),
-              DataCell(Text('02) 2297-6577')),
+              DataCell(Text('블루포트')),
+              DataCell(Text('FTC관 3F')),
+              DataCell(Text('070-4755-1122')),
             ]),
             DataRow(cells: [
-              DataCell(Text('제2학생생활관\n편의점(CU)')),
-              DataCell(Text('1F')),
-              DataCell(Text('02) 2281-5715')),
+              DataCell(Text('카페 큐')),
+              DataCell(Text('IT/BT관 3F')),
+              DataCell(Text('02) 2294-0222')),
+            ]),
+            DataRow(cells: [
+              DataCell(Text('딕 셔너리 카페')),
+              DataCell(Text('간호학부 미래교육관 1F')),
+              DataCell(Text('')),
             ])
           ])),
           Container()

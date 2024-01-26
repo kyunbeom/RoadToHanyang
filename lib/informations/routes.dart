@@ -8,6 +8,8 @@ class RouteInforms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (RouteNumber) {
+      case 0:
+        return Container();
       case 1:
         return const Column(
           children: [

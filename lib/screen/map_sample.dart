@@ -6,13 +6,13 @@ import 'package:road_to_hanyang/page/how_to_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/widget/panel_widget.dart';
-import 'package:road_to_hanyang/toggle.dart';
+import 'package:road_to_hanyang/widget/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'informations/locations.dart';
-import 'widget/hamburger.dart';
+import '../informations/locations.dart';
+import '../widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:road_to_hanyang/map_result.dart';
+import 'package:road_to_hanyang/screen/map_result.dart';
 //import 'package:location/location.dart' hide LocationAccuracy;
 
 // var ITBT = LatLng(37.555965, 127.049380);
@@ -87,22 +87,6 @@ class MapSampleState extends State<MapSample> {
   final panelController = PanelController();
   bool isPathPage = false;
 
-  List<String> suggestons = [
-    "제 1공학관",
-    "제 2공학관",
-    "itbt관",
-    "행원파크",
-    "공업센터",
-    "사자가 군것질 할 때",
-    "대운동장",
-    "백남음악관",
-    "노천극장",
-    "애지문",
-    "사회과학대학",
-    "인문대학",
-    "에러발생"
-  ];
-
   List<Marker> _markers = [];
   LatLng? selectedStartLocation;
   LatLng? selectedDestinationLocation;
@@ -123,19 +107,18 @@ class MapSampleState extends State<MapSample> {
       updateSuggestionVisibility();
     });
 
-   /* void updateSuggestionVisibility() {
+    /* void updateSuggestionVisibility() {
       setState(() {
         isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
       });
     }*/
-    
+
     @override
     void dispose() {
       startFocusNode.dispose();
       destFocusNode.dispose();
       super.dispose();
     }
-
 
     /*_markers.add(Marker(
         markerId: MarkerId("0"),
@@ -204,9 +187,7 @@ class MapSampleState extends State<MapSample> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(5),
                                     topRight: Radius.circular(5))),
-
-                            child: Row(
-                                children: [
+                            child: Row(children: [
                               Expanded(
                                   child: Container(
                                       child: TypeAheadField(
@@ -215,7 +196,8 @@ class MapSampleState extends State<MapSample> {
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
                                               TextFieldConfiguration(
-                                                  focusNode: startFocusNode, // _focusNode 추가
+                                                  focusNode:
+                                                      startFocusNode, // _focusNode 추가
                                                   controller: startController,
                                                   autofocus: true,
                                                   style: TextStyle(
@@ -228,11 +210,11 @@ class MapSampleState extends State<MapSample> {
                                                   )),
                                           suggestionsBoxDecoration:
                                               SuggestionsBoxDecoration(
-                                                  color: Colors.lightBlue[50],
-                                              ),
+                                            color: Colors.lightBlue[50],
+                                          ),
                                           suggestionsCallback: (pattern) async {
                                             List<String> matches = <String>[];
-                                            matches.addAll(suggestons);
+                                            matches.addAll(suggestions);
 
                                             matches.retainWhere((s) {
                                               return s.toLowerCase().contains(
@@ -284,7 +266,8 @@ class MapSampleState extends State<MapSample> {
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
                                               TextFieldConfiguration(
-                                                  focusNode: destFocusNode, // _focusNode 추가
+                                                  focusNode:
+                                                      destFocusNode, // _focusNode 추가
                                                   controller:
                                                       destinationController,
                                                   autofocus: true,
@@ -301,7 +284,7 @@ class MapSampleState extends State<MapSample> {
                                                   color: Colors.lightBlue[50]),
                                           suggestionsCallback: (pattern) async {
                                             List<String> matches = <String>[];
-                                            matches.addAll(suggestons);
+                                            matches.addAll(suggestions);
 
                                             matches.retainWhere((s) {
                                               return s.toLowerCase().contains(
@@ -337,14 +320,16 @@ class MapSampleState extends State<MapSample> {
               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    if(startText == null)
+                    if (startText == null)
                       this.startController.text = "출발지를 다시 입력해주세요";
-                    if(destText == null)
+                    if (destText == null)
                       this.destinationController.text = "도착지를 다시 입력해주세요";
-                    if(startText != null && destText != null)
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MapResult(startText: startText , destText : destText)));
-
+                    if (startText != null && destText != null)
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MapResult(
+                                  startText: startText, destText: destText)));
                   })
             ])
           ]),
@@ -364,25 +349,6 @@ class MapSampleState extends State<MapSample> {
               print("coordintate : $coordinate");
             },
           ),
-
-          // TODO: 이게 맵 위에 있도록 해야함
-          // SlidingUpPanel(
-          //   controller: panelController,
-          //   parallaxEnabled: true,
-          //   // TODO: 바텀시트 올라갈때 지도도 같이?
-          //   parallaxOffset: .5,
-          //   maxHeight: MediaQuery.of(context).size.height * 0.6,
-          //   // TODO: 어디까지 보이게 ㅔ할건지
-          //   minHeight: 200,
-          //   //TODO: 적당한 사이즈로 맞추기
-          //   panelBuilder: (controller) => PanelWidget(
-          //     minute: 10,
-          //     controller: controller,
-          //     panelController: panelController,
-          //     isPathPage: false, // TODO: 경로페이지인지 홈인지 결정어디선가 바꿔줘야함
-          //   ),
-          //   borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-          // ),
           Positioned(
             bottom: 12,
             child: Container(
@@ -498,5 +464,4 @@ class MapSampleState extends State<MapSample> {
       child: Text(text),
     );
   }
-
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import '../map_sample.dart';
+import '../screen/map_sample.dart';
 
 bool vibration = false;
 

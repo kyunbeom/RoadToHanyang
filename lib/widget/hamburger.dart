@@ -8,7 +8,6 @@ import 'package:road_to_hanyang/page/inquiry_board.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/page/weak_page.dart';
 
-
 class Hamburger extends StatelessWidget {
   const Hamburger({Key? key}) : super(key: key);
 
@@ -52,8 +51,10 @@ class Hamburger extends StatelessWidget {
                         ]),
                         textColor: Colors.white,
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Print2()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Print2()));
                         })),
                 Container(
                     color: Color(0xff0E4A84).withOpacity(0.2),
@@ -64,6 +65,23 @@ class Hamburger extends StatelessWidget {
                           Icon(Icons.restaurant, size: 16, color: Colors.white),
                           SizedBox(width: 15),
                           Text('식당')
+                        ]),
+                        textColor: Colors.white,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Restaurant()));
+                        })),
+                Container(
+                    color: Color(0xff0E4A84).withOpacity(0.2),
+                    child: ListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.only(left: 70),
+                        title: Row(children: [
+                          Icon(Icons.local_cafe, size: 16, color: Colors.white),
+                          SizedBox(width: 15),
+                          Text('카페')
                         ]),
                         textColor: Colors.white,
                         onTap: () {

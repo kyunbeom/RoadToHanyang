@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_to_hanyang/map_sample.dart';
+import 'package:road_to_hanyang/screen/map_sample.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: <Widget>[
             //SizedBox(height: 75),
             Image.asset(
-              'assets/splash.png',
+              'assets/길냥로고.png',
               width: MediaQuery.of(context).size.width * 0.3,
               height: MediaQuery.of(context).size.height * 0.3,
             ),

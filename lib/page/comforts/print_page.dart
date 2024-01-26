@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../map_sample.dart';
+import '../../screen/map_sample.dart';
 
 class Print extends StatelessWidget {
   const Print({Key? key}) : super(key: key);

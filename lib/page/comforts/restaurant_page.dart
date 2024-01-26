@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../map_sample.dart';
+import '../../screen/map_sample.dart';
 
 class Restaurant extends StatefulWidget {
   const Restaurant({Key? key}) : super(key: key);

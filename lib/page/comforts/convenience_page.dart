@@ -11,12 +11,6 @@ class ConvStore extends StatelessWidget {
         appBar: AppBar(
             backgroundColor: const Color(0xff0E4A84),
             iconTheme: const IconThemeData(color: Colors.white),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
             title: const Center(
                 child: Text('편의점', style: TextStyle(color: Colors.white))),
             centerTitle: true,

@@ -62,17 +62,21 @@ class _MapResultState extends State<MapResult> {
     _markers.add(Marker(
         markerId: MarkerId("0"),
         draggable: true,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
         onTap: () => print(_markers.first.position),
         position: getlocation(this.startText)));
     _markers.add(Marker(
         markerId: MarkerId("1"),
         draggable: true,
         onTap: () => print("Marker!"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         position: getlocation(this.destText)));
     _polyline.add(Polyline(
         polylineId: PolylineId('1'),
         points: getroute(this.startText, this.destText),
-        color: Colors.green));
+        color: Colors.blue,
+
+    ));
   }
 
   Future<Position> getCurrentLocation() async {

@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/comforts/print_page.dart';
+import 'package:road_to_hanyang/widget/hamburger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../map_result.dart';
 import '../../map_sample.dart';
 import 'package:road_to_hanyang/informations/locations.dart';
-import '../../widget/hamburger.dart';
 import '../../widget/panel_widget.dart';
 
-class Print2 extends StatefulWidget {
+class Others2 extends StatefulWidget {
   @override
-  State<Print2> createState() => _Print2State();
+  State<Others2> createState() => _Others2State();
 }
 
-class _Print2State extends State<Print2> {
+class _Others2State extends State<Others2> {
  //  const Print2({Key? key}) : super(key: key);
   final TextEditingController startController = TextEditingController();
 
@@ -51,44 +51,33 @@ class _Print2State extends State<Print2> {
     List<Marker> _markers = <Marker>[
       Marker(
           markerId: MarkerId("0"),
-          position: ITBT,
-          infoWindow: InfoWindow(title: "ITBT관", snippet: "1층")),
+          position: HI,
+          infoWindow: InfoWindow(title: "역사관", snippet: "1층 (역사관 기념품점)")),
       Marker(
           markerId: MarkerId("1"),
-          position: IG,
-          infoWindow: InfoWindow(title: "제 1공학관", snippet: "1층")),
+          position: STU,
+          infoWindow: InfoWindow(title: "구두수선센타", snippet: "학생회관 앞")),
       Marker(
           markerId: MarkerId("2"),
-          position: HF,
-          infoWindow: InfoWindow(title: "한양플라자", snippet: "1층")),
+          position: STU,
+          infoWindow: InfoWindow(title: "학생회관 문구점", snippet: "B1층")),
       Marker(
           markerId: MarkerId("3"),
-          position: BN,
-          infoWindow: InfoWindow(title: "백남학술정보관", snippet: "B1층")),
+          position: STU,
+          infoWindow: InfoWindow(title:"학생회관 서점", snippet: "B1층")),
       Marker(
           markerId: MarkerId("4"),
-          position: IM,
-          infoWindow: InfoWindow(title:"인문관", snippet: "B1층")),
-      Marker(
-          markerId: MarkerId("5"),
-          position: ME,
-          infoWindow: InfoWindow(title: "의과대학 본관",snippet: "3층")),
+          position: STU,
+          infoWindow: InfoWindow(title: "학생회관 미용실", snippet: "1층")),
       Marker(
           markerId: MarkerId("6"),
-          position: EF,
-          infoWindow: InfoWindow(title: "경제금융관", snippet: "B1층")),
+          position: STU,
+          infoWindow: InfoWindow(title: "학생회관 Book 카페", snippet: "1층")),
       Marker(
           markerId: MarkerId("7"),
-          position: TC,
-          infoWindow: InfoWindow(title: "공업센터", snippet: "공업센터 3층")),
-      Marker(
-          markerId: MarkerId("8"),
-          position: MES,
-          infoWindow: InfoWindow(title: "의과계단강의실", snippet: "2층")),
-      Marker(
-          markerId: MarkerId("9"),
-          position: SSJ,
-          infoWindow: InfoWindow(title: "신소재공업센터",snippet: "B1층")),
+          position: STU,
+          infoWindow: InfoWindow(title: "학생회관 휘트니스센터", snippet: "5층")),
+
     ];
     Completer<GoogleMapController> _controller = Completer();
 
@@ -260,7 +249,7 @@ class _Print2State extends State<Print2> {
                       })
                 ])
               ]),
-        endDrawer: Hamburger(),
+    endDrawer: Hamburger(),
     body: Stack(
     children: [
     GoogleMap(

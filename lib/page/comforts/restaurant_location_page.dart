@@ -12,12 +12,12 @@ import 'package:road_to_hanyang/informations/locations.dart';
 import '../../widget/hamburger.dart';
 import '../../widget/panel_widget.dart';
 
-class Print2 extends StatefulWidget {
+class Eat2 extends StatefulWidget {
   @override
-  State<Print2> createState() => _Print2State();
+  State<Eat2> createState() => _Eat2State();
 }
 
-class _Print2State extends State<Print2> {
+class _Eat2State extends State<Eat2> {
  //  const Print2({Key? key}) : super(key: key);
   final TextEditingController startController = TextEditingController();
 
@@ -51,44 +51,36 @@ class _Print2State extends State<Print2> {
     List<Marker> _markers = <Marker>[
       Marker(
           markerId: MarkerId("0"),
-          position: ITBT,
-          infoWindow: InfoWindow(title: "ITBT관", snippet: "1층")),
+          position: HF,
+          infoWindow: InfoWindow(title: "학생복지관", snippet: "3층 (학생식당)")),
       Marker(
           markerId: MarkerId("1"),
-          position: IG,
-          infoWindow: InfoWindow(title: "제 1공학관", snippet: "1층")),
+          position: HP,
+          infoWindow: InfoWindow(title: "행원파크", snippet: "B1층 (행원파크식당)")),
       Marker(
           markerId: MarkerId("2"),
-          position: HF,
-          infoWindow: InfoWindow(title: "한양플라자", snippet: "1층")),
+          position: LatLng(37.558936, 127.047101),
+          infoWindow: InfoWindow(title: "제1학생생활관", snippet: "1층 (고시반 식당)")),
       Marker(
           markerId: MarkerId("3"),
-          position: BN,
-          infoWindow: InfoWindow(title: "백남학술정보관", snippet: "B1층")),
+          position: LatLng(37.559779, 127.049827),
+          infoWindow: InfoWindow(title: "제2학생생활관식당", snippet: "1층 (제2 학생생활관 식당)")),
       Marker(
           markerId: MarkerId("4"),
-          position: IM,
-          infoWindow: InfoWindow(title:"인문관", snippet: "B1층")),
+          position: SG,
+          infoWindow: InfoWindow(title:"생활과학관", snippet: "7층 (생활과학관 식당)")),
       Marker(
           markerId: MarkerId("5"),
-          position: ME,
-          infoWindow: InfoWindow(title: "의과대학 본관",snippet: "3층")),
+          position: SSG,
+          infoWindow: InfoWindow(title: "신소재공학관",snippet: "7층 (룸:112)")),
       Marker(
           markerId: MarkerId("6"),
-          position: EF,
-          infoWindow: InfoWindow(title: "경제금융관", snippet: "B1층")),
+          position: HIT,
+          infoWindow: InfoWindow(title: "한양종합기술연구원(HIT)",snippet: "6층 (이십사절기 식당)")),
       Marker(
           markerId: MarkerId("7"),
-          position: TC,
-          infoWindow: InfoWindow(title: "공업센터", snippet: "공업센터 3층")),
-      Marker(
-          markerId: MarkerId("8"),
-          position: MES,
-          infoWindow: InfoWindow(title: "의과계단강의실", snippet: "2층")),
-      Marker(
-          markerId: MarkerId("9"),
-          position: SSJ,
-          infoWindow: InfoWindow(title: "신소재공업센터",snippet: "B1층")),
+          position: HIT,
+          infoWindow: InfoWindow(title: "한양종합기술연구원(HIT)",snippet: "6층 (이십사절기 식당)")),
     ];
     Completer<GoogleMapController> _controller = Completer();
 

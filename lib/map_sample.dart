@@ -71,6 +71,14 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   bool isSuggestionVisible = false; // 추가된 부분
 
+  static final LatLngBounds _kHanyangBounds = LatLngBounds(
+    southwest: LatLng(37.5565, 127.0458),
+    northeast: LatLng(37.5569, 127.0469),
+  );
+
+  static const double _maxPadding = 150.0;
+  static const double _paddingCoefficient = 10.0;
+
   void updateSuggestionVisibility() {
     isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
   }
@@ -175,8 +183,8 @@ class MapSampleState extends State<MapSample> {
 
   // 초기 카메라 위치
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.556022, 127.044741),
-    zoom: 15,
+    target: LatLng(37.556040, 127.044746),
+    zoom: 16,
   );
 
   @override
@@ -349,6 +357,31 @@ class MapSampleState extends State<MapSample> {
             ])
           ]),
       endDrawer: Hamburger(),
+      floatingActionButton: FloatingActionButton(
+
+        onPressed: () async {
+          GoogleMapController _gc = await _controller.future;
+          LocationPermission permission = await Geolocator.requestPermission();
+          var gps = await getCurrentLocation();
+          _gc.animateCamera(
+              CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+
+          /* setState(() {
+            //  내 위치 가져오는 코드
+            _markers.add(Marker(
+                markerId: MarkerId("2"),
+                draggable: true,
+                onTap: () => print("Marker!"),
+                position: LatLng(gps.latitude, gps.longitude)));
+          });
+*/
+        },
+        child: Icon(Icons.my_location_rounded),
+        shape: CircleBorder(),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.blue        ,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Stack(
         children: [
           GoogleMap(
@@ -363,6 +396,10 @@ class MapSampleState extends State<MapSample> {
             onTap: (coordinate) {
               print("coordintate : $coordinate");
             },
+            myLocationButtonEnabled: true, // 내 위치 버튼을 사용하지 않음
+            minMaxZoomPreference: MinMaxZoomPreference(15, 18),
+            padding: EdgeInsets.only(top: 60), // 상단에 여백 추가
+            cameraTargetBounds: CameraTargetBounds(_kHanyangBounds),
           ),
 
           // TODO: 이게 맵 위에 있도록 해야함
@@ -436,48 +473,7 @@ class MapSampleState extends State<MapSample> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          GoogleMapController _gc = await _controller.future;
-          LocationPermission permission = await Geolocator.requestPermission();
-          var gps = await getCurrentLocation();
-          _gc.animateCamera(
-              CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
 
-          setState(() {
-            _markers.removeAt(0);
-            _markers.removeAt(0);
-
-            _markers.add(Marker(
-                markerId: MarkerId("0"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: route2[0]));
-            _markers.add(Marker(
-                markerId: MarkerId("1"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: route2[5]));
-            /*_polyline.add(Polyline(
-              polylineId: PolylineId('1'),
-              points: route2,
-              color: Colors.green,
-            ));*/
-
-            //  내 위치 가져오는 코드
-            _markers.add(Marker(
-                markerId: MarkerId("2"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: LatLng(gps.latitude, gps.longitude)));
-          });
-
-          // _goToTheLake();
-          // _showBottomSheetScreen(); // Call the function to show BottomSheetScreen
-        },
-        label: Text('내 위치로'),
-        icon: Icon(Icons.location_city),
-      ),
     );
   }
 

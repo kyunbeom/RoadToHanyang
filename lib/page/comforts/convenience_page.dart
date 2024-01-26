@@ -9,9 +9,15 @@ class ConvStore extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0E4A84),
-            iconTheme: IconThemeData(color: Colors.white),
-            title: Center(
+            backgroundColor: const Color(0xff0E4A84),
+            iconTheme: const IconThemeData(color: Colors.white),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            title: const Center(
                 child: Text('편의점', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
@@ -28,37 +34,40 @@ class ConvStore extends StatelessWidget {
                     );
                   })
             ]),
-        body: Center(
-            child: DataTable(columns: [
-          DataColumn(label: Text('건물명')),
-          DataColumn(label: Text('위치')),
-          DataColumn(label: Text('연락처')),
-        ], rows: [
-          DataRow(cells: [
-            DataCell(Text('신소재공학관편의점\n(세븐일레븐)')),
-            DataCell(Text('B1F')),
-            DataCell(Text('1577-07111')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('사자가군것질할때\n편의점(세븐일레븐)')),
-            DataCell(Text('학술정보관앞')),
-            DataCell(Text('1577-0711')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('제1학생생활관\n편의점(CU)')),
-            DataCell(Text('1F')),
-            DataCell(Text('02) 2293-6105')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('인문관 편의점\n(이마트24)')),
-            DataCell(Text('B1F')),
-            DataCell(Text('02) 2297-6577')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('제2학생생활관\n편의점(CU)')),
-            DataCell(Text('1F')),
-            DataCell(Text('02) 2281-5715')),
-          ])
-        ])));
+        body: Column(children: [
+          Center(
+              child: DataTable(columns: const [
+            DataColumn(label: Text('건물명')),
+            DataColumn(label: Text('위치')),
+            DataColumn(label: Text('연락처')),
+          ], rows: const [
+            DataRow(cells: [
+              DataCell(Text('신소재공학관편의점\n(세븐일레븐)')),
+              DataCell(Text('B1F')),
+              DataCell(Text('1577-07111')),
+            ]),
+            DataRow(cells: [
+              DataCell(Text('사자가군것질할때\n편의점(세븐일레븐)')),
+              DataCell(Text('학술정보관앞')),
+              DataCell(Text('1577-0711')),
+            ]),
+            DataRow(cells: [
+              DataCell(Text('제1학생생활관\n편의점(CU)')),
+              DataCell(Text('1F')),
+              DataCell(Text('02) 2293-6105')),
+            ]),
+            DataRow(cells: [
+              DataCell(Text('인문관 편의점\n(이마트24)')),
+              DataCell(Text('B1F')),
+              DataCell(Text('02) 2297-6577')),
+            ]),
+            DataRow(cells: [
+              DataCell(Text('제2학생생활관\n편의점(CU)')),
+              DataCell(Text('1F')),
+              DataCell(Text('02) 2281-5715')),
+            ])
+          ])),
+          Container()
+        ]));
   }
 }

@@ -9,15 +9,21 @@ class Others extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0E4A84),
-            iconTheme: IconThemeData(color: Colors.white),
-            title: Center(
+            backgroundColor: const Color(0xff0E4A84),
+            iconTheme: const IconThemeData(color: Colors.white),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            title: const Center(
                 child:
                     Text('기타 복지편의시설', style: TextStyle(color: Colors.white))),
             centerTitle: true,
             actions: [
               IconButton(
-                  icon: Icon(Icons.home),
+                  icon: const Icon(Icons.home),
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,
@@ -27,11 +33,11 @@ class Others extends StatelessWidget {
                   })
             ]),
         body: Center(
-            child: DataTable(columns: [
+            child: DataTable(columns: const [
           DataColumn(label: Text('매장명')),
           DataColumn(label: Text('위치')),
           DataColumn(label: Text('연락처')),
-        ], rows: [
+        ], rows: const [
           DataRow(cells: [
             DataCell(Text('역사관 기념품점')),
             DataCell(Text('역사관 1F')),

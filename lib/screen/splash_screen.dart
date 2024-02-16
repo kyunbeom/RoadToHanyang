@@ -40,19 +40,35 @@ class _SplashScreenState extends State<SplashScreen> {
               TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                      text: ' 길 ',
+                      text: ' 길',
                       style: TextStyle(
-                          fontFamily:
-                              'newFont1' /*,fontStyle: FontStyle.italic */,
                           fontSize: 30,
-                          color: Colors.blueAccent)),
+                          color: Colors.black)),
                   TextSpan(
-                      text: '냥 이 ',
+                      text: '잃은 ',
                       style: TextStyle(
-                          fontFamily: 'newFont',
-                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Color(0xff0E4A84))),
+                  TextSpan(
+                      text: '냥',
+                      style: TextStyle(
                           fontSize: 30,
-                          color: Colors.blueAccent)),
+                          color: Colors.black)),
+                  TextSpan(
+                      text: '대생들 ',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff0E4A84))),
+                  TextSpan(
+                      text: '이',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.black)),
+                  TextSpan(
+                      text: '리오세요 ',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff0E4A84))),
                 ],
               ),
             )

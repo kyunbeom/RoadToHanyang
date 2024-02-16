@@ -53,7 +53,6 @@ class _MapResultState extends State<MapResult> {
   final Set<Polyline> _polyline = {};
 
   String get startText => widget.startText;
-
   String get destText => widget.destText;
 
   @override
@@ -91,14 +90,17 @@ class _MapResultState extends State<MapResult> {
 
   @override
   Widget build(BuildContext context) {
+
     String startText = widget.startText;
     String destText = widget.destText;
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff0E4A84),
           iconTheme: IconThemeData(color: Colors.white),
           //toolbarHeight: 100,
           //leadingWidth: 50,
+          titleSpacing: 0,
           title: Container(
               //height: 150,
               child: SingleChildScrollView(
@@ -111,7 +113,7 @@ class _MapResultState extends State<MapResult> {
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     height: 40,
                     // width: MediaQuery.of(context).size.width - 30,
-                    width: MediaQuery.of(context).size.width * 0.5 - 85,
+                    width: MediaQuery.of(context).size.width * 0.5 - 80,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(5)),
@@ -123,16 +125,18 @@ class _MapResultState extends State<MapResult> {
                         style: TextStyle(fontSize: 14, color: Colors.white),
                       )))
                     ])),
+                SizedBox(width: 10),
                 Container(
                   child: Icon(
                     Icons.arrow_forward,
                     size: 20,
                   ),
                 ),
+                SizedBox(width: 10),
                 Container(
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     height: 40,
-                    width: MediaQuery.of(context).size.width * 0.5 - 85,
+                    width: MediaQuery.of(context).size.width * 0.5 - 80,
                     //width: MediaQuery.of(context).size.width - 30,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
@@ -159,6 +163,32 @@ class _MapResultState extends State<MapResult> {
               }),
             ])
           ]),
+      floatingActionButtonLocation: CustomFabLoc(),
+      floatingActionButton: FloatingActionButton(
+
+        onPressed: () async {
+          GoogleMapController _gc = await _controller.future;
+          LocationPermission permission = await Geolocator.requestPermission();
+          var gps = await getCurrentLocation();
+          _gc.animateCamera(
+              CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+
+          /* setState(() {
+            //  내 위치 가져오는 코드
+            _markers.add(Marker(
+                markerId: MarkerId("2"),
+                draggable: true,
+                onTap: () => print("Marker!"),
+                position: LatLng(gps.latitude, gps.longitude)));
+          });
+*/
+        },
+
+        child: Icon(Icons.my_location_rounded),
+        shape: CircleBorder(),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.blue        ,
+      ),
       endDrawer: Hamburger(),
       body: Stack(children: [
         GoogleMap(
@@ -188,48 +218,6 @@ class _MapResultState extends State<MapResult> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
         )
       ]),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          GoogleMapController _gc = await _controller.future;
-          LocationPermission permission = await Geolocator.requestPermission();
-          var gps = await getCurrentLocation();
-          _gc.animateCamera(
-              CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
-
-          setState(() {
-            _markers.removeAt(0);
-            _markers.removeAt(0);
-
-            _markers.add(Marker(
-                markerId: MarkerId("0"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: route2[0]));
-            _markers.add(Marker(
-                markerId: MarkerId("1"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: route2[5]));
-            /*_polyline.add(Polyline(
-              polylineId: PolylineId('1'),
-              points: route2,
-              color: Colors.green,
-            ));*/
-
-            //  내 위치 가져오는 코드
-            _markers.add(Marker(
-                markerId: MarkerId("2"),
-                draggable: true,
-                onTap: () => print("Marker!"),
-                position: LatLng(gps.latitude, gps.longitude)));
-          });
-
-          // _goToTheLake();
-          // _showBottomSheetScreen(); // Call the function to show BottomSheetScreen
-        },
-        label: Text('내 위치로'),
-        icon: Icon(Icons.location_city),
-      ),
     );
   }
 
@@ -248,6 +236,19 @@ class _MapResultState extends State<MapResult> {
         fixedSize: const Size(double.infinity, 50),
       ),
       child: Text(text),
+    );
+  }
+}
+
+
+class CustomFabLoc extends FloatingActionButtonLocation {
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    return Offset(
+      scaffoldGeometry.scaffoldSize.width -
+          scaffoldGeometry.floatingActionButtonSize.width,
+      scaffoldGeometry.scaffoldSize.height -
+          scaffoldGeometry.floatingActionButtonSize.height * 2 - 40,
     );
   }
 }

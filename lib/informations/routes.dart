@@ -83,7 +83,7 @@ class RouteInforms extends StatelessWidget {
             SizedBox(width: 14),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('제3법학관 엘레베이터', style: TextStyle(fontSize: 18)),
-              Text('제3법학관 엘레베이터를 타고 4층으로 이동', style: TextStyle(fontSize: 14))
+              Text('제3법학관 엘레베이터를 타고 \n4층으로 이동', style: TextStyle(fontSize: 14))
             ])
           ]),
           SizedBox(height: 23),
@@ -135,7 +135,7 @@ class RouteInforms extends StatelessWidget {
               SizedBox(width: 14),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('사회과학관 엘레베이터', style: TextStyle(fontSize: 18)),
-                Text('사회과학관 엘레베이터를 타고 4층으로 이동', style: TextStyle(fontSize: 14))
+                Text('사회과학관 엘레베이터를 타고 \n4층으로 이동', style: TextStyle(fontSize: 14))
               ])
             ]),
             SizedBox(height: 23),

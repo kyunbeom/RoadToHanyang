@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../screen/map_sample.dart';
 
 class InquiryBoard extends StatefulWidget {
@@ -28,6 +27,7 @@ class _InquiryBoardState extends State<InquiryBoard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
             backgroundColor: const Color(0xff0E4A84),
@@ -96,25 +96,6 @@ class _InquiryBoardState extends State<InquiryBoard> {
                 child: const Text('등록',
                     style: TextStyle(color: Colors.white, fontSize: 14)))
           ]),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: 300,
-                    decoration:
-                        BoxDecoration(color: Colors.grey.withOpacity(0.5)),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '이곳은 문의 페이지 입니다.\n - 궁금한 사항\n - 잘못된 정보에 대한 제보\n - 새로운(더 나은) 포탈에 대한 정보\n - 추가되었으면 하는 기능\n등등 개발자에게 하고싶은 말이나 앱이 발전할 수 있는 어떠한 피드백도 환영합니다.',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ))
-              ])
         ]));
   }
 

@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.road_to_hanyang">
     <!-- 위치정보 액세스 권한 요청 -->
+
+    <!-- 인터넷 액세스 권한 요청 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="road_to_hanyang"
         android:name="${applicationName}"

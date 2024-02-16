@@ -1,16 +1,18 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/how_to_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
-import 'package:road_to_hanyang/page/map_report.dart';
 import 'package:road_to_hanyang/page/setting_page.dart';
 import 'package:road_to_hanyang/widget/panel_widget.dart';
 import 'package:road_to_hanyang/widget/toggle.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../informations/locations.dart';
+import '../screen/map_sample.dart';
 import '../widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:road_to_hanyang/screen/map_result.dart';
@@ -64,13 +66,9 @@ import 'package:road_to_hanyang/screen/map_result.dart';
 //   }
 // }
 
-class MapSample extends StatefulWidget {
-  @override
-  State<MapSample> createState() => MapSampleState();
-}
-
-class MapSampleState extends State<MapSample> {
+class MapReportState extends State<MapReport> {
   bool isSuggestionVisible = false; // 추가된 부분
+  List<LatLng> _polylinePoints = [];
 
   static final LatLngBounds _kHanyangBounds = LatLngBounds(
     southwest: LatLng(37.5565, 127.0458),
@@ -79,6 +77,8 @@ class MapSampleState extends State<MapSample> {
 
   static const double _maxPadding = 150.0;
   static const double _paddingCoefficient = 10.0;
+  final TextEditingController routesController = TextEditingController();
+
 
   void updateSuggestionVisibility() {
     isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
@@ -100,12 +100,15 @@ class MapSampleState extends State<MapSample> {
   LatLng? selectedStartLocation;
   LatLng? selectedDestinationLocation;
   final Set<Polyline> _polyline = {};
+  late FToast fToast;
 
   @override
   void initState() {
     super.initState();
     startFocusNode = FocusNode();
     destFocusNode = FocusNode();
+    fToast = FToast();
+    fToast.init(context);
 
     // Add listener to focus nodes
     startFocusNode.addListener(() {
@@ -116,47 +119,13 @@ class MapSampleState extends State<MapSample> {
       updateSuggestionVisibility();
     });
 
-    /* void updateSuggestionVisibility() {
-      setState(() {
-        isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
-      });
-    }*/
-
     @override
     void dispose() {
       startFocusNode.dispose();
       destFocusNode.dispose();
       super.dispose();
     }
-
-    /*_markers.add(Marker(
-        markerId: MarkerId("0"),
-        draggable: true,
-        onTap: () => print(_markers.first.position),
-        position: route1[0]));
-    _markers.add(Marker(
-        markerId: MarkerId("1"),
-        draggable: true,
-        onTap: () => print("Marker!"),
-        position: route1[3]));
-    _polyline.add(Polyline(
-        polylineId: PolylineId('1'), points: route1, color: Colors.green));*/
   }
-
-  // late final OverlayEntry overlayEntry = OverlayEntry(builder: _overlayEntryBuilder);
-  //
-  // @override
-  // void dispose() {
-  //   overlayEntry.dispose();
-  //   super.dispose();
-  // }
-
-  // void insertOverlay() { // 적절한 타이밍에 호출
-  //   if (!overlayEntry.mounted) {
-  //     OverlayState overlayState = Overlay.of(context)!;
-  //     overlayState.insert(overlayEntry);
-  //   }
-  // }
 
   Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -179,6 +148,7 @@ class MapSampleState extends State<MapSample> {
           iconTheme: IconThemeData(color: Colors.white),
           toolbarHeight: 100,
           //leadingWidth: 50,
+          titleSpacing: 0,
           title: Container(
               height: 150,
               child: SingleChildScrollView(
@@ -204,21 +174,21 @@ class MapSampleState extends State<MapSample> {
                                           animationStart: 0,
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
-                                              TextFieldConfiguration(
-                                                  focusNode:
-                                                      startFocusNode, // _focusNode 추가
-                                                  controller: startController,
-                                                  autofocus: true,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                    hintText: "출발지를 입력해주세요",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
+                                          TextFieldConfiguration(
+                                              focusNode:
+                                              startFocusNode, // _focusNode 추가
+                                              controller: startController,
+                                              autofocus: true,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white),
+                                              decoration: InputDecoration(
+                                                hintText: "출발지를 입력해주세요",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white),
+                                              )),
                                           suggestionsBoxDecoration:
-                                              SuggestionsBoxDecoration(
+                                          SuggestionsBoxDecoration(
                                             color: Colors.lightBlue[50],
                                           ),
                                           suggestionsCallback: (pattern) async {
@@ -235,10 +205,10 @@ class MapSampleState extends State<MapSample> {
                                           itemBuilder: (context, suggestion) {
                                             return Card(
                                                 child: Container(
-                                              padding: EdgeInsets.all(8),
-                                              child:
+                                                  padding: EdgeInsets.all(8),
+                                                  child:
                                                   Text(suggestion.toString()),
-                                            ));
+                                                ));
                                           },
                                           onSuggestionSelected: (suggestion) {
                                             setState(() {
@@ -274,23 +244,23 @@ class MapSampleState extends State<MapSample> {
                                           animationStart: 0,
                                           animationDuration: Duration.zero,
                                           textFieldConfiguration:
-                                              TextFieldConfiguration(
-                                                  focusNode:
-                                                      destFocusNode, // _focusNode 추가
-                                                  controller:
-                                                      destinationController,
-                                                  autofocus: true,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                      hintText: "도착지를 입력해주세요",
-                                                      hintStyle: TextStyle(
-                                                          color:
-                                                              Colors.white))),
+                                          TextFieldConfiguration(
+                                              focusNode:
+                                              destFocusNode, // _focusNode 추가
+                                              controller:
+                                              destinationController,
+                                              autofocus: true,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white),
+                                              decoration: InputDecoration(
+                                                  hintText: "도착지를 입력해주세요",
+                                                  hintStyle: TextStyle(
+                                                      color:
+                                                      Colors.white))),
                                           suggestionsBoxDecoration:
-                                              SuggestionsBoxDecoration(
-                                                  color: Colors.lightBlue[50]),
+                                          SuggestionsBoxDecoration(
+                                              color: Colors.lightBlue[50]),
                                           suggestionsCallback: (pattern) async {
                                             List<String> matches = <String>[];
                                             matches.addAll(suggestions);
@@ -306,9 +276,9 @@ class MapSampleState extends State<MapSample> {
                                           itemBuilder: (context, sone) {
                                             return Card(
                                                 child: Container(
-                                              padding: EdgeInsets.all(8),
-                                              child: Text(sone.toString()),
-                                            ));
+                                                  padding: EdgeInsets.all(8),
+                                                  child: Text(sone.toString()),
+                                                ));
                                           },
                                           onSuggestionSelected: (suggestion) {
                                             this.destinationController.text =
@@ -327,22 +297,20 @@ class MapSampleState extends State<MapSample> {
                     });
               }),
               IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.home),
                   onPressed: () {
-                    if (startText == null)
-                      this.startController.text = "출발지를 다시 입력해주세요";
-                    if (destText == null)
-                      this.destinationController.text = "도착지를 다시 입력해주세요";
-                    if (startText != null && destText != null)
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MapResult(
-                                  startText: startText, destText: destText)));
+                    // Navigator.push(context,
+                    // MaterialPageRoute(builder: (context) => MapSample()));
+                    // Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapSample()),
+                          (route) => false, // 모든 이전 화면 흔적을 제거
+                    );
                   })
             ])
           ]),
-      floatingActionButtonLocation: CustomFabLoc(),
+      endDrawer: Hamburger(),
       floatingActionButton: FloatingActionButton(
 
         onPressed: () async {
@@ -362,14 +330,12 @@ class MapSampleState extends State<MapSample> {
           });
 */
         },
-
         child: Icon(Icons.my_location_rounded),
         shape: CircleBorder(),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.blue        ,
+        foregroundColor: Colors.blue,
       ),
-
-      endDrawer: Hamburger(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Stack(
         children: [
           GoogleMap(
@@ -382,88 +348,171 @@ class MapSampleState extends State<MapSample> {
               _controller.complete(controller);
             },
             onTap: (coordinate) {
-              print("coordintate : $coordinate");
+              _handleTap(coordinate);
             },
             myLocationButtonEnabled: true, // 내 위치 버튼을 사용하지 않음
             minMaxZoomPreference: MinMaxZoomPreference(15, 18),
             padding: EdgeInsets.only(top: 60), // 상단에 여백 추가
             cameraTargetBounds: CameraTargetBounds(_kHanyangBounds),
           ),
-          Positioned(
-            bottom: 12,
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 0.5 - 36,
-                            height: 43,
-                            decoration: BoxDecoration(
-                                color: Color(0xff0E4A84),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                                child: Text(
-                              '지름길 제보',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600),
-                            ))),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MapReport()));
-                        }),
-                    SizedBox(width: 24),
-                    GestureDetector(
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 0.5 - 36,
-                            height: 43,
-                            decoration: BoxDecoration(
-                                color: Color(0xff0E4A84),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                                child: Text('문의',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600)))),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const InquiryBoard()));
-                        }),
-                  ],
-                )),
-          )
+          _drawPolylineButton(),
         ],
-
       ),
+    );
+  }
+  // 클릭한 지점을 폴리라인에 추가하는 메서드
+  void _handleTap(LatLng coordinate) {
+    setState(() {
+      _polylinePoints.add(coordinate);
 
+      // Update polylines
+      _updatePolylines();
+
+      if(_markers.length == 0){
+        _markers.add(
+          Marker(
+            markerId: MarkerId(coordinate.toString()),
+            position: coordinate,
+            infoWindow: InfoWindow(title: '출발지'),
+          ),
+        );
+      }
+      else {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(coordinate.toString()),
+            position: coordinate,
+            infoWindow: InfoWindow(title: '${_markers.length} 번째 경유지'),
+          ),
+        );
+      }
+
+    });
+  }
+
+  // 폴리라인 업데이트 및 추가하는 메서드
+  void _updatePolylines() {
+    _polyline.clear();
+    _polyline.add(
+      Polyline(
+        polylineId: PolylineId('route'),
+        points: _polylinePoints,
+        color: Colors.blue,
+        width: 3,
+      ),
     );
   }
 
-  Widget _body() {
-    return Container(
-      child: Column(children: <Widget>[]),
+  // 폴리라인 지우는 메서드
+  void _clearPolylines() {
+    List<GeoPoint> geoPoints = [];
+
+    // Generate a unique identifier for the subcollection
+    String subcollectionId = "From : " + startText + " To : " + destText;
+
+    for (LatLng point in _polylinePoints) {
+      GeoPoint geoPoint = GeoPoint(point.latitude, point.longitude);
+      geoPoints.add(geoPoint);
+    }
+
+    for(int i = 0; i < _markers.length; i++){
+      addRoute(_markers[i].position.latitude, _markers[i].position.longitude, subcollectionId);
+    }
+    addGeoPointsToFirestore(geoPoints, subcollectionId);
+
+    setState(() {
+      toastMessage();
+      //controller: routesController,
+      _polylinePoints.clear();
+      _polyline.clear();
+      _markers.clear();
+    });
+  }
+
+  void addGeoPointsToFirestore(List<GeoPoint> geoPoints, String subcollectionId) {
+    // Reference to the subcollection under 'routes'
+    CollectionReference geoPointsCollection = FirebaseFirestore.instance
+        .collection('routes')
+        .doc(subcollectionId) // Use the generated subcollectionId
+        .collection('coordinates');
+
+    // Iterate through the list of GeoPoints and add them to Firestore
+    for (GeoPoint geoPoint in geoPoints) {
+      geoPointsCollection.add({
+        'location': geoPoint,
+      });
+    }
+  }
+
+  // 폴리라인을 그리는 버튼 위젯
+  Widget _drawPolylineButton() {
+    return Positioned(
+      bottom: 16,
+      right: MediaQuery.of(context).size.width * 0.40,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Color(0xff0E4A84)),
+        onPressed: _clearPolylines,
+        child: Text('등록' ,style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w600),),
+      ),
     );
   }
 
   Widget button({required String text, required Function() onPressed}) {
-    return ElevatedButton(
-      onPressed: () {
-        onPressed();
-      },
-      style: ElevatedButton.styleFrom(
-        fixedSize: const Size(double.infinity, 50),
-      ),
-      child: Text(text),
+    return TextButton(
+    style: TextButton.styleFrom(
+    backgroundColor: const Color(0xff0E4A84)),
+    onPressed: () {
+    //toastMessage();
+    },
+    child: const Text('등록',
+    style: TextStyle(color: Colors.white, fontSize: 14))
     );
   }
+
+  toastMessage() {
+    Widget toast = Container(
+        margin: const EdgeInsets.only(bottom: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: const Color(0xff0E4A84).withOpacity(0.5),
+        ),
+        child: const Text(
+          "등록되었습니다. 감사합니다:)",
+          style: TextStyle(color: Colors.white),
+        ));
+
+    fToast.showToast(child: toast, toastDuration: const Duration(seconds: 2));
+  }
+
+  void addRoute(double latitude, double longitude, String subcollectionId) {
+    if (routesController.text.isNotEmpty) {
+      // Reference to the subcollection under 'routes'
+      CollectionReference routeCollection = FirebaseFirestore.instance
+          .collection('routes')
+          .doc(subcollectionId) // Use the generated subcollectionId
+          .collection('routes');
+
+      // Convert the current location to GeoPoint
+      GeoPoint currentLocation = GeoPoint(latitude, longitude);
+
+      // Add GeoPoint to the subcollection
+      routeCollection.add({
+        'location': currentLocation,
+      });
+
+      routesController.clear();
+    }
+  }
+
+}
+
+class MapReport extends StatefulWidget {
+  @override
+  State<MapReport> createState() => MapReportState();
 }
 
 class CustomFabLoc extends FloatingActionButtonLocation {

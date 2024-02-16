@@ -2,52 +2,105 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/informations/routes.dart';
 
-var ITBT = LatLng(37.555965, 127.049380);
+var JM = LatLng(37.557630, 127.041974); //정문
+var HM = LatLng(37.555732, 127.049868); // 후문
+var BWHM = LatLng(37.560112, 127.041757); // 병원후문
+var SGD = LatLng(37.559756, 127.045564); // 사근동출입로
+var GCG = LatLng(37.554009, 127.044151); // 건축관출입로
+
+var HIS = LatLng(37.556030, 127.044768); // 역사관
+var BG = LatLng(37.556637, 127.044545); // 본관
+var AZ = LatLng(37.556001, 127.043843); // 애지문
+var HF = LatLng(37.556588, 127.043913); // 한양플라자
+var POS = LatLng(37.556913, 12.043881); // 우체국
+var HSH = LatLng(37.557589, 127.044166); // 학생회관
+var GJ = LatLng(37.555317, 127.044309); // 국제관
+var BM = LatLng(37.555161, 127.044710); // 박물관
+
+var JS = LatLng(37.554425, 127.044145); // 재성토목관
+var GC = LatLng(37.554124, 127.044437); // 건축관
+var GH = LatLng(37.554263, 127.044793); // 과학기술관
+var SSJ = LatLng(37.554557, 127.045113); // 신소재공학관
+var TC = LatLng(37.554801, 127.046124); // 공업센터 본관
+var TCB = LatLng(37.554723, 127.046502); // 공업센터 별관
+var FTC = LatLng(37.554640, 127.047347); // FTC
+var NC = LatLng(37.555509, 127.045250); // 노천
+var MC = LatLng(37.556247, 127.045410); // 정몽구 미래자동차 연구소
+var TC2 = LatLng(37.555607, 127.046247); // 제2공학관
+var TC1 = LatLng(37.556603, 127.045660); // 제1공학관
+
+var DU = LatLng(37.555504, 127.047647); // 대운동장
+var SHT = LatLng(37.555540, 127.049228); // 산학기술관
+var ITBT = LatLng(37.555910, 127.049326); // IT/BT관
+var OLP = LatLng(37.556522, 127.049981); // 올림픽체육관
+
+var SH = LatLng(37.556702, 127.046762); // 생활과학관
+var MU1 = LatLng(37.556597, 127.047423); // 제1음악관
+var MU2 = LatLng(37.556723, 127.047213); // 제2음악관
+var BNMU = LatLng(37.556302, 127.046964); // 백남음악관
+var HGD = LatLng(37.556147, 127.046521); // 학군단
+var BH1 = LatLng(37.556629, 127.047850); // 제1법학관
+var BH2 = LatLng(37.556330, 127.047882); // 제2법학관
+var BH3 = LatLng(37.556340, 127.048404); // 제3법학관
+var GG = LatLng(37.556660, 127.048428); // 경제금융관
+var BHH = LatLng(37.556553, 127.048126); // 법학학술정보관
+
+var BN = LatLng(37.557399, 127.045758); // 백남학술정보관
+var SSG = LatLng(37.556596, 127.045917); // 사자가 군것질 할 때
+var SG = LatLng(37.557352, 127.044578); // 사회과학관
+var GGJ = LatLng(37.557792, 127.044672); // 공공정책대학원
+var SB = LatLng(37.558170, 127.045140); // 사범대학 본관
+var SBB = LatLng(37.558369, 127.044710); // 사범대학 별관
+var JY = LatLng(37.558776, 127.044324); // 자연과학대학
+var IM = LatLng(37.558226, 127.043551); // 인문관
+
+var MED1 = LatLng(37.558181, 127.042261); // 제1의학관
+var MED2 = LatLng(37.558975, 127.042147); // 제2의학관
+var MED = LatLng(37.558938, 127.042697); // 의과대학 본관
+var DM = LatLng(37.559492, 127.041561); // 동문회관
+var BWW = LatLng(37.559673, 127.043358); // 병원서관(국제병원, 장례식장)
+var BW = LatLng(37.559642, 127.044001); // 병원본관
+var UG = LatLng(37.559424, 127.044173); // 권역응급의료센터
+var BWE = LatLng(37.559926, 127.044865); // 병원동관(류마티스병원)/신한플라자
+var MR = LatLng(37.558498, 127.046344); // 미래교육관
+var MEDS = LatLng(37.559409, 127.045983); // 의대계단강의동
+
+var HIT = LatLng(37.557860, 127.046887); // HIT
+var CMX = LatLng(37.557902, 127.046190); // 코맥스 스타트업타운
+var CYB1 = LatLng(37.557294, 127.047177); // 한양사이버대학교 1관
+var CYB2 = LatLng(37.557158, 127.047627); // 한양사이버대학교 2관
+var YH = LatLng(37.558028, 127.047369); // 융합교육관
+var GY = LatLng(37.558181, 127.048289); // 경영관
+var HW = LatLng(37.557620, 127.048604); // 행원파크
+
+var DOM1 = LatLng(37.559177, 127.046863); // 제1학생생활관
+var DOM3 = LatLng(37.559658, 127.046748); // 제3학생생활관
+var DOM5 = LatLng(37.559596, 127.045740); // 제5학생생활관
+var DOM2 = LatLng(37.559749, 127.049842); // 제2학생생활관
+var DOMT = LatLng(37.559451, 127.049981); // 한양테크노숙사
+var GNR = LatLng(37.560023, 127.049660); // 개나리관
+var HNR = LatLng(37.559638, 127.049483); // 한누리관
+var GST = LatLng(37.560099, 127.049405); // 게스트하우스
+
+var TTI = LatLng(37.556693, 127.045746); // 중도띠아모
+
 var BUB = LatLng(37.556254, 127.048330); // 법학포탈
 var B_H1 = LatLng(37.556998, 127.048356);
 var B_H2 = LatLng(37.556993, 127.048346);
 
-var EF = LatLng(37.556599, 127.048039); // 경제금융관
-var HP = LatLng(37.557265, 127.048480); // 행파
-var IG = LatLng(37.556679, 127.045816); // 1공
 var EV = LatLng(37.555838, 127.047244); // 대운동장 엘베
-var DU = LatLng(37.555312, 127.048595); // 대운동장 주차장
+var DUP = LatLng(37.555312, 127.048595); // 대운동장 주차장
 var EVE = LatLng(37.556240, 127.046767); // 엘베 끝
 var P1 = LatLng(37.556450, 127.046675);
 var P2 = LatLng(37.556339, 127.046306);
 var P3 = LatLng(37.556625, 127.046125);
 
-var AZ = LatLng(37.556008, 127.043850); // 애지문
-var SG = LatLng(37.557367, 127.044626); // 사과대
 var BGD = LatLng(37.556333, 127.044630); // 본관 옆 계단 아래
 var BGU = LatLng(37.556344, 127.044928); // 본관 옆 계단 위
-var IM = LatLng(37.558161, 127.043583); // 인문관
 var ERR = LatLng(100, 100);
 
-var HF = LatLng(37.556570, 127.043927); //한플
-var BN = LatLng(37.557325, 127.045706); //백남학술정보관
-var ME = LatLng(37.558948, 127.042687); // 의과대학본관
-var TC = LatLng(37.554745, 127.046128); // 공업센터
-var MES = LatLng(37.559410, 127.045985); // 의대계단강의동
-var SSJ = LatLng(37.554489, 127.045257); // 신소재공학관
-
-var DOM1 = LatLng(37.559182, 127.046853); // 1생
-var DOM2 = LatLng(37.559795, 127.049817); // 2생
-var SH = LatLng(37.556703, 127.046779); // 생활과학관
-var HIT = LatLng(37.557722, 127.046948);
-
-var SSG = LatLng(37.556590, 127.045920); //싸군
-var OL = LatLng(37.556509, 127.049958); //올체
-var HI = LatLng(37.556271, 127.044832); // 역사관
-var STU = LatLng(37.557589, 127.044182); // 학생회관
-var TTI = LatLng(37.556687, 127045754); //중도띠아모
-var ST = LatLng(37.554279, 127.044786); // 과학기술관
-var FTC = LatLng(37.554655, 127.047289);
-var NF = LatLng(37.558543, 127.046293); // 간호학부 미래교육관
-var NC = LatLng(37.555892, 127.045466); // 노천
-
-List<LatLng> route1 = [ITBT, DU, EV, P1, P2, P3, IG]; // ITBT to IG
-List<LatLng> route2 = [ITBT, BUB, B_H1, B_H2, HP]; // ITBT to HP
+List<LatLng> route1 = [ITBT, DUP, EV, P1, P2, P3, TC1]; // ITBT to IG
+List<LatLng> route2 = [ITBT, BUB, B_H1, B_H2, HW]; // ITBT to HW
 List<LatLng> route3 = [AZ, BGD, BGU, SG, IM]; // AZ to IM
 List<LatLng> route0 = [AZ, ERR]; // 에러발생
 
@@ -72,15 +125,15 @@ LatLng getlocation(String text) {
     case "itbt관":
       return ITBT;
     case "제 1공학관":
-      return IG;
+      return TC1;
     case "제 2공학관":
       return EV;
     case "itbt관":
       return ITBT;
     case "행원파크":
-      return HP;
+      return HF;
     case "경제금융대학":
-      return EF;
+      return GG;
     case "사자가 군것질 할 때":
       return BUB;
     case "대운동장":
@@ -101,11 +154,11 @@ LatLng getlocation(String text) {
     case "백남학술정보관":
       return BN;
     case "의과대학 본관":
-      return ME;
+      return MED;
     case "공업센터":
       return TC;
     case "의대계단강의동":
-      return MES;
+      return MEDS;
     case "신소재공학관":
       return SSJ;
 

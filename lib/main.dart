@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:road_to_hanyang/firebase_options.dart';
 import 'package:road_to_hanyang/screen/splash_screen.dart';
 import 'screen/map_sample.dart';
 
-void main() {
+void main() async {
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

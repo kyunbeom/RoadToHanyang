@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/how_to_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
@@ -15,7 +16,8 @@ import '../widget/bottom_widget.dart';
 import '../widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:road_to_hanyang/screen/map_result.dart';
-//import 'package:location/location.dart' hide LocationAccuracy;
+import 'dart:math';
+// import 'package:location/location.dart' hide LocationAccuracy;
 
 // var ITBT = LatLng(37.555965, 127.049380);
 // var BUB = LatLng(37.556254, 127.048330); // 법학포탈
@@ -84,6 +86,7 @@ class MapSampleState extends State<MapSample> {
   void updateSuggestionVisibility() {
     isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
   }
+
 
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
@@ -343,34 +346,69 @@ class MapSampleState extends State<MapSample> {
                     ]))
               ]))),
           actions: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: Column(children: [
-                IconButton(
-                    icon: Icon(
-                      Icons.swap_vert_rounded,
-                      size: 25,
-                    ),
-                    onPressed: () {}),
-                IconButton(
-                    icon: Icon(Icons.search, size: 25),
+            Column(children: [
+              Builder(builder: (context) {
+                return Transform.rotate(
+                  angle: 90 * pi / 180,
+                    child: IconButton(
+                    icon: Icon(Icons.compare_arrows),
+                    iconSize: 30,
                     onPressed: () {
-                      if (startText == null)
-                        this.startController.text = "출발지를 다시 입력해주세요";
-                      if (destText == null)
-                        this.destinationController.text = "도착지를 다시 입력해주세요";
-                      if (startText != null && destText != null)
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MapResult(
-                                    startText: startText, destText: destText)));
+                      String str;
+                      if(startController.text != null && destinationController.text != null) {
+                        str = startController.text;
+                        startController.text = destinationController.text;
+                        destinationController.text = str;
+                        startText = startController.text;
+                        destText = destinationController.text;
+                      }
+                      else if(destinationController.text != null)
+                        {
+                          Fluttertoast.showToast(
+                            msg: "도착지를 입력해주세요!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        }
+                      else if(startController.text != null)
+                      {
+                        Fluttertoast.showToast(
+                          msg: "출발지를 입력해주세요!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
+                      }
+                      //  Scaffold.of(context).openEndDrawer();
                     })
-              ]),
-            )
+                );
+              }),
+              IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    if (startText == null)
+                      this.startController.text = "출발지를 다시 입력해주세요";
+                    if (destText == null)
+                      this.destinationController.text = "도착지를 다시 입력해주세요";
+                    if (startText != null && destText != null)
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MapResult(
+                                  startText: startText, destText: destText)));
+                  })
+            ])
           ]),
       floatingActionButtonLocation: CustomFabLoc(),
       floatingActionButton: FloatingActionButton(
+
         onPressed: () async {
           GoogleMapController _gc = await _controller.future;
           LocationPermission permission = await Geolocator.requestPermission();
@@ -388,6 +426,7 @@ class MapSampleState extends State<MapSample> {
           });
 */
         },
+
         child: Icon(Icons.my_location_rounded),
         shape: CircleBorder(),
         backgroundColor: Colors.white,

@@ -87,6 +87,7 @@ class MapSampleState extends State<MapSample> {
     isSuggestionVisible = startFocusNode.hasFocus || destFocusNode.hasFocus;
   }
 
+
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   late String startText;

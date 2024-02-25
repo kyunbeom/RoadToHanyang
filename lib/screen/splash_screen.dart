@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:road_to_hanyang/screen/map_result.dart';
 import 'package:road_to_hanyang/screen/map_sample.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // 일정 시간이 지난 후에 메인 화면으로 이동
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MapSample()),
@@ -41,34 +42,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: <TextSpan>[
                   TextSpan(
                       text: ' 길',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.black)),
+                      style: TextStyle(fontSize: 30, color: Colors.black)),
                   TextSpan(
                       text: '잃은 ',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff0E4A84))),
+                      style: TextStyle(fontSize: 18, color: Color(0xff0E4A84))),
                   TextSpan(
                       text: '냥',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.black)),
+                      style: TextStyle(fontSize: 30, color: Colors.black)),
                   TextSpan(
                       text: '대생들 ',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff0E4A84))),
+                      style: TextStyle(fontSize: 18, color: Color(0xff0E4A84))),
                   TextSpan(
                       text: '이',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.black)),
+                      style: TextStyle(fontSize: 30, color: Colors.black)),
                   TextSpan(
                       text: '리오세요 ',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff0E4A84))),
+                      style: TextStyle(fontSize: 18, color: Color(0xff0E4A84))),
                 ],
               ),
             )

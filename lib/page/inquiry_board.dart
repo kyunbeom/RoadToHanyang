@@ -27,7 +27,6 @@ class _InquiryBoardState extends State<InquiryBoard> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
             backgroundColor: const Color(0xff0E4A84),

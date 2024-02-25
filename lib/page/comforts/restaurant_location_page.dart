@@ -18,7 +18,7 @@ class Eat2 extends StatefulWidget {
 }
 
 class _Eat2State extends State<Eat2> {
- //  const Print2({Key? key}) : super(key: key);
+  //  const Print2({Key? key}) : super(key: key);
   final TextEditingController startController = TextEditingController();
 
   final TextEditingController destinationController = TextEditingController();
@@ -55,7 +55,7 @@ class _Eat2State extends State<Eat2> {
           infoWindow: InfoWindow(title: "학생복지관", snippet: "3층 (학생식당)")),
       Marker(
           markerId: MarkerId("1"),
-          position: HP,
+          position: HW,
           infoWindow: InfoWindow(title: "행원파크", snippet: "B1층 (행원파크식당)")),
       Marker(
           markerId: MarkerId("2"),
@@ -64,241 +64,247 @@ class _Eat2State extends State<Eat2> {
       Marker(
           markerId: MarkerId("3"),
           position: LatLng(37.559779, 127.049827),
-          infoWindow: InfoWindow(title: "제2학생생활관식당", snippet: "1층 (제2 학생생활관 식당)")),
+          infoWindow:
+              InfoWindow(title: "제2학생생활관식당", snippet: "1층 (제2 학생생활관 식당)")),
       Marker(
           markerId: MarkerId("4"),
           position: SG,
-          infoWindow: InfoWindow(title:"생활과학관", snippet: "7층 (생활과학관 식당)")),
+          infoWindow: InfoWindow(title: "생활과학관", snippet: "7층 (생활과학관 식당)")),
       Marker(
           markerId: MarkerId("5"),
           position: SSG,
-          infoWindow: InfoWindow(title: "신소재공학관",snippet: "7층 (룸:112)")),
+          infoWindow: InfoWindow(title: "신소재공학관", snippet: "7층 (룸:112)")),
       Marker(
           markerId: MarkerId("6"),
           position: HIT,
-          infoWindow: InfoWindow(title: "한양종합기술연구원(HIT)",snippet: "6층 (이십사절기 식당)")),
+          infoWindow:
+              InfoWindow(title: "한양종합기술연구원(HIT)", snippet: "6층 (이십사절기 식당)")),
       Marker(
           markerId: MarkerId("7"),
           position: HIT,
-          infoWindow: InfoWindow(title: "한양종합기술연구원(HIT)",snippet: "6층 (이십사절기 식당)")),
+          infoWindow:
+              InfoWindow(title: "한양종합기술연구원(HIT)", snippet: "6층 (이십사절기 식당)")),
     ];
     Completer<GoogleMapController> _controller = Completer();
 
     return Scaffold(
         appBar: AppBar(
-              backgroundColor: Color(0xff0E4A84),
-              iconTheme: IconThemeData(color: Colors.white),
-              toolbarHeight: 100,
-              //leadingWidth: 50,
-              automaticallyImplyLeading: false,
+            backgroundColor: Color(0xff0E4A84),
+            iconTheme: IconThemeData(color: Colors.white),
+            toolbarHeight: 100,
+            //leadingWidth: 50,
+            automaticallyImplyLeading: false,
             title: Container(
-                  height: 150,
-                  child: SingleChildScrollView(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                height: 40,
-                                //width: MediaQuery.of(context).size.width - 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.5),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(5),
-                                        topRight: Radius.circular(5))),
-
-                                child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                              child: TypeAheadField(
-                                                  hideSuggestionsOnKeyboardHide: true,
-                                                  animationStart: 0,
-                                                  animationDuration: Duration.zero,
-                                                  textFieldConfiguration:
-                                                  TextFieldConfiguration(
-                                                      // focusNode: startFocusNode, // _focusNode 추가
-                                                      controller: startController,
-                                                      autofocus: true,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                      decoration: InputDecoration(
-                                                        hintText: "출발지를 입력해주세요",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.white),
-                                                      )),
-                                                  suggestionsBoxDecoration:
-                                                  SuggestionsBoxDecoration(
-                                                    color: Colors.lightBlue[50],
-                                                  ),
-                                                  suggestionsCallback: (pattern) async {
-                                                    List<String> matches = <String>[];
-                                                    matches.addAll(suggestions);
-
-                                                    matches.retainWhere((s) {
-                                                      return s.toLowerCase().contains(
-                                                          pattern.toLowerCase());
-                                                    });
-
-                                                    return matches;
-                                                  },
-                                                  itemBuilder: (context, suggestion) {
-                                                    return Card(
-                                                        child: Container(
-                                                          padding: EdgeInsets.all(8),
-                                                          child:
-                                                          Text(suggestion.toString()),
-                                                        ));
-                                                  },
-                                                  onSuggestionSelected: (suggestion) {
-                                                    setState(() {
-                                                      this.startController.text =
-                                                          suggestion;
-                                                      startText = suggestion;
-                                                      _markers.removeAt(0);
-                                                      _markers.add(Marker(
-                                                        markerId: MarkerId("0"),
-                                                        draggable: true,
-                                                        onTap: () => print("Marker!"),
-                                                        position: getlocation(
-                                                            startController.text),
-                                                      ));
-                                                    });
-                                                  })))
-                                    ])),
-                            SizedBox(height: 3),
-                            Container(
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                height: 40,
-                                //width: MediaQuery.of(context).size.width - 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.5),
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(5),
-                                        bottomRight: Radius.circular(5))),
-                                child: Row(children: [
-                                  Expanded(
-                                      child: Container(
-                                          child: TypeAheadField(
-                                              hideSuggestionsOnKeyboardHide: true,
-                                              animationStart: 0,
-                                              animationDuration: Duration.zero,
-                                              textFieldConfiguration:
-                                              TextFieldConfiguration(
-                                                  // focusNode: destFocusNode, // _focusNode 추가
-                                                  controller:
-                                                  destinationController,
-                                                  autofocus: true,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                      hintText: "도착지를 입력해주세요",
+                height: 150,
+                child: SingleChildScrollView(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              height: 40,
+                              //width: MediaQuery.of(context).size.width - 30,
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.5),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5),
+                                      topRight: Radius.circular(5))),
+                              child: Row(children: [
+                                Expanded(
+                                    child: Container(
+                                        child: TypeAheadField(
+                                            hideSuggestionsOnKeyboardHide: true,
+                                            animationStart: 0,
+                                            animationDuration: Duration.zero,
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                                    // focusNode: startFocusNode, // _focusNode 추가
+                                                    controller: startController,
+                                                    autofocus: true,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white),
+                                                    decoration: InputDecoration(
+                                                      hintText: "출발지를 입력해주세요",
                                                       hintStyle: TextStyle(
-                                                          color:
-                                                          Colors.white))),
-                                              suggestionsBoxDecoration:
-                                              SuggestionsBoxDecoration(
-                                                  color: Colors.lightBlue[50]),
-                                              suggestionsCallback: (pattern) async {
-                                                List<String> matches = <String>[];
-                                                matches.addAll(suggestions);
+                                                          color: Colors.white),
+                                                    )),
+                                            suggestionsBoxDecoration:
+                                                SuggestionsBoxDecoration(
+                                              color: Colors.lightBlue[50],
+                                            ),
+                                            suggestionsCallback:
+                                                (pattern) async {
+                                              List<String> matches = <String>[];
+                                              matches.addAll(suggestions);
 
-                                                matches.retainWhere((s) {
-                                                  return s.toLowerCase().contains(
-                                                      pattern.toLowerCase());
-                                                });
-                                                print(
-                                                    'Suggestions for $pattern: $matches');
-                                                return matches;
-                                              },
-                                              itemBuilder: (context, sone) {
-                                                return Card(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Text(sone.toString()),
-                                                    ));
-                                              },
-                                              onSuggestionSelected: (suggestion) {
-                                                this.destinationController.text =
+                                              matches.retainWhere((s) {
+                                                return s.toLowerCase().contains(
+                                                    pattern.toLowerCase());
+                                              });
+
+                                              return matches;
+                                            },
+                                            itemBuilder: (context, suggestion) {
+                                              return Card(
+                                                  child: Container(
+                                                padding: EdgeInsets.all(8),
+                                                child:
+                                                    Text(suggestion.toString()),
+                                              ));
+                                            },
+                                            onSuggestionSelected: (suggestion) {
+                                              setState(() {
+                                                this.startController.text =
                                                     suggestion;
-                                                destText = suggestion;
-                                              })))
-                                ]))
-                          ]))),
-              actions: [
-                Column(children: [
-                  Builder(builder: (context) {
-                    return IconButton(
-                        icon: Icon(Icons.menu),
-                        onPressed: () {
-                          Scaffold.of(context).openEndDrawer();
-                        });
-                  }),
-                  IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        if(startText == null)
-                          this.startController.text = "출발지를 다시 입력해주세요";
-                        if(destText == null)
-                          this.destinationController.text = "도착지를 다시 입력해주세요";
-                        if(startText != null && destText != null)
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => MapResult(startText: startText , destText : destText)));
+                                                startText = suggestion;
+                                                _markers.removeAt(0);
+                                                _markers.add(Marker(
+                                                  markerId: MarkerId("0"),
+                                                  draggable: true,
+                                                  onTap: () => print("Marker!"),
+                                                  position: getlocation(
+                                                      startController.text),
+                                                ));
+                                              });
+                                            })))
+                              ])),
+                          SizedBox(height: 3),
+                          Container(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              height: 40,
+                              //width: MediaQuery.of(context).size.width - 30,
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.5),
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(5),
+                                      bottomRight: Radius.circular(5))),
+                              child: Row(children: [
+                                Expanded(
+                                    child: Container(
+                                        child: TypeAheadField(
+                                            hideSuggestionsOnKeyboardHide: true,
+                                            animationStart: 0,
+                                            animationDuration: Duration.zero,
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                                    // focusNode: destFocusNode, // _focusNode 추가
+                                                    controller:
+                                                        destinationController,
+                                                    autofocus: true,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white),
+                                                    decoration: InputDecoration(
+                                                        hintText: "도착지를 입력해주세요",
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.white))),
+                                            suggestionsBoxDecoration:
+                                                SuggestionsBoxDecoration(
+                                                    color:
+                                                        Colors.lightBlue[50]),
+                                            suggestionsCallback:
+                                                (pattern) async {
+                                              List<String> matches = <String>[];
+                                              matches.addAll(suggestions);
 
-                      })
-                ])
-              ]),
-        endDrawer: Hamburger(),
-    body: Stack(
-    children: [
-    GoogleMap(
-    polylines: _polyline,
-    mapType: MapType.normal,
-    markers: Set.from(_markers),
-    zoomGesturesEnabled: true,
-    initialCameraPosition: _kGooglePlex,
-    onMapCreated: (GoogleMapController controller) {
-    _controller.complete(controller);
-    },
-    onTap: (coordinate) {
-    print("coordintate : $coordinate");
-    },
-    ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: [
+                                              matches.retainWhere((s) {
+                                                return s.toLowerCase().contains(
+                                                    pattern.toLowerCase());
+                                              });
+                                              print(
+                                                  'Suggestions for $pattern: $matches');
+                                              return matches;
+                                            },
+                                            itemBuilder: (context, sone) {
+                                              return Card(
+                                                  child: Container(
+                                                padding: EdgeInsets.all(8),
+                                                child: Text(sone.toString()),
+                                              ));
+                                            },
+                                            onSuggestionSelected: (suggestion) {
+                                              this.destinationController.text =
+                                                  suggestion;
+                                              destText = suggestion;
+                                            })))
+                              ]))
+                        ]))),
+            actions: [
+              Column(children: [
+                Builder(builder: (context) {
+                  return IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        Scaffold.of(context).openEndDrawer();
+                      });
+                }),
                 IconButton(
-                    icon: Icon(Icons.restaurant, color: Color(0xff0E4A84)),
+                    icon: Icon(Icons.search),
                     onPressed: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>  Eat2()),
-                        // 모든 이전 화면 흔적을 제거
-                      );
-                    }),
-                IconButton(
-                    icon: Icon(Icons.home, color: Color(0xff0E4A84)),
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MapSample()),
-                            (route) => false, // 모든 이전 화면 흔적을 제거
-                      );
+                      if (startText == null)
+                        this.startController.text = "출발지를 다시 입력해주세요";
+                      if (destText == null)
+                        this.destinationController.text = "도착지를 다시 입력해주세요";
+                      if (startText != null && destText != null)
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MapResult(
+                                    startText: startText, destText: destText)));
                     })
-              ],
-            ),
+              ])
+            ]),
+        endDrawer: Hamburger(),
+        body: Stack(children: [
+          GoogleMap(
+            polylines: _polyline,
+            mapType: MapType.normal,
+            markers: Set.from(_markers),
+            zoomGesturesEnabled: true,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            onTap: (coordinate) {
+              print("coordintate : $coordinate");
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    IconButton(
+                        icon: Icon(Icons.restaurant, color: Color(0xff0E4A84)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Eat2()),
+                            // 모든 이전 화면 흔적을 제거
+                          );
+                        }),
+                    IconButton(
+                        icon: Icon(Icons.home, color: Color(0xff0E4A84)),
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MapSample()),
+                            (route) => false, // 모든 이전 화면 흔적을 제거
+                          );
+                        })
+                  ],
+                ),
+              )
+            ],
           )
-        ],
-      )
-   /* // TODO: 이게 맵 위에 있도록 해야함
+          /* // TODO: 이게 맵 위에 있도록 해야함
     SlidingUpPanel(
     controller: panelController,
     parallaxEnabled: true,
@@ -316,8 +322,6 @@ class _Eat2State extends State<Eat2> {
     ),
     borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
     )*/
-
-    ])
-    );
+        ]));
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "796358378277",
+    "project_id": "gilnyang-8a172",
+    "storage_bucket": "gilnyang-8a172.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796358378277:android:307391ed19cad75cc250cc",
+        "android_client_info": {
+          "package_name": "com.road_to_hanyang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4yQ5qCtAkC8i9hRMVZejLrj5WzLFB3lU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

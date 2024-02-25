@@ -18,7 +18,7 @@ class Cafe2 extends StatefulWidget {
   State<Cafe2> createState() => _Cafe2State();
 }
 
-class _Cafe2State extends State<Cafe2> {
+class _Cafe2State extends State<Cafe2>{
  //  const Print2({Key? key}) : super(key: key);
   final TextEditingController startController = TextEditingController();
 
@@ -40,6 +40,17 @@ class _Cafe2State extends State<Cafe2> {
 
   bool isPathPage = false;
 
+  bool isVisible = false;
+
+  List<Widget> _buttons = <Widget>[
+    Visibility(
+      visible: false,
+  child: Container (
+      child: ElevatedButton(onPressed: (){}, child: Text('경로 설정'),)
+  )
+    )];
+
+
   @override
   Widget build(BuildContext context) {
     final Set<Polyline> _polyline = {};
@@ -53,7 +64,16 @@ class _Cafe2State extends State<Cafe2> {
       Marker(
           markerId: MarkerId("0"),
           position: IM,
-          infoWindow: InfoWindow(title: "인문관", snippet: "B1층 (카페 ING)")),
+          infoWindow: InfoWindow(title: "인문관", snippet: "B1층 (카페 ING)",
+          ),
+          onTap: () {
+            // 해당 마커 아래에 도착지로 설정 버튼이 생성되도록
+            setState(() {
+              isVisible = true;
+            }
+            );
+          }
+      ),
       Marker(
           markerId: MarkerId("1"),
           position: TTI,
@@ -260,7 +280,15 @@ class _Cafe2State extends State<Cafe2> {
     onTap: (coordinate) {
     print("coordintate : $coordinate");
     },
+
     ),
+      Visibility(
+          visible: isVisible,
+          child: TextButton(
+          onPressed: (){
+
+          },
+          child: Text("선택한 편의시설 경로 보기"))),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -291,7 +319,8 @@ class _Cafe2State extends State<Cafe2> {
           )
         ],
       )
-   /* // TODO: 이게 맵 위에 있도록 해야함
+/*
+ // TODO: 이게 맵 위에 있도록 해야함
     SlidingUpPanel(
     controller: panelController,
     parallaxEnabled: true,
@@ -308,9 +337,10 @@ class _Cafe2State extends State<Cafe2> {
     isPathPage: true, // TODO: 경로페이지인지 홈인지 결정어디선가 바꿔줘야함
     ),
     borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-    )*/
+    )
 
+*/
     ])
     );
   }
-}
+  }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_to_hanyang/page/how_to_page.dart';
 import 'package:road_to_hanyang/page/inquiry_board.dart';
@@ -14,7 +15,8 @@ import '../informations/locations.dart';
 import '../widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:road_to_hanyang/screen/map_result.dart';
-//import 'package:location/location.dart' hide LocationAccuracy;
+import 'dart:math';
+// import 'package:location/location.dart' hide LocationAccuracy;
 
 // var ITBT = LatLng(37.555965, 127.049380);
 // var BUB = LatLng(37.556254, 127.048330); // 법학포탈
@@ -171,6 +173,7 @@ class MapSampleState extends State<MapSample> {
     zoom: 16,
   );
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -320,11 +323,47 @@ class MapSampleState extends State<MapSample> {
           actions: [
             Column(children: [
               Builder(builder: (context) {
-                return IconButton(
-                    icon: Icon(Icons.menu),
+                return Transform.rotate(
+                  angle: 90 * pi / 180,
+                    child: IconButton(
+                    icon: Icon(Icons.compare_arrows),
+                    iconSize: 30,
                     onPressed: () {
-                      Scaffold.of(context).openEndDrawer();
-                    });
+                      String str;
+                      if(startController.text != null && destinationController.text != null) {
+                        str = startController.text;
+                        startController.text = destinationController.text;
+                        destinationController.text = str;
+                        startText = startController.text;
+                        destText = destinationController.text;
+                      }
+                      else if(destinationController.text != null)
+                        {
+                          Fluttertoast.showToast(
+                            msg: "도착지를 입력해주세요!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        }
+                      else if(startController.text != null)
+                      {
+                        Fluttertoast.showToast(
+                          msg: "출발지를 입력해주세요!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
+                      }
+                      //  Scaffold.of(context).openEndDrawer();
+                    })
+                );
               }),
               IconButton(
                   icon: Icon(Icons.search),
@@ -405,7 +444,7 @@ class MapSampleState extends State<MapSample> {
                                 borderRadius: BorderRadius.circular(30)),
                             child: Center(
                                 child: Text(
-                              '지름길 제보',
+                              '햄버거바',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,

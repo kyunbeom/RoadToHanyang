@@ -102,7 +102,7 @@ class MapSampleState extends State<MapSample> {
   LatLng? selectedDestinationLocation;
   final Set<Polyline> _polyline = {};
 
-  int _selectedIndex = 0;
+  int _selectedIndex = -1;
 
   final List<Widget> _widgetOptions = <Widget>[
     BottomWidget(index: 0),

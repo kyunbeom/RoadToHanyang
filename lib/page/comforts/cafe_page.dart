@@ -16,7 +16,7 @@ class Cafe extends StatelessWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                  icon: Icon(Icons.home),
+                  icon: const Icon(Icons.home),
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,

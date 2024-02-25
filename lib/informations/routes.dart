@@ -11,60 +11,77 @@ class RouteInforms extends StatelessWidget {
       case 0:
         return Container();
       case 1:
-        return const Column(
+        return Column(
           children: [
-            SizedBox(height: 23),
-            Row(children: [
+            const SizedBox(height: 23),
+            const Row(children: [
               Icon(Icons.location_on, color: Colors.blue, size: 30),
-              SizedBox(width: 14),
-              Text('IT/BT관 3층', style: TextStyle(fontSize: 18))
+              SizedBox(width: 17),
+              Text('IT/BT관 3층',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400))
             ]),
-            SizedBox(height: 23),
-            Row(children: [
-              Icon(Icons.north, size: 30),
-              SizedBox(width: 14),
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(children: [
+              Icon(Icons.north_rounded, color: Color(0xff6B6B6B), size: 30),
+              SizedBox(width: 17),
               Text('대운동장 엘레베이터까지 이동', style: TextStyle(fontSize: 14))
             ]),
-            SizedBox(height: 23),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Icon(Icons.elevator, size: 30),
-              SizedBox(width: 14),
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Icon(Icons.elevator, color: Color(0xff6B6B6B), size: 30),
+              SizedBox(width: 17),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('엘레베이터 3', style: TextStyle(fontSize: 18)),
-                Text('엘레베이터 3을 타고 지하로 이동', style: TextStyle(fontSize: 14)),
+                Text('엘레베이터 3', style: TextStyle(fontSize: 16)),
+                Text('엘레베이터 3을 타고 지하로 이동',
+                    style: TextStyle(fontSize: 14, color: Color(0xff6B6B6B))),
               ])
             ]),
-            SizedBox(height: 23),
-            Row(children: [
-              Icon(Icons.north, size: 30),
-              SizedBox(width: 14),
-              Text('엘레베이터 1까지 지하내에서 이동', style: TextStyle(fontSize: 14))
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(children: [
+              Icon(Icons.north_rounded, color: Color(0xff6B6B6B), size: 30),
+              SizedBox(width: 17),
+              Text('엘레베이터 1까지 지하내에서 이동',
+                  style: TextStyle(fontSize: 14, color: Color(0xff6B6B6B)))
             ]),
-            SizedBox(height: 23),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Icon(Icons.elevator, size: 30),
-              SizedBox(width: 14),
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Icon(Icons.elevator, color: Color(0xff6B6B6B), size: 30),
+              SizedBox(width: 17),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('엘레베이터 1', style: TextStyle(fontSize: 18)),
-                Text('엘레베이터 1을 타고 1층으로 이동', style: TextStyle(fontSize: 14))
+                Text('엘레베이터 2', style: TextStyle(fontSize: 16)),
+                Text('엘레베이터 2을 타고 1층으로 이동',
+                    style: TextStyle(fontSize: 14, color: Color(0xff6B6B6B)))
               ])
             ]),
-            SizedBox(height: 23),
-            Row(children: [
-              Icon(Icons.north, size: 30),
-              SizedBox(width: 14),
-              Text('제1공학관까지 이동', style: TextStyle(fontSize: 14))
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(children: [
+              Icon(Icons.north_rounded, color: Color(0xff6B6B6B), size: 30),
+              SizedBox(width: 17),
+              Text('제1공학관까지 이동',
+                  style: TextStyle(fontSize: 14, color: Color(0xff6B6B6B)))
             ]),
-            SizedBox(height: 23),
-            Row(children: [
+            const SizedBox(height: 11),
+            Container(height: 1, color: Color(0xffF2F2F2)),
+            const SizedBox(height: 11),
+            const Row(children: [
               Icon(Icons.location_on, color: Colors.red, size: 30),
-              SizedBox(width: 14),
-              Text('제1공학관 3층', style: TextStyle(fontSize: 18))
+              SizedBox(width: 17),
+              Text('제1공학관 3층', style: TextStyle(fontSize: 16))
             ])
           ],
         );
       case 2:
-        return Column(children: [
+        return const Column(children: [
           SizedBox(height: 23),
           Row(children: [
             Icon(Icons.location_on, color: Colors.blue, size: 30),
@@ -100,7 +117,7 @@ class RouteInforms extends StatelessWidget {
           ])
         ]);
       case 3:
-        return Column(
+        return const Column(
           children: [
             SizedBox(height: 23),
             Row(children: [
@@ -135,7 +152,8 @@ class RouteInforms extends StatelessWidget {
               SizedBox(width: 14),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('사회과학관 엘레베이터', style: TextStyle(fontSize: 18)),
-                Text('사회과학관 엘레베이터를 타고 \n4층으로 이동', style: TextStyle(fontSize: 14))
+                Text('사회과학관 엘레베이터를 타고 \n4층으로 이동',
+                    style: TextStyle(fontSize: 14))
               ])
             ]),
             SizedBox(height: 23),

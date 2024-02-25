@@ -90,17 +90,16 @@ class _MapResultState extends State<MapResult> {
 
   @override
   Widget build(BuildContext context) {
-
     String startText = widget.startText;
     String destText = widget.destText;
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0E4A84),
-          iconTheme: IconThemeData(color: Colors.white),
-          //toolbarHeight: 100,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Color(0xff0E4A84)),
+          toolbarHeight: 94,
           //leadingWidth: 50,
-          titleSpacing: 0,
+          //titleSpacing: 0,
           title: Container(
               //height: 150,
               child: SingleChildScrollView(
@@ -110,19 +109,22 @@ class _MapResultState extends State<MapResult> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                 Container(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    height: 40,
+                    padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                    height: 36,
                     // width: MediaQuery.of(context).size.width - 30,
                     width: MediaQuery.of(context).size.width * 0.5 - 80,
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Color(0xffF2F2F2),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(children: [
                       Expanded(
                           child: Container(
                               child: Text(
                         '$startText',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
                       )))
                     ])),
                 SizedBox(width: 10),
@@ -134,12 +136,12 @@ class _MapResultState extends State<MapResult> {
                 ),
                 SizedBox(width: 10),
                 Container(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    height: 40,
+                    padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                    height: 36,
                     width: MediaQuery.of(context).size.width * 0.5 - 80,
                     //width: MediaQuery.of(context).size.width - 30,
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Color(0xffF2F2F2),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(children: [
                       Expanded(
@@ -149,7 +151,9 @@ class _MapResultState extends State<MapResult> {
                                           initialValue: destText,*/
                                   '$destText',
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.white))))
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black))))
                     ]))
               ]))),
           actions: [
@@ -165,7 +169,6 @@ class _MapResultState extends State<MapResult> {
           ]),
       floatingActionButtonLocation: CustomFabLoc(),
       floatingActionButton: FloatingActionButton(
-
         onPressed: () async {
           GoogleMapController _gc = await _controller.future;
           LocationPermission permission = await Geolocator.requestPermission();
@@ -183,11 +186,10 @@ class _MapResultState extends State<MapResult> {
           });
 */
         },
-
         child: Icon(Icons.my_location_rounded),
         shape: CircleBorder(),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.blue        ,
+        foregroundColor: Colors.blue,
       ),
       endDrawer: Hamburger(),
       body: Stack(children: [
@@ -209,13 +211,13 @@ class _MapResultState extends State<MapResult> {
           parallaxEnabled: true,
           parallaxOffset: .5,
           maxHeight: MediaQuery.of(context).size.height * 0.6,
-          minHeight: 200,
+          minHeight: 240,
           panelBuilder: (controller) => PanelWidget(
             controller: controller,
             panelController: panelController,
             RouteNumber: getroute(this.startText, this.destText).num,
           ),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         )
       ]),
     );
@@ -240,7 +242,6 @@ class _MapResultState extends State<MapResult> {
   }
 }
 
-
 class CustomFabLoc extends FloatingActionButtonLocation {
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
@@ -248,7 +249,8 @@ class CustomFabLoc extends FloatingActionButtonLocation {
       scaffoldGeometry.scaffoldSize.width -
           scaffoldGeometry.floatingActionButtonSize.width,
       scaffoldGeometry.scaffoldSize.height -
-          scaffoldGeometry.floatingActionButtonSize.height * 2 - 40,
+          scaffoldGeometry.floatingActionButtonSize.height * 2 -
+          40,
     );
   }
 }

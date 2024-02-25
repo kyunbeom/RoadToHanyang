@@ -25,56 +25,42 @@ class PanelWidget extends StatelessWidget {
           padding: EdgeInsets.zero,
           controller: controller,
           children: <Widget>[
-            SizedBox(height: 12),
+            SizedBox(height: 10),
             buildDragHandle(),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             buildAboutText(context),
-            SizedBox(height: 46),
-            Center(
-                child: GestureDetector(
-                    child: Container(
-                        margin: EdgeInsets.only(bottom: 12),
-                        width: MediaQuery.of(context).size.width - 24,
-                        height: 43,
-                        decoration: BoxDecoration(
-                            color: Color(0xff0E4A84),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                            child: Text(
-                          '문의',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600),
-                        ))),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InquiryBoard()));
-                    }))
           ]);
 
   Widget buildAboutText(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
               Icon(
-                Icons.directions_walk,
-                color: Colors.black,
-                size: 30,
+                Icons.watch_later_outlined,
+                color: Color(0xff0E4A84),
+                size: 20,
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 16),
               Text(
-                '예상 소요시간 : ${routes[RouteNumber].time}분',
-                style: TextStyle(color: Colors.black, fontSize: 24),
+                '예상 소요시간',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(width: 16),
+              Text(
+                '${routes[RouteNumber].time}분',
+                style: TextStyle(
+                    color: Color(0xff0E4A84),
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600),
               )
             ]),
-            SizedBox(height: 8),
-            PathToggle(
-                title: '경로 상세', content: routes[RouteNumber].routeInforms)
+            SizedBox(height: 14),
+            PathToggle(title: '경로상세', content: routes[RouteNumber].routeInforms)
           ],
         ),
       );
@@ -82,11 +68,11 @@ class PanelWidget extends StatelessWidget {
   Widget buildDragHandle() => GestureDetector(
       child: Center(
           child: Container(
-              width: 40,
-              height: 5,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                   color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(12)))),
+                  borderRadius: BorderRadius.circular(5)))),
       onTap: togglePanel);
 
   void togglePanel() => panelController.isPanelOpen

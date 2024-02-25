@@ -20,7 +20,7 @@ class _PathToggleState extends State<PathToggle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(left: 37),
+        padding: EdgeInsets.only(left: 18),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           InkWell(
               onTap: () {
@@ -33,18 +33,22 @@ class _PathToggleState extends State<PathToggle> {
                 _isExpanded
                     ? Transform.rotate(
                         angle: 90 * 3.14159265 / 180, // 90도를 라디안으로 변환
-                        child: Icon(Icons.play_arrow,
-                            color: Colors.black, size: 17))
-                    : Icon(Icons.play_arrow, color: Colors.black, size: 17),
-                SizedBox(width: 5),
+                        child: Icon(Icons.play_arrow_rounded,
+                            color: Color(0xff6B6B6B), size: 18))
+                    : Icon(Icons.play_arrow_rounded,
+                        color: Color(0xff6B6B6B), size: 18),
+                SizedBox(width: 11),
                 Text(
                   widget.title,
-                  style: TextStyle(color: Colors.black, fontSize: 15.0),
+                  style: TextStyle(
+                      color: Color(0xff6B6B6B),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400),
                 )
               ])),
           if (_isExpanded)
             Container(
-              padding: EdgeInsets.only(left: 23.0),
+              padding: EdgeInsets.symmetric(horizontal: 18),
               child: widget.content,
             ),
         ]));

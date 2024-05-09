@@ -97,7 +97,7 @@ class _MapResultState extends State<MapResult> {
       appBar: AppBar(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Color(0xff0E4A84)),
-          toolbarHeight: 94,
+          toolbarHeight: 80,
           //leadingWidth: 50,
           //titleSpacing: 0,
           title: Container(
@@ -112,7 +112,7 @@ class _MapResultState extends State<MapResult> {
                     padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
                     height: 36,
                     // width: MediaQuery.of(context).size.width - 30,
-                    width: MediaQuery.of(context).size.width * 0.5 - 80,
+                    width: MediaQuery.of(context).size.width * 0.5 - 90,
                     decoration: BoxDecoration(
                         color: Color(0xffF2F2F2),
                         borderRadius: BorderRadius.circular(5)),
@@ -138,7 +138,7 @@ class _MapResultState extends State<MapResult> {
                 Container(
                     padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
                     height: 36,
-                    width: MediaQuery.of(context).size.width * 0.5 - 80,
+                    width: MediaQuery.of(context).size.width * 0.5 - 90,
                     //width: MediaQuery.of(context).size.width - 30,
                     decoration: BoxDecoration(
                         color: Color(0xffF2F2F2),

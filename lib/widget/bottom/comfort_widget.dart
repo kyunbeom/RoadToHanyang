@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:road_to_hanyang/page/comforts/cafe_location_page.dart';
+import 'package:road_to_hanyang/page/comforts/convenience_location_page.dart';
+import 'package:road_to_hanyang/page/comforts/etc_location_page.dart';
 import 'package:road_to_hanyang/page/comforts/print_location_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -33,7 +36,8 @@ class ComfortWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(children: [
+            Row(
+                children: [
               GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -42,13 +46,18 @@ class ComfortWidget extends StatelessWidget {
                             builder: (context) => Print2())); // 복사실
                   },
                   child: Container(
-                      width: 68,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text('복사실', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
+                    width: 68,
                       height: 68,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/복사실.png')),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -70,7 +79,9 @@ class ComfortWidget extends StatelessWidget {
                                 spreadRadius: 0.5,
                                 blurRadius: 1,
                                 offset: Offset(-1, 0)) // 광원: 왼
-                          ]))),
+                          ]),
+                  )
+              ),
               SizedBox(width: 20),
               GestureDetector(
                   onTap: () {
@@ -78,6 +89,10 @@ class ComfortWidget extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => Eat2())); // 식당
                   },
                   child: Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('식당', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
@@ -85,6 +100,7 @@ class ComfortWidget extends StatelessWidget {
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/식당.png')),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -111,9 +127,13 @@ class ComfortWidget extends StatelessWidget {
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Print2()));
+                        MaterialPageRoute(builder: (context) => Convenience2()));
                   },
                   child: Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('편의점', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
@@ -121,6 +141,7 @@ class ComfortWidget extends StatelessWidget {
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/편의점.png')),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -147,9 +168,13 @@ class ComfortWidget extends StatelessWidget {
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Print2()));
+                        MaterialPageRoute(builder: (context) => Others2()));
                   },
                   child: Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('기타', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
@@ -157,6 +182,8 @@ class ComfortWidget extends StatelessWidget {
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/기타.png')
+                          ),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -178,16 +205,21 @@ class ComfortWidget extends StatelessWidget {
                                 spreadRadius: 0.5,
                                 blurRadius: 1,
                                 offset: Offset(-1, 0))
-                          ])))
+                          ]))
+              )
             ]),
             SizedBox(height: 4),
             Row(children: [
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Print2()));
+                        MaterialPageRoute(builder: (context) => Cafe2()));
                   },
                   child: Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('카페', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
@@ -195,6 +227,8 @@ class ComfortWidget extends StatelessWidget {
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/카페임시.png'),
+                          ),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -224,6 +258,10 @@ class ComfortWidget extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => Print2()));
                   },
                   child: Container(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text('ATM', style: TextStyle(fontFamily: 'Pretendard' , fontSize: 12)),
+                      ),
                       width: 68,
                       height: 68,
                       decoration: BoxDecoration(
@@ -231,6 +269,8 @@ class ComfortWidget extends StatelessWidget {
                           border:
                               Border.all(color: Color(0xffD9D9D9), width: 0.5),
                           borderRadius: BorderRadius.circular(5),
+                          image: const DecorationImage(image: AssetImage('assets/icons/ATM.png'),
+                          ),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),

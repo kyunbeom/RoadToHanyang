@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,6 +18,7 @@ import '../widget/hamburger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:road_to_hanyang/screen/map_result.dart';
 import 'dart:math';
+
 // import 'package:location/location.dart' hide LocationAccuracy;
 
 // var ITBT = LatLng(37.555965, 127.049380);
@@ -90,8 +92,8 @@ class MapSampleState extends State<MapSample> {
 
   final TextEditingController startController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
-  late String startText;
-  late String destText;
+  String startText = "NONE";
+  String? destText = "NONE";
   Completer<GoogleMapController> _controller = Completer();
   FocusNode _focusNode = FocusNode();
   late FocusNode startFocusNode;
@@ -206,12 +208,12 @@ class MapSampleState extends State<MapSample> {
           titleSpacing: 11,
           //leadingWidth: 50,
           title: Container(
-              //height: 125,
+              height: 94,
               child: SingleChildScrollView(
                   //padding: EdgeInsets.only(top: 30),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    //  mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                 Container(
                     padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
@@ -222,19 +224,23 @@ class MapSampleState extends State<MapSample> {
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(5),
                             topRight: Radius.circular(5))),
-                    child: Row(children: [
-                      Expanded(
-                          child: Container(
-                              child: TypeAheadField(
+                    child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                                child: TypeAheadField(
                                   hideSuggestionsOnKeyboardHide: true,
                                   animationStart: 0,
                                   animationDuration: Duration.zero,
                                   textFieldConfiguration:
                                       TextFieldConfiguration(
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          keyboardType: TextInputType.visiblePassword,
                                           focusNode:
                                               startFocusNode, // _focusNode 추가
                                           controller: startController,
-                                          autofocus: true,
+                                          //autofocus: true,
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
@@ -302,10 +308,12 @@ class MapSampleState extends State<MapSample> {
                                   animationDuration: Duration.zero,
                                   textFieldConfiguration:
                                       TextFieldConfiguration(
+                                        enableSuggestions: false,
                                           focusNode:
                                               destFocusNode, // _focusNode 추가
                                           controller: destinationController,
-                                          autofocus: true,
+                                          //
+                                          // autofocus: true,
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
@@ -350,8 +358,12 @@ class MapSampleState extends State<MapSample> {
               Builder(builder: (context) {
                 return Transform.rotate(
                   angle: 90 * pi / 180,
-                    child: IconButton(
+                    child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: IconButton(
                     icon: Icon(Icons.compare_arrows),
+                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     iconSize: 30,
                     onPressed: () {
                       String str;
@@ -362,48 +374,59 @@ class MapSampleState extends State<MapSample> {
                         startText = startController.text;
                         destText = destinationController.text;
                       }
-                      else if(destinationController.text != null)
-                        {
-                          Fluttertoast.showToast(
-                            msg: "도착지를 입력해주세요!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
-                        }
-                      else if(startController.text != null)
-                      {
-                        Fluttertoast.showToast(
-                          msg: "출발지를 입력해주세요!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0,
-                        );
-                      }
                       //  Scaffold.of(context).openEndDrawer();
-                    })
+                    }
+                    ))
                 );
               }),
-              IconButton(
+              SizedBox(
+                 height: 40,
+                  width: 40,
+                  child: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    if (startText == null)
-                      this.startController.text = "출발지를 다시 입력해주세요";
-                    if (destText == null)
-                      this.destinationController.text = "도착지를 다시 입력해주세요";
-                    if (startText != null && destText != null)
+                    if (startController.text != startText)
+                      Fluttertoast.showToast(
+                        msg: "출발지를 입력해주세요!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    else if (destinationController.text != destText)
+                      Fluttertoast.showToast(
+                        msg: "도착지를 입력해주세요!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    else if(destinationController.text == startController.text){
+                      Fluttertoast.showToast(
+                        msg: "출발지와 도착지가 동일합니다!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    }
+                    else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MapResult(
-                                  startText: startText, destText: destText)));
-                  })
+                              builder: (context) =>
+                                  MapResult(
+                                      startText: startController.text,
+                                      destText: destinationController.text)));
+                    }
+                  }
+                  ))
             ])
           ]),
       floatingActionButtonLocation: CustomFabLoc(),

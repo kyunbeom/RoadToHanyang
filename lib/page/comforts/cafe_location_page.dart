@@ -28,6 +28,7 @@ class _Cafe2State extends State<Cafe2> {
 
   late String destText;
 
+  late LatLng newDestText;
   Completer<GoogleMapController> _controller = Completer();
 
   FocusNode _focusNode = FocusNode();
@@ -39,6 +40,12 @@ class _Cafe2State extends State<Cafe2> {
   final panelController = PanelController();
 
   bool isPathPage = false;
+
+  void changeNewDest(LatLng latLng){
+
+      newDestText = latLng;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +60,60 @@ class _Cafe2State extends State<Cafe2> {
       Marker(
           markerId: MarkerId("0"),
           position: IM,
-          infoWindow: InfoWindow(title: "인문관", snippet: "B1층 (카페 ING)")),
+          infoWindow: InfoWindow(title: "인문관", snippet: "B1층 (카페 ING)"),
+          onTap: () {
+            setState(() {
+              changeNewDest(IM);
+            });
+          }
+      ),
       Marker(
           markerId: MarkerId("1"),
           position: TTI,
-          infoWindow: InfoWindow(title: "학술정보관 앞", snippet: "(띠아모 카페)")),
+          infoWindow: InfoWindow(title: "학술정보관 앞", snippet: "(띠아모 카페)"),
+          onTap: () {
+            setState(() {
+              changeNewDest(TTI);
+            });
+          }
+          ),
+
       Marker(
           markerId: MarkerId("2"),
           position: FTC,
-          infoWindow: InfoWindow(title: "FTC", snippet: "3층 (블루포트)")),
+          infoWindow: InfoWindow(title: "FTC", snippet: "3층 (블루포트)"),
+          onTap: () {
+            changeNewDest(FTC);
+          }
+    ),
       Marker(
           markerId: MarkerId("3"),
           position: ITBT,
-          infoWindow: InfoWindow(title: "ITBT관", snippet: "3층 (카페 queue)")),
+          infoWindow: InfoWindow(title: "ITBT관", snippet: "3층 (카페 queue)"),
+          onTap: () {
+            changeNewDest(ITBT);
+          }
+    ),
       Marker(
           markerId: MarkerId("4"),
           position: MR,
           infoWindow:
-              InfoWindow(title: "간호학부 미래교육관", snippet: "1층 (딕 셔너리 카페)")),
+              InfoWindow(title: "간호학부 미래교육관", snippet: "1층 (딕 셔너리 카페)"),
+          onTap: () {
+          changeNewDest(MR);
+          }
+    ),
       Marker(
           markerId: MarkerId("4"),
           position: GH,
-          infoWindow: InfoWindow(title: "과학기술관", snippet: "1층 (팬도로시 카페)")),
+          infoWindow: InfoWindow(title: "과학기술관", snippet: "1층 (팬도로시 카페)"),
+          onTap: () {
+            changeNewDest(GH);
+          }
+    ),
+
     ];
+  
     Completer<GoogleMapController> _controller = Completer();
 
     return Scaffold(
@@ -264,6 +302,24 @@ class _Cafe2State extends State<Cafe2> {
               print("coordintate : $coordinate");
             },
           ),
+
+          Align(
+            alignment: Alignment.bottomCenter,
+              child:ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      destinationController.text = getStringofLocation(newDestText);
+                    });
+
+                },
+                  child: Container(
+                      height: 50,
+                    width: 150,
+
+              child: Center(
+                  child: Text('편의시설 도착지로 설정', style: TextStyle(color: Color(0xff0E4A84))),
+            ),
+          )))          ,
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

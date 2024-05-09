@@ -74,6 +74,7 @@ flutter:
     - assets/splash.png
     - assets/교통약자지도.png
     - assets/길냥로고.png
+    - assets/icons/
   fonts:
     - family: newFont
       fonts:

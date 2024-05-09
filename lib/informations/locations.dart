@@ -8,7 +8,7 @@ var BWHM = LatLng(37.560112, 127.041757); // 병원후문
 var SGD = LatLng(37.559756, 127.045564); // 사근동출입로
 var GCG = LatLng(37.554009, 127.044151); // 건축관출입로
 
-var HIS = LatLng(37.556030, 127.044768); // 역사관
+var HIS = LatLng(37.556030, 127.044768); // 역사 관
 var BG = LatLng(37.556637, 127.044545); // 본관
 var AZ = LatLng(37.556001, 127.043843); // 애지문
 var HF = LatLng(37.556588, 127.043913); // 한양플라자
@@ -167,6 +167,49 @@ LatLng getlocation(String text) {
       return ITBT;
   }
 }
+String getStringofLocation(LatLng latLng) {
+  if (latLng == ITBT) {
+    return "itbt관";
+  } else if (latLng == TC1) {
+    return "제 1공학관";
+  } else if (latLng == EV) {
+    return "제 2공학관";
+  } else if (latLng == HF) {
+    return "행원파크";
+  } else if (latLng == GG) {
+    return "경제금융대학";
+  } else if (latLng == BUB) {
+    return "사자가 군것질 할 때";
+  } else if (latLng == DU) {
+    return "대운동장";
+  } else if (latLng == EVE) {
+    return "백남음악관";
+  } else if (latLng == P1) {
+    return "노천극장";
+  } else if (latLng == AZ) {
+    return "애지문";
+  } else if (latLng == IM) {
+    return "인문대학";
+  } else if (latLng == SG) {
+    return "사회과학대학";
+  } else if (latLng == HF) {
+    return "한양플라자";
+  } else if (latLng == BN) {
+    return "백남학술정보관";
+  } else if (latLng == MED) {
+    return "의과대학 본관";
+  } else if (latLng == TC) {
+    return "공업센터";
+  } else if (latLng == MEDS) {
+    return "의대계단강의동";
+  } else if (latLng == SSJ) {
+    return "신소재공학관";
+  } else {
+    // 디폴트로 ITBT 위치를 반환합니다.
+    return "itbt관";
+  }
+}
+
 
 Route getroute(String startText, String destText) {
   if (startText == "itbt관" && destText == "제 1공학관")
@@ -213,3 +256,5 @@ List<String> printSuggestions = [
   "의대계단강의동",
   "신소재공학관"
 ];
+
+
